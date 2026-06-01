@@ -21,10 +21,14 @@ return new class extends Migration
         Schema::create('jornadas', function (Blueprint $table) {
             $table->engine="InnoDB";
             $table->bigIncrements('id');
+            $table->bigInteger('torneo_id')->unsigned();
             $table->string('descripcion');
             $table->integer('valor_puntaje_me');
             $table->integer('valor_puntaje_g');
             $table->timestamps();
+
+            $table->foreign('torneo_id')->references('id')->on('torneos')->onDelete("cascade");
+
         });
     }
 

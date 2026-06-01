@@ -17,30 +17,31 @@ class RoleSeeder extends Seeder
     public function run()
     {
         //
-        $rolAdministrador = Role::create(['name' => 'Administrador']);
-        $rolJugador = Role::create(['name' => 'Jugador']);
-
-        Permission::create(['name'=>'modulo-jornadas'])->syncRoles([$rolAdministrador]);
-        Permission::create(['name'=>'modulo-pronosticos'])->syncRoles([$rolAdministrador,$rolJugador]);
-        Permission::create(['name'=>'modulo-jugadores'])->syncRoles([$rolAdministrador]);
-        Permission::create(['name'=>'modulo-resultados'])->syncRoles([$rolAdministrador,$rolJugador]);
-        Permission::create(['name'=>'modulo-partidos'])->syncRoles([$rolAdministrador]);
-        Permission::create(['name'=>'modulo-equipos'])->syncRoles([$rolAdministrador]);
-        Permission::create(['name'=>'modulo-perfil'])->syncRoles([$rolAdministrador]);
-
-       
+        $rolAdministrador = Role::firstOrCreate(['name' => 'Administrador']);
+        $rolJugador = Role::firstOrCreate(['name' => 'Jugador']);
 
 
-        Permission::create(['name'=>'boton-agregarResultado'])->syncRoles([$rolAdministrador]);
-        Permission::create(['name'=>'boton-bloquearPronostico'])->syncRoles([$rolAdministrador]);
+        Permission::firstOrCreate(['name' => 'modulo-jornadas'])->syncRoles([$rolAdministrador],$rolJugador);
+        Permission::firstOrCreate(['name' => 'modulo-pronosticos'])->syncRoles([$rolAdministrador, $rolJugador]);
+        Permission::firstOrCreate(['name' => 'modulo-jugadores'])->syncRoles([$rolAdministrador]);
+        Permission::firstOrCreate(['name' => 'modulo-resultados'])->syncRoles([$rolAdministrador, $rolJugador]);
+        Permission::firstOrCreate(['name' => 'modulo-partidos'])->syncRoles([$rolAdministrador]);
+        Permission::firstOrCreate(['name' => 'modulo-equipos'])->syncRoles([$rolAdministrador]);
+        Permission::firstOrCreate(['name' => 'modulo-perfil'])->syncRoles([$rolAdministrador, $rolJugador]);
+        Permission::firstOrCreate(['name' => 'modulo-torneos'])->syncRoles([$rolAdministrador]);
 
 
 
-       
+        Permission::firstOrCreate(['name' => 'boton-agregarResultado'])->syncRoles([$rolAdministrador]);
+        Permission::firstOrCreate(['name' => 'boton-bloquearPronostico'])->syncRoles([$rolAdministrador]);
 
 
 
-        
+
+
+
+
+
 
     }
 }

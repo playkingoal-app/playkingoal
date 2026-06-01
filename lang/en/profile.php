@@ -1,0 +1,21 @@
+<?php
+return [
+    'title' => 'My Profile',
+    'my_profile' => 'My Profile',
+    'edit' => 'Edit',
+    'full_name' => 'Full Name',
+    'email' => 'Email',
+    'phone' => 'Phone',
+    'country' => 'Country',
+    'invitation_code' => 'My Invitation Code',
+    'your_code' => 'Your code:',
+    'copy' => 'Copy',
+    'invitation_link' => 'Invitation link:',
+    'invited_people' => 'People I have invited',
+    'invited_summary' => 'You have invited :count people.',
+    'registered' => 'Registered',
+    'pending' => 'Pending',
+    'code_copied' => 'Code copied!',
+    'link_copied' => 'Link copied!',
+    'profile_updated' => 'Profile updated successfully.',
+];

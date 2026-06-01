@@ -5,52 +5,50 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\User;
-use App\Models\Jugadore;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-
-
-
 
 class Cambiarpassword extends Component
 {
     use WithPagination;
 
-	protected $paginationTheme = 'bootstrap';
-    public $selected_id, $keyWord, $newpassword;
+    protected $paginationTheme = 'bootstrap';
+
+    public $selected_id;
+    public $keyWord;
+    public $newpassword;
+    public $newpassword_confirmation;
+
     protected $listeners = ['updatePassword'];
 
     public function render()
     {
-       
-		$keyWord = '%'.$this->keyWord .'%';
-    
-         return view('livewire.cambiarpassword.view', [
-            
-        ]);
+        return view('livewire.cambiarpassword.view');
     }
+
     private function resetInput()
-    {		
-		$this->newpassword = null;
+    {
+        $this->newpassword = null;
+        $this->newpassword_confirmation = null;
     }
 
     public function updatePassword($id)
     {
         $this->validate([
-		'newpassword' => ['required', 'string', 'min:8'],
+            'newpassword' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'newpassword.required' => __('change_password.validation.required'),
+            'newpassword.min' => __('change_password.validation.min'),
+            'newpassword.confirmed' => __('change_password.validation.confirmed'),
         ]);
 
-       
-			$record = User::find(auth()->id());
-            $record->update([ 
-			'password' =>Hash::make($this->newpassword),
-		
-            ]);
+        $record = User::findOrFail(auth()->id());
 
-            $this->resetInput();
-			session()->flash('message', 'Cambio de contraseña exitoso.');
-        
+        $record->update([
+            'password' => Hash::make($this->newpassword),
+        ]);
+
+        $this->resetInput();
+
+        session()->flash('message', __('change_password.success'));
     }
-	
-   
 }

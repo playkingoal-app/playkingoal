@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('golesLocal')->nullable(); 
             $table->integer('golesVisitante')->nullable();
             $table->string('ganador')->nullable();
+            $table->integer('puntos')->default(0);
             $table->timestamps();
  
             $table->foreign('jugador')->references('id')->on('users')->onDelete("cascade");    

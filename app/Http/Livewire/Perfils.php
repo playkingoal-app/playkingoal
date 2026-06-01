@@ -3,80 +3,70 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use Livewire\WithPagination;
-use App\Models\Perfil;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class Perfils extends Component
 {
-    use WithPagination;
+   public $name = '';
+public $email = '';
 
-	protected $paginationTheme = 'bootstrap';
-    public $selected_id, $keyWord, $nombre;
 
-    public function render()
+public function render()
+{
+   
+
+    $country_name = DB::table('countries')
+        ->where('id', Auth::user()->country_id)
+        ->pluck('name')
+        ->first();
+
+    $user = Auth::user();
+
+    $invitados = User::where('referido', $user->cod_invitacion)
+        ->latest()
+        ->get();
+
+    return view('livewire.perfils.view', compact('country_name', 'invitados'));
+}
+    public function editProfile()
     {
-		$keyWord = '%'.$this->keyWord .'%';
-        return view('livewire.perfils.view', [
-            'perfils' => Perfil::latest()
-						->orWhere('nombre', 'LIKE', $keyWord)
-						->paginate(10),
-        ]);
+  
+        $user = Auth::user();
+
+        $this->name =  Auth::user()->name;
+        $this->email = $user->email;
+
+        $this->dispatchBrowserEvent('open-update-profile-modal');
     }
-	
+
+public function updateProfile()
+{
+    $user = Auth::user();
+
+    $this->validate([
+        'name' => 'required|string|max:255',
+        'email' => [
+            'required',
+            'email',
+            'max:255',
+            Rule::unique('users', 'email')->ignore($user->id),
+        ],
+    ]);
+
+    $user->update([
+        'name' => $this->name,
+        'email' => $this->email,
+    ]);
+      $this->dispatchBrowserEvent('closeModal');
+
+    session()->flash('message', __('profile.profile_updated'));
+}
+
     public function cancel()
     {
-        $this->resetInput();
-    }
-	
-    private function resetInput()
-    {		
-		$this->nombre = null;
-    }
-
-    public function store()
-    {
-        $this->validate([
-		'nombre' => 'required',
-        ]);
-
-        Perfil::create([ 
-			'nombre' => $this-> nombre
-        ]);
-        
-        $this->resetInput();
-		$this->dispatchBrowserEvent('closeModal');
-		session()->flash('message', 'Perfil creado con éxito.');
-    }
-
-    public function edit($id)
-    {
-        $record = Perfil::findOrFail($id);
-        $this->selected_id = $id; 
-		$this->nombre = $record-> nombre;
-    }
-
-    public function update()
-    {
-        $this->validate([
-		'nombre' => 'required',
-        ]);
-
-        if ($this->selected_id) {
-			$record = Perfil::find($this->selected_id);
-            $record->update([ 
-			'nombre' => $this-> nombre
-            ]);
-
-            $this->resetInput();
-            $this->dispatchBrowserEvent('closeModal');
-			session()->flash('message', 'Perfil Successfully updated.');
-        }
-    }
-
-    public function destroy($id)
-    {
-        if ($id) {
-            Perfil::where('id', $id)->delete();
-        }
+        $this->resetValidation();
     }
 }

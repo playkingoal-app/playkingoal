@@ -68,16 +68,25 @@
                 $local = DB::table('partidos')
                     ->join('equipos', 'equipos.id', '=', 'partidos.idEquipoLocal')
                     ->where('partidos.id', $this->partido)
-                    ->pluck('nombre_equipo')
                     ->first();
                 $visitante = DB::table('partidos')
                     ->join('equipos', 'equipos.id', '=', 'partidos.idEquipoVisitante')
                     ->where('partidos.id', $this->partido)
-                    ->pluck('nombre_equipo')
                     ->first();
             @endphp
             <div class="modal-body">
-                <h4 class="titulop">{{ $local }} vs {{ $visitante }}</h4>
+                {{-- Título con escudos --}}
+                <h4 class="titulop d-flex align-items-center justify-content-center gap-3 mb-4">
+                    @if($local && $local->escudo)
+                        <img src="{{ asset('storage/' . $local->escudo) }}" alt="Escudo Local" class="rounded-circle border shadow-sm" style="width:40px; height:40px; object-fit:cover;">
+                    @endif
+                    <span>{{ $local->nombre_equipo ?? 'Local' }}</span>
+                    <span class="fw-bold">vs</span>
+                    @if($visitante && $visitante->escudo)
+                        <img src="{{ asset('storage/' . $visitante->escudo) }}" alt="Escudo Visitante" class="rounded-circle border shadow-sm" style="width:40px; height:40px; object-fit:cover;">
+                    @endif
+                    <span>{{ $visitante->nombre_equipo ?? 'Visitante' }}</span>
+                </h4>
                 <form>
                   
 

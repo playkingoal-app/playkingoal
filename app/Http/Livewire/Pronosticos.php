@@ -6,166 +6,202 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Pronostico;
 use App\Models\Partido;
-use App\Models\Jornada;
-
-
 use Illuminate\Support\Facades\DB;
-
 
 class Pronosticos extends Component
 {
     use WithPagination;
 
-	protected $paginationTheme = 'bootstrap';
-    public $selected_id, $keyWord, $jugador, $partido, $golesLocal, $golesVisitante, $ganador,$jornada=0;
-    
+    protected $paginationTheme = 'bootstrap';
+
+    public $selected_id;
+    public $jugador;
+    public $partido;
+    public $golesLocal;
+    public $golesVisitante;
+    public $ganador;
+
+    public $jornada = 0;
+    public $torneoSeleccionado = null;
+
+    public $localNombre;
+    public $localLogo;
+    public $visitanteNombre;
+    public $visitanteLogo;
+    public $partidoBloqueado = false;
+
+    public function updatedTorneoSeleccionado()
+    {
+        $this->jornada = 0;
+        $this->resetInput();
+    }
+
     public function render()
     {
-		$keyWord = '%'.$this->keyWord .'%';
-        $sql = 'select pronosticos.id,idEquipoLocal, idEquipoVisitante,golesLocal,golesVisitante,pronosticos.ganador,partidos.estado,jornadas.descripcion, partidos.id as partido, jornadas.id as jornada
-        from pronosticos
-         join partidos on partidos.id = pronosticos.partido 
-         join jornadas on jornadas.id = partidos.jornada 
-         where pronosticos.jugador =' .auth()->id().' and partidos.jornada ='.$this->jornada ;
-        
+        $torneos = DB::table('inscripciones')
+            ->join('torneos', 'torneos.id', '=', 'inscripciones.torneo_id')
+            ->where('inscripciones.usuario_id', auth()->id())
+            ->where('inscripciones.estado_pago', 'activo')
+            ->select('torneos.id', 'torneos.nombre_torneo')
+            ->get();
 
-        $pronosticosJornada = DB::select($sql);
+        $jornadas = collect();
 
-        $jornadas = Jornada::all();
+        if ($this->torneoSeleccionado) {
+            $jornadas = DB::table('jornadas')
+                ->where('torneo_id', $this->torneoSeleccionado)
+                ->orderBy('id')
+                ->get();
+        }
+
+        $pronosticosJornada = collect();
+
+        if ($this->jornada && $this->torneoSeleccionado) {
+            $pronosticosJornada = DB::table('pronosticos')
+                ->join('partidos', 'partidos.id', '=', 'pronosticos.partido')
+                ->join('jornadas', 'jornadas.id', '=', 'partidos.jornada_id')
+                ->join('torneos', 'torneos.id', '=', 'jornadas.torneo_id')
+                ->join('equipos as local', 'local.id', '=', 'partidos.idEquipoLocal')
+                ->join('equipos as visitante', 'visitante.id', '=', 'partidos.idEquipoVisitante')
+                ->join('inscripciones', function ($join) {
+                    $join->on('inscripciones.torneo_id', '=', 'torneos.id')
+                        ->where('inscripciones.usuario_id', auth()->id());
+                })
+                ->select(
+                    'pronosticos.id',
+                    'pronosticos.golesLocal',
+                    'pronosticos.golesVisitante',
+                    'pronosticos.ganador',
+                    'partidos.id as partido',
+                    'partidos.fecha_hora',
+                    'partidos.estado',
+                    'partidos.idEquipoLocal',
+                    'partidos.idEquipoVisitante',
+                    'local.name as local_nombre',
+                    'local.logo as local_logo',
+                    'visitante.name as visitante_nombre',
+                    'visitante.logo as visitante_logo',
+                    'jornadas.descripcion',
+                    'jornadas.id as jornada'
+                )
+                ->where('pronosticos.jugador', auth()->id())
+                ->where('jornadas.id', $this->jornada)
+                ->where('torneos.id', $this->torneoSeleccionado)
+                ->get();
+        }
 
         return view('livewire.pronosticos.view', [
-            'pronosticosJornada' => $pronosticosJornada,
+            'torneos' => $torneos,
             'jornadas' => $jornadas,
-
-
+            'pronosticosJornada' => $pronosticosJornada,
         ]);
     }
-	
-    public function cancel()
+
+    public function toggleJornada($id)
     {
+        $this->jornada = $this->jornada == $id ? 0 : $id;
         $this->resetInput();
-    }
-	
-    private function resetInput()
-    {		
-		$this->jugador = null;
-		$this->partido = null;
-		$this->golesLocal = null;
-		$this->golesVisitante = null;
-		$this->ganador = null;
-    }
-
-    public function store()
-    {
-        $this->validate([
-		'jugador' => 'required',
-		'partido' => 'required',
-		'golesLocal' => 'required',
-		'golesVisitante' => 'required',
-		'ganador' => 'required',
-        ]);
-
-        Pronostico::create([ 
-			'jugador' => $this-> jugador,
-			'partido' => $this-> partido,
-			'golesLocal' => $this-> golesLocal,
-			'golesVisitante' => $this-> golesVisitante,
-			'ganador' => $this-> ganador
-        ]);
-        
-        $this->resetInput();
-		$this->dispatchBrowserEvent('closeModal');
-		session()->flash('message', 'Pronostico Successfully created.');
     }
 
     public function edit($id)
     {
-        $record = Pronostico::findOrFail($id);
-        $this->selected_id = $id; 
-		$this->jugador = $record-> jugador;
-		$this->partido = $record-> partido;
-		$this->golesLocal = $record-> golesLocal;
-		$this->golesVisitante = $record-> golesVisitante;
-		$this->ganador = $record-> ganador;
-    }
+        $record = Pronostico::where('jugador', auth()->id())
+            ->findOrFail($id);
 
-    public function jornada($id)
-    {
-        $record = Jornada::findOrFail($id);
-        $this->jornada = $id; 
-		
-    }
-    
+        $partido = Partido::join('equipos as local', 'local.id', '=', 'partidos.idEquipoLocal')
+            ->join('equipos as visitante', 'visitante.id', '=', 'partidos.idEquipoVisitante')
+            ->select(
+                'partidos.*',
+                'local.name as local_nombre',
+                'local.logo as local_logo',
+                'visitante.name as visitante_nombre',
+                'visitante.logo as visitante_logo'
+            )
+            ->where('partidos.id', $record->partido)
+            ->firstOrFail();
 
-    public function update()
-    {
-        $this->validate([
-		'jugador' => 'required',
-		'partido' => 'required',
-		'golesLocal' => 'required',
-		'golesVisitante' => 'required',
-		'ganador' => 'required',
-        ]);
+        $this->selected_id = $record->id;
+        $this->jugador = $record->jugador;
+        $this->partido = $record->partido;
+        $this->golesLocal = $record->golesLocal;
+        $this->golesVisitante = $record->golesVisitante;
+        $this->ganador = $record->ganador;
 
-        if ($this->selected_id) {
-			$record = Pronostico::find($this->selected_id);
-            $record->update([ 
-			'jugador' => $this-> jugador,
-			'partido' => $this-> partido,
-			'golesLocal' => $this-> golesLocal,
-			'golesVisitante' => $this-> golesVisitante,
-			'ganador' => $this-> ganador
-            ]);
+        $this->localNombre = $partido->local_nombre;
+        $this->localLogo = $partido->local_logo;
+        $this->visitanteNombre = $partido->visitante_nombre;
+        $this->visitanteLogo = $partido->visitante_logo;
 
-            $this->resetInput();
+        $this->partidoBloqueado = $partido->estaBloqueado();
+
+        if ($this->partidoBloqueado) {
             $this->dispatchBrowserEvent('closeModal');
-			session()->flash('message', 'Pronóstico creado con éxito.');
+            session()->flash('error', __('pronostics.locked_match'));
         }
     }
 
-    public function destroy($id)
-    {
-        if ($id) {
-            Pronostico::where('id', $id)->delete();
-        }
-    }
-
-    
     public function pronosticar($pronostico)
     {
-    
-        $estadoPartido= DB::table('partidos')->select('estado')->join('pronosticos', 'pronosticos.partido', '=', 'partidos.id')->where('pronosticos.id',$pronostico)->pluck('estado')->first();
+        $this->validate([
+            'golesLocal' => 'required|integer|min:0',
+            'golesVisitante' => 'required|integer|min:0',
+        ]);
 
-        if($estadoPartido==1){
-        $this->dispatchBrowserEvent('closeModal');
-        $this->emit('bloqueado');
-        }else{
-        $record = Pronostico::findOrFail($pronostico);
-        if($this->golesLocal > $this->golesVisitante){
-            $ganador= Partido::select("nombre_equipo")->join('equipos', 'equipos.id', '=', 'partidos.idEquipoLocal')->where('partidos.id',$record->partido)->pluck('nombre_equipo')->first();
+        $record = Pronostico::where('jugador', auth()->id())
+            ->findOrFail($pronostico);
 
+        $partido = Partido::findOrFail($record->partido);
 
-
-        }elseif($this->golesLocal == $this->golesVisitante){
-            $ganador='Empate';
-
-        }else{
-            $ganador= Partido::select("nombre_equipo")->join('equipos', 'equipos.id', '=', 'partidos.idEquipoVisitante')->where('partidos.id',$record->partido)->pluck('nombre_equipo')->first();
-
+        if ($partido->estaBloqueado()) {
+            $this->dispatchBrowserEvent('closeModal');
+            session()->flash('error', __('pronostics.locked_match'));
+            return;
         }
-       
+
+        if ($this->golesLocal > $this->golesVisitante) {
+            $ganador = DB::table('equipos')
+                ->where('id', $partido->idEquipoLocal)
+                ->value('name');
+        } elseif ($this->golesLocal < $this->golesVisitante) {
+            $ganador = DB::table('equipos')
+                ->where('id', $partido->idEquipoVisitante)
+                ->value('name');
+        } else {
+            $ganador = 'Empate';
+        }
+
         $record->update([
             'jugador' => auth()->id(),
-            'partido' => $record-> partido,
-            'golesLocal' => $this-> golesLocal,
-            'golesVisitante' => $this-> golesVisitante,
-            'ganador'=> $ganador,
-            'estado'=> $record->estado
-         
+            'partido' => $partido->id,
+            'golesLocal' => $this->golesLocal,
+            'golesVisitante' => $this->golesVisitante,
+            'ganador' => $ganador,
         ]);
-       
-		$this->dispatchBrowserEvent('closeModal');
-		session()->flash('message', 'Pronóstico con éxito.');
-        }
+
+        $this->resetInput();
+       $this->dispatchBrowserEvent('closePronosticModal');
+
+        session()->flash('message', __('pronostics.success'));
+    }
+
+    public function cancel()
+    {
+        $this->resetInput();
+    }
+
+    private function resetInput()
+    {
+        $this->selected_id = null;
+        $this->jugador = null;
+        $this->partido = null;
+        $this->golesLocal = null;
+        $this->golesVisitante = null;
+        $this->ganador = null;
+
+        $this->localNombre = null;
+        $this->localLogo = null;
+        $this->visitanteNombre = null;
+        $this->visitanteLogo = null;
+        $this->partidoBloqueado = false;
     }
 }

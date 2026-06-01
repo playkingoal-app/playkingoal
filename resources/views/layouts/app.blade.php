@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,165 +8,396 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@hasSection('title') @yield('title') | @endif Pollaxm</title>
+    <title>
+        @hasSection('title')
+            @yield('title') |
+        @endif El Rey Del Gol
+    </title>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     {{-- <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet"> --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{!! asset('estilos.css') !!}">
-<!-- datatable -->
-     @yield('css')
-    
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 
-<!-- sweet alert -->
+    {{-- <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet"> --}}
+    <link rel="stylesheet" href="{!! asset('estilos.css') !!}">
+    <!-- datatable -->
+    @yield('css')
+
+    <!-- sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <!-- Scripts -->
     @vite(['resources/js/app.js'])
     @livewireStyles
 </head>
-<body>
-    <div id="app" >
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm ">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    Pollaxm
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-					@auth()
-                    <ul class="navbar-nav mr-auto">
-						<!--Nav Bar Hooks - Do not delete!!-->
-						
-						
+<body>
+    <div id="app">
+
+
+        <button id="toggleBtn" class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <div id="langSelector" class="language-dropdown">
+            <div class="selected-lang" onclick="toggleLangDropdown()">
+                @if (app()->getLocale() === 'en')
+                    <img src="{{ asset('img/en.png') }}?v={{ time() }}" alt="EN">
+                @elseif (app()->getLocale() === 'fr')
+                    <img src="{{ asset('img/fr.png') }}?v={{ time() }}" alt="FR">
+                @else
+                    <img src="{{ asset('img/es.png') }}?v={{ time() }}" alt="ES">
+                @endif
+            </div>
+
+            <div id="langDropdown" class="lang-options">
+                <form action="{{ route('change.language') }}" method="POST">
+                    @csrf
+                    <button type="submit" name="locale" value="en">
+                        <img src="{{ asset('img/en.png') }}" alt="en"> {{ __('navbar.language_english') }}
+                    </button>
+                    <button type="submit" name="locale" value="fr">
+                        <img src="{{ asset('img/fr.png') }}" alt="fr"> {{ __('navbar.language_french') }}
+                    </button>
+                    <button type="submit" name="locale" value="es">
+                        <img src="{{ asset('img/es.png') }}" alt="es"> {{ __('navbar.language_spanish') }}
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Overlay -->
+        <div class="overlay" onclick="closeSidebar()"></div>
+
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <button id="closeBtn" class="toggle-btn-close" onclick="closeSidebar()">✖</button>
+            <a class="navbar-brand" href="{{ url('/home') }}">El Rey Del Gol</a>
+
+            @auth()
+                <ul class="nav flex-column">
+                    @role('Administrador')
                         @can('modulo-pronosticos')
-						<li class="nav-item">
-                            <a href="{{ url('/pronosticos') }}" class="nav-link"><i class="fa-solid fa-square-poll-vertical text-info"> </i> Mis Pronósticos</a> 
-                        </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/predictions') }}" class="nav-link"><i
+                                        class="fa-solid fa-circle-nodes"style="color: #ff6600 !important"></i>
+                                    {{ __('navbar.my_predictions') }}</a>
+                            </li>
                         @endcan
                         @can('modulo-resultados')
-						<li class="nav-item">
-                            <a href="{{ url('/resultados') }}" class="nav-link"><i class="fa-solid fa-futbol text-info"></i> Resultados</a> 
-                        </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/results') }}" class="nav-link">       <i class="fa-solid fa-chart-simple"
+                   style="color: #ff6600 !important"></i>
+                                    {{ __('navbar.results') }}</a>
+                            </li>
                         @endcan
-                        @can('modulo-partidos')
-						<li class="nav-item">
-                            <a href="{{ url('/partidos') }}" class="nav-link"><i class="fa-solid fa-network-wired text-info"></i> Partidos</a> 
-                        </li>
+
+
+                        @can('modulo-equipos')
+                            <li class="nav-item">
+                                <a href="{{ url('/teams') }}" class="nav-link"><i
+                                        class="fa-solid fa-shield-halved"style="color: #ff6600 !important"></i>
+                                    {{ __('navbar.teams') }}</a>
+                            </li>
                         @endcan
-                        @can('modulo-jugadores')
-                        <li class="nav-item">
-                            <a href="{{ url('/jugadores') }}" class="nav-link"><i class="fa-solid fa-users text-info"></i> Jugadores</a> 
-                        </li>
+                        @can('modulo-torneos')
+                            <li class="nav-item">
+                                <a href="{{ url('/tournaments') }}" class="nav-link"><i
+                                        class="fa-solid fa-trophy"style="color: #ff6600 !important"></i>
+                                    {{ __('navbar.tournaments') }}</a>
+                            </li>
                         @endcan
                         @can('modulo-jornadas')
-                        <li class="nav-item">
-                            <a href="{{ url('/jornadas') }}" class="nav-link"><i class="fa-solid fa-network-wired text-info"></i> Jornadas</a> 
-                        </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/matchdays') }}" class="nav-link"><i class="bi bi-calendar-day"></i>
+                                    {{ __('navbar.rounds') }}</a>
+                            </li>
                         @endcan
-                        @can('modulo-equipos')
-						<li class="nav-item">
-                            <a href="{{ url('/equipos') }}" class="nav-link"><i class="fa-solid fa-shield-halved text-info"></i> Equipos</a> 
-                        </li>
+                        @can('modulo-partidos')
+                            <li class="nav-item">
+                                <a href="{{ url('/matches') }}" class="nav-link"><i
+                                        class="fa-solid fa-futbol"style="color: #ff6600 !important"></i>
+                                    {{ __('navbar.matches') }}</a>
+                            </li>
                         @endcan
-                        @can('modulo-perfil')
-						<li class="nav-item">
-                            <a href="{{ url('/perfil') }}" class="nav-link"><i class="fa-regular fa-address-card text-info"></i> Perfil</a> 
-                        </li>
-                        @endcan
-                       
                         <li class="nav-item">
-                            <a href="{{ url('/allpronosticos') }}" class="nav-link"><i class="fa-solid fa-square-poll-horizontal text-info"></i> Pronósticos</a> 
+                            <a href="{{ url('/allpredictions') }}" class="nav-link"><i class="bi bi-clipboard2-data-fill"></i>
+                                {{ __('navbar.predictions') }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/posiciones') }}" class="nav-link"><i class="fa-solid fa-ranking-star text-info"></i> Posiciones</a> 
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/reglamento') }}" class="nav-link"><i class="fa-solid fa-handshake-angle text-info"></i> Reglas y puntuación</a> 
-                        </li>
-                    </ul>
-					@endauth()
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            @if (Route::has('login'))
+
+
+                        <li class="nav-item">
+                            <a href="{{ url('/standings') }}" class="nav-link"><i
+                                    class="fa-solid fa-ranking-star text-info "style="color: #ff6600 !important"></i>
+                                {{ __('navbar.standings') }}</a>
+                        </li>
+                        @can('modulo-perfil')
+                            <li class="nav-item">
+                                <a href="{{ url('/profile') }}" class="nav-link"><i class="bi bi-person-circle"></i>
+                                    {{ __('navbar.profile') }}</a>
+                            </li>
+                        @endcan
+                        <li class="nav-item">
+                            <a href="{{ url('/rules') }}" class="nav-link"><i
+                                    class="fa-solid fa-handshake-angle text-info"style="color: #ff6600 !important"></i>
+                                {{ __('navbar.rules') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/registrations') }}" class="nav-link"><i
+                                    class="fa-solid fa-star"style="color: #ff6600 !important"></i>
+                                {{ __('navbar.registrations') }}</a>
+                        </li>
+                    @endrole
+
+                    @role('Jugador')
+                        @if (auth()->user()->tieneInscripcionActiva())
+                           @if (auth()->user()->tieneSuscripcionActiva())
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Ingresar') }}</a>
+                                    <a href="{{ url('/matchdays') }}" class="nav-link">
+                                        <i class="bi bi-calendar-day"></i>
+                                        Jornadas
+                                    </a>
                                 </li>
                             @endif
-
-                            {{-- @if (Route::has('register'))
+                            @can('modulo-pronosticos')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a href="{{ url('/predictions') }}" class="nav-link"><i
+                                            class="fa-solid fa-circle-nodes"style="color: #ff6600 !important"></i>
+                                        {{ __('navbar.my_predictions') }}</a>
                                 </li>
-                            @endif --}}
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"><i class="fa-solid fa-right-from-bracket"></i>
-                                        Cerrar sesión
-                                    </a>  
-                                    <a href="{{ url('/password') }}"  class="dropdown-item"><i class="fa-solid fa-file-pen "></i> Cambiar contraseña</a> 
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
+                            @endcan
+                            @can('modulo-resultados')
+                                <li class="nav-item">
+                                    <a href="{{ url('/results') }}" class="nav-link">       <i class="fa-solid fa-chart-simple"
+                   style="color: #ff6600 !important"></i>
+                                        {{ __('navbar.results') }}</a>
+                                </li>
+                            @endcan
+                            <li class="nav-item">
+                                <a href="{{ url('/allpredictions') }}" class="nav-link"><i
+                                        class="bi bi-clipboard2-data-fill"></i>
+                                    {{ __('navbar.predictions') }}</a>
                             </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
- 
-        <main class="py-4" >
-            @yield('content')
-        </main>
-      
-    </div>
-    @livewireScripts
-    @yield('js')
-    @stack('custom-scripts')
 
-   
-    <script type="module">
-        const addModal = new bootstrap.Modal('#createDataModal');
-        const editModal = new bootstrap.Modal('#updateDataModal');
-        window.addEventListener('closeModal', () => {
-           addModal.hide();
-           editModal.hide();
-        })
-         
-    </script>
-<script>
-    Livewire.on('bloqueado', () => {
-     
-        Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'El partido ya inicio, no se puede pronosticar.',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    
+                            <li class="nav-item">
+                                <a href="{{ url('/standings') }}" class="nav-link"><i
+                                        class="fa-solid fa-ranking-star text-info "style="color: #ff6600 !important"></i>
+                                    {{ __('navbar.standings') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/rules') }}" class="nav-link"><i
+                                        class="fa-solid fa-handshake-angle text-info"style="color: #ff6600 !important"></i>
+                                    {{ __('navbar.rules') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/registrations') }}" class="nav-link"><i
+                                        class="fa-solid fa-star"style="color: #ff6600 !important"></i>
+                                    {{ __('navbar.registrations') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/mis-invitaciones') }}"><i
+                                        class="fa-solid fa-envelope-circle-check" style="color: #ff6600 !important"></i>
+                                    Mis invitaciones
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/groups') }}" class="nav-link"><i
+                                        class="fa-solid fa-users"style="color: #ff6600 !important"></i>
+                                    Mis grupos</a>
+                            </li>
+                            @can('modulo-perfil')
+                                <li class="nav-item">
+                                    <a href="{{ url('/profile') }}" class="nav-link"><i class="bi bi-person-circle"></i>
+                                        {{ __('navbar.profile') }}</a>
+                                </li>
+                            @endcan
+                        @else
+                          @if (auth()->user()->tieneSuscripcionActiva())
+                                <li class="nav-item">
+                                    <a href="{{ url('/matchdays') }}" class="nav-link">
+                                        <i class="bi bi-calendar-day"></i>
+                                        Jornadas
+                                    </a>
+                                </li>
+                            @endif
+                            <li class="nav-item">
+                                <a href="{{ url('/rules') }}" class="nav-link"><i
+                                        class="fa-solid fa-handshake-angle text-info"style="color: #ff6600 !important"></i>
+                                    {{ __('navbar.rules') }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/registrations') }}" class="nav-link"><i
+                                        class="fa-solid fa-star"style="color: #ff6600 !important"></i>
+                                    {{ __('navbar.registrations') }}</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ url('/planes') }}" class="nav-link"><i class="fa-solid fa-bag-shopping"
+                                        style="color: #ff6600 !important"></i>
+                                    planes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/groups') }}" class="nav-link"><i class="fa-solid fa-users"
+                                        style="color: #ff6600 !important"></i>
+                                    Mis grupos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/mis-invitaciones') }}"><i
+                                        class="fa-solid fa-envelope-circle-check" style="color: #ff6600 !important"></i>
+                                    Mis invitaciones
+                                </a>
+                            </li>
+                            @can('modulo-perfil')
+                                <li class="nav-item">
+                                    <a href="{{ url('/profile') }}" class="nav-link"><i class="bi bi-person-circle"></i>
+                                        {{ __('navbar.profile') }}</a>
+                                </li>
+                            @endcan
+                        @endif
+                    @endrole
+
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            {{ Auth::user()->name }}
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="fa-solid fa-right-from-bracket"></i> {{ __('navbar.logout') }}
+                            </a>
+                            <a href="{{ url('/password') }}" class="dropdown-item">
+                                <i class="fa-solid fa-file-pen "></i> {{ __('navbar.change_password') }}
+                            </a>
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="user-box">
+                    <h6>{{ Auth::user()->name }}</h6>
+
+                </div>
+            @endauth()
+        </div>
+
+
+
+        <!-- Contenido principal -->
+        <div class="content p-4">
+            <main class="py-5">
+                @yield('content')
+            </main>
+        </div>
+
+
+
+
+
+        @livewireScripts
+        @yield('js')
+        @stack('custom-scripts')
+
+        <script>
+            function toggleSidebar() {
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.overlay');
+                const toggleBtn = document.querySelector('.toggle-btn');
+
+                sidebar.classList.toggle('show');
+                overlay.classList.toggle('show');
+
+                if (sidebar.classList.contains('show')) {
+                    toggleBtn.style.opacity = '0';
+                    toggleBtn.style.pointerEvents = 'none';
+                } else {
+                    toggleBtn.style.opacity = '1';
+                    toggleBtn.style.pointerEvents = 'auto';
                 }
+            }
+
+            // Cerrar sidebar al hacer click en la X
+            document.querySelector('.toggle-btn-close').addEventListener('click', () => {
+                const sidebar = document.querySelector('.sidebar');
+                const overlay = document.querySelector('.overlay');
+                const toggleBtn = document.querySelector('.toggle-btn');
+
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+                toggleBtn.style.opacity = '1';
+                toggleBtn.style.pointerEvents = 'auto';
+            });
+        </script>
+
+        <script type="module">
+            const addModal = new bootstrap.Modal('#createDataModal');
+            const editModal = new bootstrap.Modal('#updateDataModal');
+            window.addEventListener('closeModal', () => {
+
+                addModal.hide();
+                editModal.hide();
             })
-    } );
-    
-    </script>
+        </script>
+
+        <script>
+            Livewire.on('bloqueado', () => {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'El partido ya inicio, no se puede pronosticar.',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                    }
+                })
+            });
+        </script>
+
+        <script>
+            // IDIOMA
+            function toggleLangDropdown() {
+                const dropdown = document.getElementById('langDropdown');
+                dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+            }
+
+            // Cerrar al hacer clic fuera
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('langDropdown');
+                const selector = document.querySelector('.language-dropdown');
+                if (!selector.contains(event.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        </script>
+        <script>
+            function toggleLangDropdown() {
+                const drop = document.getElementById('langDropdown');
+                drop.style.display = drop.style.display === 'block' ? 'none' : 'block';
+            }
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const langSelector = document.getElementById("langSelector");
+
+                window.addEventListener("scroll", () => {
+                    if (window.scrollY === 0) {
+                        // Solo si está totalmente arriba vuelve a aparecer
+                        langSelector.classList.remove("hidden-lang");
+                    } else {
+                        // Apenas baja, desaparece
+                        langSelector.classList.add("hidden-lang");
+                    }
+                });
+            });
+        </script>
+
 </body>
+
 </html>

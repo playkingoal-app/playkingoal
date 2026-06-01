@@ -13,14 +13,17 @@ class Jornada extends Model
 
     protected $table = 'jornadas';
 
-    protected $fillable = ['descripcion','valor_puntaje_me','valor_puntaje_g'];
+    protected $fillable = [ 'torneo_id','descripcion','valor_puntaje_me','valor_puntaje_g'];
 	
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function partidos()
     {
-        return $this->hasMany('App\Models\Partido', 'jornada', 'id');
+        return $this->hasMany('App\Models\Partido', 'jornada_id', 'id');
     }
-    
+    public function torneo()
+    {
+         return $this->belongsTo(\App\Models\Torneo::class, 'torneo_id', 'id');
+    }
 }

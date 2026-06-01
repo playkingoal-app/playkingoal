@@ -13,7 +13,7 @@ class Pronostico extends Model
 
     protected $table = 'pronosticos';
 
-    protected $fillable = ['jugador','partido','golesLocal','golesVisitante','ganador'];
+    protected $fillable = ['jugador','partido','golesLocal','golesVisitante','ganador','puntos'];
 	
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

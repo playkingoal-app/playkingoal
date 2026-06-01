@@ -83,7 +83,7 @@ return [
     */
 
     'locale' => 'en',
-
+ 
     /*
     |--------------------------------------------------------------------------
     | Application Fallback Locale
@@ -95,7 +95,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'en',// Si no encuentra traducción, usa inglés
 
     /*
     |--------------------------------------------------------------------------
@@ -181,6 +181,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+Spatie\Permission\PermissionServiceProvider::class,
 
         /*
          * Package Service Providers...

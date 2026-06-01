@@ -3,106 +3,88 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use Livewire\WithPagination;
-use App\Models\User;
-use App\Models\Jugadore;
+use App\Models\Torneo;
+use App\Models\Pronostico;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
-
 
 class Posiciones extends Component
 {
-    use WithPagination;
+    public $torneo_id;
+    public $torneos;
 
-	protected $paginationTheme = 'bootstrap';
-    public $selected_id, $keyWord, $nombre_equipo;
+    public function mount()
+    {
+        $this->torneos = Torneo::whereHas('inscripciones', function ($q) {
+            $q->where('usuario_id', Auth::id())
+              ->where('activo', 1);
+        })->get();
+    }
 
     public function render()
     {
-        $this->calcularPuntos();
-        $this->calcularPuntos2();
-        $this->calcularPuntosTotal();
-        
-		$keyWord = '%'.$this->keyWord .'%';
         return view('livewire.posiciones.view', [
-            'posiciones' => DB::table('users')->orderBy('total', 'desc')->get(),
+            'posiciones' => $this->posiciones(),
+            'torneos' => $this->torneos,
         ]);
     }
-	
-    public function calcularPuntos(){
-        $sql1 = 'SELECT id FROM users';
-        $users = DB::select($sql1);
-        foreach ($users as $key  ) {
-         $sql2 = 'SELECT pronosticos.jugador ,jornadas.descripcion, jornadas.valor_puntaje_me,COUNT(pronosticos.jugador) AS aciertos
-         from pronosticos 
-         join partidos on partidos.id = pronosticos.partido
-         join jornadas on jornadas.id = partidos.jornada
-         join resultados on resultados.partido = pronosticos.partido  
-         where pronosticos.golesLocal = resultados.golesLocal 
-         and pronosticos.golesVisitante = resultados.golesVisitante 
-         and pronosticos.partido = resultados.partido
-         and pronosticos.jugador='.$key->id.'
-         GROUP BY pronosticos.jugador,jornadas.descripcion,jornadas.valor_puntaje_me;';
-         $suma_marcador_exactos=0;
-         $aciertos = DB::select($sql2);  
-            foreach ($aciertos as $key  ) {
-             $suma_marcador_exactos+=($key->valor_puntaje_me*$key->aciertos);
-             $record = User::find($key->jugador);
-             $record->update([ 
-             'puntos'=>$suma_marcador_exactos
-             ]);
-            } ;
-        }
-       
-          
 
+    protected function posiciones()
+    {
+        if (!$this->torneo_id) {
+            return collect();
         }
 
-          
-          
-        
-        public function calcularPuntos2(){
-        
-            $sql1 = 'SELECT id FROM users';
-        $users = DB::select($sql1);
-        foreach ($users as $key  ) {
-           $sql2 = '  SELECT pronosticos.jugador ,jornadas.valor_puntaje_g,COUNT(pronosticos.jugador) AS aciertos
-              from pronosticos join partidos on partidos.id = pronosticos.partido
-         join jornadas on jornadas.id = partidos.jornada
-         join resultados on resultados.partido = pronosticos.partido  
-              where pronosticos.ganador = resultados.ganador 
-             and pronosticos.jugador='.$key->id.'
-              GROUP BY pronosticos.jugador,jornadas.valor_puntaje_g;';
-       
-           $aciertosGanador = DB::select($sql2);
-              $suma_ganador=0;
-              foreach ($aciertosGanador as $key  ) {
-               $record = User::find($key->jugador);
-               $record->update([ 
-               'puntos_aux'=>  $suma_ganador+=$key->aciertos*$key->valor_puntaje_g
-               ]);
-              } ;
-            }      
-           }
-        
-	 
-           public function calcularPuntosTotal(){
-        
-            $sql1 = 'SELECT id FROM users';
-        $users = DB::select($sql1);
-        foreach ($users as $key  ) {
-           $sql2 = ' SELECT id,puntos,puntos_aux  FROM users 
-             where id='.$key->id;
-       
-           $aciertos = DB::select($sql2);
-              $suma_total=0;
-              foreach ($aciertos as $key  ) {
-               $record = User::find($key->id);
-               $record->update([ 
-               'total'=>  $suma_total=$key->puntos+$key->puntos_aux
-               ]);
-              } ;
-            }      
-           }
-   
+        return Pronostico::select(
+                'users.id',
+                'users.name',
+                 'users.country_id',
+
+                DB::raw('SUM(pronosticos.puntos) as total'),
+
+                DB::raw('SUM(CASE 
+                    WHEN pronosticos.golesLocal = resultados.golesLocal
+                    AND pronosticos.golesVisitante = resultados.golesVisitante
+                    THEN 1 ELSE 0 
+                END) as exactos'),
+
+                DB::raw('SUM(CASE 
+                    WHEN (
+                        (pronosticos.golesLocal > pronosticos.golesVisitante AND resultados.golesLocal > resultados.golesVisitante)
+                        OR
+                        (pronosticos.golesLocal < pronosticos.golesVisitante AND resultados.golesLocal < resultados.golesVisitante)
+                        OR
+                        (pronosticos.golesLocal = pronosticos.golesVisitante AND resultados.golesLocal = resultados.golesVisitante)
+                    )
+                    THEN 1 ELSE 0 
+                END) as ganadores'),
+
+                DB::raw('
+                    SUM(CASE 
+                        WHEN pronosticos.golesLocal = resultados.golesLocal
+                        THEN 1 ELSE 0 
+                    END)
+                    +
+                    SUM(CASE 
+                        WHEN pronosticos.golesVisitante = resultados.golesVisitante
+                        THEN 1 ELSE 0 
+                    END)
+                    as goles_acertados
+                ')
+            )
+            ->join('users', 'users.id', '=', 'pronosticos.jugador')
+            ->join('partidos', 'partidos.id', '=', 'pronosticos.partido')
+            ->join('resultados', 'resultados.partido', '=', 'partidos.id')
+            ->where('partidos.torneo_id', $this->torneo_id)
+            ->whereIn('partidos.estado', ['FT', 'AET', 'PEN'])
+            ->whereNotNull('pronosticos.golesLocal')
+            ->whereNotNull('pronosticos.golesVisitante')
+            ->groupBy('users.id', 'users.name')
+            ->orderByDesc('total')
+            ->orderByDesc('exactos')
+            ->orderByDesc('ganadores')
+            ->orderByDesc('goles_acertados')
+            ->orderBy('users.name')
+            ->get();
+    }
 }

@@ -13,6 +13,9 @@ class Equipo extends Model
 
     protected $table = 'equipos';
 
-    protected $fillable = ['nombre_equipo'];
-	
+     protected $fillable = ['api_id', 'name', 'logo', 'api_league_id'];
+	 public function league()
+    {
+        return $this->belongsTo(ApiLeague::class, 'api_league_id');
+    }
 }

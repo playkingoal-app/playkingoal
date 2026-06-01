@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use App\Models\Partido;
+use App\Observers\PartidoObserver;
+
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -24,5 +28,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+        Partido::observe(PartidoObserver::class);
+
     }
 }

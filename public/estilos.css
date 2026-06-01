@@ -1,21 +1,784 @@
-body{
- background-image:url('img/background.png');
-
-background-position: center center;
-
-
-background-repeat: no-repeat;
-
-background-attachment: fixed;
-
-background-size: cover;
-
-
+* {
+  font-family: 'Bebas Neue', sans-serif;
 }
+
+body {
+
+
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+
+  margin: 0;
+  padding: 0;
+  height: 100%;
+
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+.bi {
+  color: #ff4500 !important;
+}
+
 .titulop {
   text-align: center;
 }
 
-*{
-  font-family: "Oswald", sans-serif;
+.navbar {
+  background-color: transparent !important;
+  transition: background-color 600ms ease, color 600ms ease;
 }
+
+.navbar-nav {
+  align-items: center;
+  /* Centra verticalmente todos los items */
+}
+
+.navbar-brand {
+  color: #ffffff !important;
+
+}
+
+.platform-navbar .navbar-brand,
+.platform-navbar .nav-link {
+  color: black !important;
+
+}
+
+.navbar-nav .nav-link {
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ff4500;
+}
+
+.toggle-icon {
+  font-size: 24px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: #ffffff;
+}
+
+
+/* Opcional: que el menú no ocupe todo el ancho en móvil */
+@media (max-width: 991.98px) {
+  .navbar-collapse.collapse.show {
+    position: absolute;
+    top: 56px;
+    right: 20px;
+    width: auto;
+    min-width: 180px;
+    z-index: 1050;
+  }
+}
+
+/* Botón Principal */
+.btn-principal {
+  background-color: #1e40af !important;
+  color: white !important;
+  font-weight: 500;
+  font-size: 18px;
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: none;
+  transition: background-color 0.3s ease;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.btn-principal:hover,
+.btn-principal:focus {
+  background-color: #3b82f6 !important;
+  color: white !important;
+  text-decoration: none;
+}
+
+.escudo {
+       width: 40px;              
+        height: 40px;            
+        border-radius: 50%;       
+        object-fit: cover;        
+        margin: 0 8px;            
+        vertical-align: middle;  
+}
+
+.navbar.black {
+  background-color: rgba(30, 30, 30, 0.7) !important;
+  /* gris oscuro con transparencia */
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+/**
+    comienzo el codigo de seleccion de idioma
+    **/
+
+
+/* ====== Selector de idioma fijo ====== */
+.language-dropdown {
+    position: fixed;
+    top: 12px;
+    right: 15px;
+    z-index: 3000;
+}
+.language-dropdown2 {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Círculo visible siempre */
+.selected-lang {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid #1e40af;
+    overflow: hidden;
+    cursor: pointer;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.selected-lang:hover {
+    transform: scale(1.08);
+}
+
+/* Imagen de bandera */
+.selected-lang img {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Opciones desplegables */
+.lang-options {
+    display: none;
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: #fff;
+    border: 2px solid #1e40af;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 4px 0;
+    min-width: 140px;
+}
+
+/* Cada botón de idioma */
+.lang-options button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    text-align: left;
+    transition: background 0.2s;
+}
+
+.lang-options button:hover {
+    background: #fff2c2;
+}
+
+/* Bandera dentro de las opciones */
+.lang-options img {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+}
+
+/* Responsive (móvil) */
+@media (max-width: 768px) {
+    .language-dropdown {
+        top: 10px;
+        right: 10px;
+    }
+    .selected-lang {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+
+/**
+    termina el codigo de seleccion de idioma
+    **/
+/**
+    comienza el codigo de la primera seccion 
+    **/
+.video-background {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: fill;
+
+
+
+  z-index: -1;
+  ;
+}
+
+.banner video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: -1;
+}
+
+.centrador {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.banner {
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+}
+
+.banner h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.banner p {
+  font-size: 20px;
+  margin-bottom: 30px;
+}
+
+.botones-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+
+}
+
+.btn-login {
+  background-color: #ff4500 !important;
+  color: #ffffff !important;
+}
+
+.btn-login:hover {
+  background-color: #ff4500 !important;
+  color: #000000 !important;
+
+}
+
+.btn-register {
+  background-color: #ff4500 !important;
+  color: #ffffff !important;
+}
+
+.btn-register:hover {
+  background-color: #ff4500 !important;
+  color: #000000 !important;
+
+
+}
+
+#cuenta {
+  font-size: 2.5em;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 20px 40px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+  letter-spacing: 2px;
+}
+
+/**
+    Termina el codigo de la primera seccion 
+    **/
+
+.icon-card i {
+  font-size: 3rem;
+  color: #0d6efd;
+}
+
+.icon-caption {
+  font-size: 0.95rem;
+}
+
+/* Sección "Quiénes Somos" */
+.about-us {
+  background-color: #f9f9f9;
+  padding: 60px 20px;
+}
+
+.about-us .container {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-us h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #004a99;
+}
+
+.about-us p {
+  margin-bottom: 16px;
+  font-size: 1rem;
+}
+
+/* Adaptaciones responsive */
+@media (min-width: 768px) {
+  .about-us .container {
+    text-align: left;
+  }
+
+  .about-us p {
+    font-size: 1.1rem;
+  }
+}
+
+
+/** Login**/
+.centrar {
+  height: 80vh;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+}
+
+
+.login-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(900px, 95%);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+}
+
+.visual {
+  background: linear-gradient(135deg, #1e40af 0%, #3350af 50%, #586cb0 100%);
+  color: #fff;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.visual h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.visual p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.form-side {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form-side h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #1e293b;
+}
+
+.form-floating>.form-control {
+  background: #fff;
+  border: 1px solid #d1d5db;
+  color: #111827;
+}
+
+.form-floating label {
+  color: #6b7280;
+}
+
+.form-control:focus {
+  border-color: #7c5cff;
+  box-shadow: 0 0 0 .2rem rgba(124, 92, 255, 0.25);
+}
+
+.btn-login {
+  background: linear-gradient(90deg, #ff4500, #ff8c66);
+  border: none;
+  font-weight: 600;
+  color: #fff;
+  border-radius: .5rem;
+  padding: .75rem;
+}
+
+.btn-login:hover {
+  opacity: .95;
+}
+
+.extra-links {
+  text-align: center;
+  font-size: .9rem;
+  margin-top: 1rem;
+  color: #6b7280;
+}
+
+.extra-links a {
+  color: #374151;
+  text-decoration: none;
+}
+
+.extra-links a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .login-card {
+    grid-template-columns: 1fr;
+  }
+
+  .visual {
+    display: none;
+  }
+}
+
+/** Fin Login**/
+
+.dashboard {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+}
+
+.card-header {
+  background: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.highlight {
+  background: linear-gradient(135deg, #1e40af 0%, #000000 100%);
+  color: #fff;
+  border-radius: 1rem;
+  padding: 2rem;
+}
+
+.highlight h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: .5rem;
+}
+
+.highlight .stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
+
+.leaderboard li {
+  padding: .75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.leaderboard li:first-child {
+  background: #fff5f0;
+  font-weight: 600;
+  border-left: 5px solid #ff4500;
+}
+
+.leaderboard li:last-child {
+  border-bottom: none;
+}
+
+
+/* Planes */
+.plan-card {
+    border-radius: 1.8rem;             /* Puntas más redondeadas */
+    transition: transform 0.25s ease,  /* Animación suave */
+                box-shadow 0.25s ease;
+}
+
+.plan-card:hover {
+    transform: scale(1.05);            /* Efecto zoom */
+    box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+    z-index: 2;
+}
+
+
+/* Fin planes */
+
+
+/* Sidebar */
+.sidebar {
+  background: linear-gradient(to bottom, #1e40af 0%, #000000 100%);
+  color: white;
+  color: #fff;
+  padding: 1.5rem 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 240px;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+}
+/* Botón hamburguesa siempre visible cuando sidebar cerrado */
+.toggle-btn {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1100;
+  background: #1e40af;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+/* Botón ✖ dentro del sidebar */
+.toggle-btn-close {
+  position: absolute;
+  top: 10px;
+  right: 10px; /* dentro del sidebar */
+  z-index: 1110;
+  background: #1e40af;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none; /* no clickeable cuando invisible */
+  transition: opacity 0.3s ease;
+}
+
+/* Mostrar ✖ solo cuando sidebar abierto */
+.sidebar.show .toggle-btn-close {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Ocultar hamburguesa cuando sidebar abierto */
+.sidebar.show ~ .toggle-btn {
+  opacity: 0;
+  pointer-events: none;
+}
+/* Mostrar en escritorio siempre */
+@media (min-width: 992px) {
+  .sidebar {
+    transform: none;
+  }
+
+  .content {
+    margin-left: 240px;
+  }
+
+  .toggle-btn {
+    display: none;
+  }
+}
+
+.sidebar.show {
+  transform: translateX(0);
+}
+
+.sidebar .brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.sidebar .nav-link {
+  color: #fff !important;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+  /* aumenta un 5% */
+  background: rgba(30, 64, 175, 0.2);
+  /* ligero fondo para destacar */
+}
+
+.user-box {
+  margin-top: auto;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
+}
+
+.user-box h6 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.user-box small {
+  opacity: 0.9;
+}
+
+/* Botón hamburguesa siempre visible cuando sidebar cerrado */
+.toggle-btn {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 1100;
+  background: #1e40af;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+/* Botón ✖ dentro del sidebar */
+.toggle-btn-close {
+  position: absolute;
+  top: 10px;
+ right: 10px; /* dentro del sidebar */
+  z-index: 1110;
+  background: #1e40af;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none; /* no clickeable cuando invisible */
+  transition: opacity 0.3s ease;
+}
+
+/* Cuando sidebar abierto, mostrar ✖ */
+.sidebar.show .toggle-btn-close {
+  opacity: 1;
+  pointer-events: auto;
+}
+.toggle-btn:hover {
+  background: #1e40af;
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1040;
+  display: none;
+}
+
+.overlay.show {
+  display: block;
+}
+
+/* Contenido */
+.content {
+  padding: 2rem;
+}
+
+/* Sidebar: relativo solo en móviles para posicionar la X dentro */
+@media (max-width: 992px) {
+  .sidebar {
+    position: fixed; /* sigue fijo para no afectar el contenido */
+  }
+}
+
+  .toggle-btn {
+    top: 10px;
+    left: 10px;
+    font-size: 18px;
+  }
+
+  
+  
+.sidebar li i {
+  margin-right: 5px; /* espacio entre icono y texto */
+  vertical-align: middle; /* opcional: centra el icono con el texto */
+}
+/** fin sidebar**/
+
+/* Asegura que el modal y su fondo estén siempre arriba */
+.modal {
+    z-index: 2000 !important;
+}
+
+.modal-backdrop {
+    z-index: 1990 !important;
+}
+.hidden-lang {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#langSelector {
+    transition: opacity 0.3s ease;
+}
+

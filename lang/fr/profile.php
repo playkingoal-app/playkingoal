@@ -1,0 +1,21 @@
+<?php
+return [
+    'title' => 'Mon Profil',
+    'my_profile' => 'Mon Profil',
+    'edit' => 'Modifier',
+    'full_name' => 'Nom Complet',
+    'email' => 'E-mail',
+    'phone' => 'Téléphone',
+    'country' => 'Pays',
+    'invitation_code' => 'Mon Code d’Invitation',
+    'your_code' => 'Votre code:',
+    'copy' => 'Copier',
+    'invitation_link' => 'Lien d’invitation:',
+    'invited_people' => 'Personnes que j’ai invitées',
+    'invited_summary' => 'Vous avez invité :count personnes.',
+    'registered' => 'Inscrit',
+    'pending' => 'En attente',
+    'code_copied' => 'Code copié!',
+    'link_copied' => 'Lien copié!',
+    'profile_updated' => 'Profil mis à jour avec succès.',
+];
