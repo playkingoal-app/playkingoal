@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->enum('rol', ['admin', 'jugador']);
             $table->enum('estado', ['pendiente', 'aprobado', 'rechazado'])->default('pendiente');
             $table->timestamps();
-            $table->unique(['grupo_id', 'user_id']);
+            $table->unique(['grupo_id', 'usuario_id']);
         });
     }
 
