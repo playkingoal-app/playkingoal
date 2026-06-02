@@ -14,6 +14,9 @@ return new class extends Migration {
     {
         Schema::create('grupo_usuario', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('grupo_id')->unsigned();
+            $table->bigInteger('usuario_id')->unsigned();
+
             $table->foreign('grupo_id')->references('id')->on('grupos')->onDelete("cascade");
             $table->foreign('usuario_id')->references('id')->on('users')->onDelete("cascade");
             $table->enum('rol', ['admin', 'jugador']);
