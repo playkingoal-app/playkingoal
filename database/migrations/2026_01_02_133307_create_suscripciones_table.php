@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->bigInteger('plan_id')->unsigned();
 
             $table->foreign('usuario_id')->references('id')->on('users')->onDelete("cascade");
-            $table->foreignId('plan_id')->references('id')->on('planes')->onDelete("cascade");
+            $table->foreign('plan_id')->references('id')->on('planes')->onDelete("cascade");
             $table->enum('estado', ['activa', 'cancelada', 'expirada'])->default('activa');
             $table->date('inicia_en');
             $table->date('vence_en');
