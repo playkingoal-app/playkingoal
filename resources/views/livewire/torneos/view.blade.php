@@ -174,7 +174,7 @@ Livewire.on('eliminar', rId => {
                                     <td>#</td>
                                     <th>{{ __('tournaments.league') }}</th>
                                     <th>{{ __('tournaments.name') }}</th>
-                                    <th>{{ __('tournaments.price') }}</th>
+                               
                                     <th>{{ __('tournaments.start_date') }}</th>
                                     <th>{{ __('tournaments.end_date') }}</th>
                                     <th>{{ __('tournaments.active') }}</th>
@@ -199,7 +199,7 @@ Livewire.on('eliminar', rId => {
                                         </td>
 
                                         <td>{{ $row->nombre_torneo }}</td>
-                                        <td>{{ $row->precio }}</td>
+                                   
                                         <td>{{ $row->fecha_inicio }}</td>
                                         <td>{{ $row->fecha_fin }}</td>
 

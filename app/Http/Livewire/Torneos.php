@@ -34,7 +34,6 @@ class Torneos extends Component
         return view('livewire.torneos.view', [
             'torneos' => Torneo::with('apiLeague')
                 ->where('nombre_torneo', 'LIKE', $keyWord)
-                ->orWhere('precio', 'LIKE', $keyWord)
                 ->paginate(10),
         ]);
     }
