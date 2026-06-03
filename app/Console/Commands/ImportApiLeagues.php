@@ -8,7 +8,7 @@ use App\Services\ApiFootballService;
 
 class ImportApiLeagues extends Command
 {
-    protected $signature = 'import:api-leagues {season=2022}';
+    protected $signature = 'import:api-leagues {season=2026}';
     protected $description = 'Importar solo ligas permitidas desde la API';
 
     public function handle()

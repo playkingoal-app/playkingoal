@@ -55,7 +55,7 @@
 
     <div class="language-dropdown2 mobile-language-clone">
 
-        <div class="selected-lang" onclick="toggleLangDropdownMobile()">
+       <div class="selected-lang" onclick="toggleLangDropdownMobile(event)">
             @if (app()->getLocale() === 'en')
                 <img src="{{ asset('img/en.png') }}?v={{ time() }}" alt="EN">
             @elseif (app()->getLocale() === 'fr')
@@ -135,7 +135,7 @@
                     <li class="nav-item d-flex justify-content-end align-items-center ms-lg-2 mt-3 mt-lg-0">
                        <div class="language-dropdown2 desktop-language-selector">
 
-                            <div class="selected-lang" onclick="toggleLangDropdown()">
+                       <div class="selected-lang" onclick="toggleLangDropdown(event)">
                                 @if (app()->getLocale() === 'en')
                                     <img src="{{ asset('img/en.png') }}?v={{ time() }}" alt="EN">
                                 @elseif (app()->getLocale() === 'fr')
@@ -2271,10 +2271,31 @@
 
 </script>
 <script>
-    function toggleLangDropdownMobile() {
-        const dropdown = document.getElementById('mobileLangDropdown');
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    }
+function toggleLangDropdown(event) {
+    event.stopPropagation();
+
+    const dropdown = document.getElementById('langDropdown');
+
+    dropdown.style.display =
+        dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+function toggleLangDropdownMobile(event) {
+    event.stopPropagation();
+
+    const dropdown = document.getElementById('mobileLangDropdown');
+
+    dropdown.style.display =
+        dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+document.addEventListener('click', function () {
+    const desktop = document.getElementById('langDropdown');
+    const mobile = document.getElementById('mobileLangDropdown');
+
+    if (desktop) desktop.style.display = 'none';
+    if (mobile) mobile.style.display = 'none';
+});
 </script>
 </body>
 

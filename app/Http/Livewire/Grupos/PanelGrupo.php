@@ -76,7 +76,7 @@ class PanelGrupo extends Component
             return;
         }
 
-    $season = $torneo->season ?? 2022;
+    $season = $torneo->season ?? 2026;
 
         $fixtures = cache()->remember(
             'fixtures_' . $torneo->apiLeague->api_id . '_' . $season,
@@ -170,7 +170,6 @@ class PanelGrupo extends Component
         // Crear torneo interno
         $torneo = Torneo::create([
             'nombre_torneo' => $this->grupo->nombre,
-            'precio' => 0,
             'activo' => 1,
             'api_league_id' => $this->api_league_id,
             'grupo_id' => $this->grupo->id,

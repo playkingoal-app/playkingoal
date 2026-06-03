@@ -17,7 +17,7 @@ class SyncWorldCup extends Command
     public function handle()
     {
         $leagueId = env('WORLD_CUP_LEAGUE', 1);
-        $season = env('WORLD_CUP_SEASON', 2022);
+        $season = env('WORLD_CUP_SEASON', 2026);
         $torneoId = env('WORLD_CUP_TORNEO_ID');
 
         $torneo = Torneo::find($torneoId);

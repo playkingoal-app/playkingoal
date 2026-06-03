@@ -5,11 +5,26 @@
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
-
+    .form-control.is-invalid,
+.form-select.is-invalid{
+    background-image:none !important;
+    padding-right:1rem !important;
+}
+.password-input.is-invalid{
+    padding-right:45px !important;
+}
+.form-control,
+.form-select,
+input,
+textarea,
+select{
+    font-family:'Inter', sans-serif !important;
+    text-transform:none !important;
+}
     body {
         background: #f8f9fa;
     }
@@ -262,6 +277,13 @@
         font-size: 1.7rem;
     }
 }
+.password-toggle{
+    cursor:pointer;
+}
+
+.password-toggle:hover{
+    color:#1e40af;
+}
     }
 
 </style>
@@ -512,8 +534,8 @@
                                                class="form-control @error('password') is-invalid @enderror"
                                                name="password"
                                                required>
-
-                                        <i class="fa-solid fa-lock register-input-icon"></i>
+<i class="fa-regular fa-eye register-input-icon password-toggle"
+   onclick="togglePassword('password', this)"></i>
 
                                     </div>
 
@@ -543,9 +565,8 @@
                                                class="form-control"
                                                name="password_confirmation"
                                                required>
-
-                                        <i class="fa-solid fa-shield-halved register-input-icon"></i>
-
+<i class="fa-regular fa-eye register-input-icon password-toggle"
+   onclick="togglePassword('password-confirm', this)"></i>
                                     </div>
 
                                 </div>
@@ -672,5 +693,30 @@
         tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
 
     });
+
+</script>
+<script>
+
+function togglePassword(inputId, icon){
+
+    const input = document.getElementById(inputId);
+
+    if(input.type === 'password'){
+
+        input.type = 'text';
+
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+
+    }else{
+
+        input.type = 'password';
+
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+
+    }
+
+}
 
 </script>

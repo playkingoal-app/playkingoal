@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Stripe\Stripe;
 use Stripe\Webhook;
 use App\Models\Suscripcione;
@@ -19,45 +20,57 @@ class StripeWebhookController extends Controller
         $secret = config('services.stripe.webhook_secret');
 
         try {
-            $event = Webhook::constructEvent(
-                $payload,
-                $signature,
-                $secret
-            );
+            $event = Webhook::constructEvent($payload, $signature, $secret);
         } catch (\Exception $e) {
+            Log::error('Stripe webhook error: ' . $e->getMessage());
             return response('Invalid signature', 400);
         }
 
-        // EVENTO CLAVE
         if ($event->type === 'checkout.session.completed') {
             $session = $event->data->object;
 
-            //  PAGO DE PLAN (SaaS)
-            if ($session->metadata->tipo === 'plan') {
+            $metadata = $session->metadata ?? null;
+
+            if (!$metadata || empty($metadata->tipo) || empty($metadata->user_id)) {
+                Log::warning('Stripe webhook sin metadata suficiente', [
+                    'session_id' => $session->id ?? null,
+                ]);
+
+                return response('OK', 200);
+            }
+
+            if ($metadata->tipo === 'plan') {
+                if (empty($metadata->plan_id)) {
+                    return response('OK', 200);
+                }
 
                 Suscripcione::updateOrCreate(
                     [
-                        'user_id' => $session->metadata->user_id,
-                        'plan_id' => $session->metadata->plan_id,
+                        'user_id' => $metadata->user_id,
+                        'plan_id' => $metadata->plan_id,
                     ],
                     [
                         'estado' => 'activa',
                         'stripe_session_id' => $session->id,
+                        'stripe_payment_intent_id' => $session->payment_intent ?? null,
                     ]
                 );
             }
 
-            //PAGO DE TORNEO
-            if ($session->metadata->tipo === 'torneo') {
+            if ($metadata->tipo === 'torneo') {
+                if (empty($metadata->torneo_id)) {
+                    return response('OK', 200);
+                }
 
                 Inscripcione::updateOrCreate(
                     [
-                        'user_id' => $session->metadata->user_id,
-                        'torneo_id' => $session->metadata->torneo_id,
+                        'user_id' => $metadata->user_id,
+                        'torneo_id' => $metadata->torneo_id,
                     ],
                     [
                         'estado_pago' => 'activo',
                         'stripe_session_id' => $session->id,
+                        'stripe_payment_intent_id' => $session->payment_intent ?? null,
                     ]
                 );
             }
