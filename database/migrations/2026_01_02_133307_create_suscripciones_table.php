@@ -14,10 +14,10 @@ return new class extends Migration {
     {
         Schema::create('suscripciones', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('usuario_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('plan_id')->unsigned();
 
-            $table->foreign('usuario_id')->references('id')->on('users')->onDelete("cascade");
+            $table->foreign('user_id')->references('id')->on('users')->onDelete("cascade");
             $table->foreign('plan_id')->references('id')->on('planes')->onDelete("cascade");
             $table->enum('estado', ['activa', 'cancelada', 'expirada'])->default('activa');
             $table->date('inicia_en');
