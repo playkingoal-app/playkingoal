@@ -11,6 +11,7 @@ use App\Http\Livewire\ApiTeamsList;
 use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,8 +34,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // Route::get('/payment-success', function () {
 //     return view('payment-success');
 // })->name('payment.success');
-
-
 
 
 Route::view('/terms', 'livewire.legal.terms')->name('terms');
@@ -60,7 +59,7 @@ Route::get('/suscripcion/cancel', [SuscripcionesController::class, 'cancel'])->n
 
 //
 
-Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle']);
+
 
 Route::middleware(['auth', 'role:Administrador'])->group(function () {
 
