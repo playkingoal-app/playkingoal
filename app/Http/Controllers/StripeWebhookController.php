@@ -15,12 +15,12 @@ class StripeWebhookController extends Controller
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $payload = $request->getContent();
-        $signature = $request->header('Stripe-Signature');
-        $secret = config('services.stripe.webhook_secret');
-
         try {
-            $event = Webhook::constructEvent($payload, $signature, $secret);
+            $event = Webhook::constructEvent(
+                $request->getContent(),
+                $request->header('Stripe-Signature'),
+                config('services.stripe.webhook_secret')
+            );
         } catch (\Exception $e) {
             Log::error('Stripe webhook error: ' . $e->getMessage());
             return response('Invalid signature', 400);
@@ -29,21 +29,17 @@ class StripeWebhookController extends Controller
         if ($event->type === 'checkout.session.completed') {
             $session = $event->data->object;
 
-            $metadata = $session->metadata ?? null;
-
-            if (!$metadata || empty($metadata->tipo) || empty($metadata->user_id)) {
-                Log::warning('Stripe webhook sin metadata suficiente', [
-                    'session_id' => $session->id ?? null,
-                ]);
-
+            if (($session->payment_status ?? null) !== 'paid') {
                 return response('OK', 200);
             }
 
-            if ($metadata->tipo === 'plan') {
-                if (empty($metadata->plan_id)) {
-                    return response('OK', 200);
-                }
+            $metadata = $session->metadata ?? null;
 
+            if (!$metadata || empty($metadata->tipo) || empty($metadata->user_id)) {
+                return response('OK', 200);
+            }
+
+            if ($metadata->tipo === 'plan' && !empty($metadata->plan_id)) {
                 Suscripcione::updateOrCreate(
                     [
                         'user_id' => $metadata->user_id,
@@ -57,11 +53,7 @@ class StripeWebhookController extends Controller
                 );
             }
 
-            if ($metadata->tipo === 'torneo') {
-                if (empty($metadata->torneo_id)) {
-                    return response('OK', 200);
-                }
-
+            if ($metadata->tipo === 'torneo' && !empty($metadata->torneo_id)) {
                 Inscripcione::updateOrCreate(
                     [
                         'user_id' => $metadata->user_id,

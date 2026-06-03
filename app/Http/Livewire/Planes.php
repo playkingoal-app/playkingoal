@@ -29,7 +29,7 @@ class Planes extends Component
     }
 
 
-    public function pagar($planId)
+   public function pagar($planId)
 {
     if (!auth()->check()) {
         return redirect()->route('login');
@@ -47,35 +47,48 @@ class Planes extends Component
 
     Stripe::setApiKey(config('services.stripe.secret'));
 
-    $unitAmount = $price->currency === 'COP'
-    ? ((int) $price->amount * 100)
-    : (int) $price->amount;
+    $zeroDecimalCurrencies = ['COP', 'JPY', 'KRW', 'CLP', 'PYG'];
 
-$session = StripeSession::create([
-    'payment_method_types' => ['card'],
-    'mode' => 'payment',
+    $unitAmount = in_array(strtoupper($price->currency), $zeroDecimalCurrencies)
+        ? (int) $price->amount
+        : (int) round($price->amount * 100);
 
-    'metadata' => [
-        'user_id' => auth()->id(),
-        'plan_id' => $plan->id,
-        'tipo' => 'plan',
-        'country_code' => $countryCode,
-    ],
+    $session = StripeSession::create([
+        'payment_method_types' => ['card'],
+        'mode' => 'payment',
 
-    'line_items' => [[
-        'price_data' => [
-            'currency' => strtolower($price->currency),
-            'unit_amount' => $unitAmount,
-            'product_data' => [
-                'name' => $plan->nombre,
+        'client_reference_id' => auth()->id(),
+
+        'metadata' => [
+            'user_id' => auth()->id(),
+            'plan_id' => $plan->id,
+            'tipo' => 'plan',
+            'country_code' => $countryCode,
+        ],
+
+        'payment_intent_data' => [
+            'metadata' => [
+                'user_id' => auth()->id(),
+                'plan_id' => $plan->id,
+                'tipo' => 'plan',
+                'country_code' => $countryCode,
             ],
         ],
-        'quantity' => 1,
-    ]],
 
-    'success_url' => route('suscripcion.success'),
-    'cancel_url' => route('suscripcion.cancel'),
-]);
+        'line_items' => [[
+            'price_data' => [
+                'currency' => strtolower($price->currency),
+                'unit_amount' => $unitAmount,
+                'product_data' => [
+                    'name' => $plan->nombre,
+                ],
+            ],
+            'quantity' => 1,
+        ]],
+
+        'success_url' => route('suscripcion.success') . '?session_id={CHECKOUT_SESSION_ID}',
+        'cancel_url' => route('suscripcion.cancel'),
+    ]);
 
     return redirect()->away($session->url);
 }

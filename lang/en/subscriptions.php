@@ -71,5 +71,9 @@ return [
 'I want to compete',
 
 
+  'subscription_processing' =>
+        'Payment received. We are activating your subscription.',
 
+    'payment_cancelled' =>
+        'Payment cancelled. You can try again.',
 ];

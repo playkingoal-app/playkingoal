@@ -68,4 +68,10 @@ return [
 'request_access' =>
 'Quiero competir',
 
+    'subscription_processing' =>
+        'Pago recibido. Estamos activando tu suscripción.',
+
+    'payment_cancelled' =>
+        'Pago cancelado. Puedes intentarlo nuevamente.',
+
 ];

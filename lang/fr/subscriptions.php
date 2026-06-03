@@ -68,4 +68,9 @@ return [
 
 'request_access' =>
 'Je veux participer',
+'subscription_processing' =>
+        'Paiement reçu. Nous activons votre abonnement.',
+
+    'payment_cancelled' =>
+        'Paiement annulé. Vous pouvez réessayer.',
 ];
