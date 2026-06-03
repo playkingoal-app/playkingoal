@@ -49,9 +49,8 @@ class Planes extends Component
 
     $zeroDecimalCurrencies = ['COP', 'JPY', 'KRW', 'CLP', 'PYG'];
 
-    $unitAmount = in_array(strtoupper($price->currency), $zeroDecimalCurrencies)
-        ? (int) $price->amount
-        : (int) round($price->amount * 100);
+    $unitAmount = (int) $price->amount;
+        
 
     $session = StripeSession::create([
         'payment_method_types' => ['card'],

@@ -44,10 +44,17 @@ class StripeWebhookController extends Controller
                     [
                         'user_id' => $metadata->user_id,
                         'plan_id' => $metadata->plan_id,
+                        
                     ],
                     [
                         'estado' => 'activa',
+
+                        'inicia_en' => now(),
+
+                        'vence_en' => '2026-07-19 23:59:59',
+
                         'stripe_session_id' => $session->id,
+
                         'stripe_payment_intent_id' => $session->payment_intent ?? null,
                     ]
                 );
