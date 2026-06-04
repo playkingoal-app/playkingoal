@@ -73,5 +73,37 @@ return [
 
     'payment_cancelled' =>
         'Pago cancelado. Puedes intentarlo nuevamente.',
+   'payment_success_title' =>
+        'Pago confirmado',
+
+    'payment_success_message' =>
+        'Tu suscripción fue activada correctamente.',
+
+    'payment_pending_title' =>
+        'Pago recibido',
+
+    'payment_pending_message' =>
+        'Estamos activando tu suscripción. Esto puede tardar unos segundos.',
+
+    'payment_pending_hint' =>
+        'Puedes ir al panel y actualizar en unos momentos.',
+
+    'payment_error_title' =>
+        'No pudimos confirmar el pago',
+
+    'payment_error_message' =>
+        'No encontramos una confirmación válida del pago. Si el cargo aparece en tu banco, contáctanos.',
+
+    'payment_cancelled_title' =>
+        'Pago cancelado',
+
+    'payment_cancelled_message' =>
+        'Cancelaste el proceso de pago. Puedes intentarlo nuevamente.',
+
+    'back_to_plans' =>
+        'Volver a los planes',
+
+    'go_to_dashboard' =>
+        'Ir al panel',
 
 ];

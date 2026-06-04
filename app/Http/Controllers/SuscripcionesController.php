@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Plan;
+use App\Models\Suscripcione;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as StripeSession;
@@ -22,7 +24,7 @@ class SuscripcionesController extends Controller
         return view('livewire.planes.index', compact('planes'));
     }
 
-    // Iniciar pago de plan
+    // Checkout Stripe
     public function checkout($planId)
     {
         $plan = Plan::findOrFail($planId);
@@ -30,7 +32,9 @@ class SuscripcionesController extends Controller
         Stripe::setApiKey(config('services.stripe.secret'));
 
         $session = StripeSession::create([
+
             'payment_method_types' => ['card'],
+
             'mode' => 'payment',
 
             'client_reference_id' => Auth::id(),
@@ -53,32 +57,111 @@ class SuscripcionesController extends Controller
                 [
                     'price_data' => [
                         'currency' => 'eur',
-                        'unit_amount' => (int) round($plan->precio * 100),
+
+                        // SI 59€ ESTA GUARDADO COMO 5900
+                        'unit_amount' => (int) $plan->precio,
+
                         'product_data' => [
                             'name' => $plan->nombre,
                         ],
                     ],
+
                     'quantity' => 1,
                 ]
             ],
 
-            'success_url' => route('suscripcion.success') . '?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('suscripcion.cancel'),
+            'success_url' =>
+                route('suscripcion.success')
+                . '?session_id={CHECKOUT_SESSION_ID}',
+
+            'cancel_url' =>
+                route('suscripcion.cancel'),
         ]);
 
         return redirect()->away($session->url);
     }
 
-    // Stripe success: NO activa la suscripción
-   public function success()
-{
-    return redirect()->route('planes')
-        ->with('success', __('subscriptions.subscription_processing'));
-}
+    // Pago exitoso
+    public function success(Request $request)
+    {
+        $sessionId = $request->get('session_id');
 
-public function cancel()
-{
-    return redirect()->route('planes')
-        ->with('warning', __('subscriptions.payment_cancelled'));
-}
+        if (!$sessionId) {
+
+            return redirect()->route('planes')
+                ->with(
+                    'error',
+                    __('subscriptions.payment_error_message')
+                );
+        }
+
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        try {
+
+            $session = StripeSession::retrieve($sessionId);
+
+        } catch (\Exception $e) {
+
+            return redirect()->route('planes')
+                ->with(
+                    'error',
+                    __('subscriptions.payment_error_message')
+                );
+        }
+
+        // SOLO PARA LOCAL
+        if (
+            app()->environment('local')
+            && $session->payment_status === 'paid'
+        ) {
+
+            Suscripcione::updateOrCreate(
+                [
+                    'user_id' =>
+                        $session->metadata->user_id,
+
+                    'plan_id' =>
+                        $session->metadata->plan_id,
+                ],
+                [
+                    'estado' => 'activa',
+
+                    'inicia_en' => now(),
+
+                    'vence_en' => '2026-07-19',
+
+                    'stripe_session_id' => $session->id,
+
+                    'stripe_payment_intent_id' =>
+                        $session->payment_intent ?? null,
+                ]
+            );
+        }
+
+        if ($session->payment_status === 'paid') {
+
+            return redirect()->route('planes')
+                ->with(
+                    'success',
+                    __('subscriptions.payment_success_message')
+                );
+        }
+
+        return redirect()->route('planes')
+            ->with(
+                'error',
+                __('subscriptions.payment_error_message')
+            );
+    }
+
+    // Pago cancelado
+    public function cancel()
+    {
+        return redirect()->route('planes')
+            ->with(
+                'error',
+                __('subscriptions.payment_cancelled_message')
+            );
+    }
 }

@@ -73,4 +73,36 @@ return [
 
     'payment_cancelled' =>
         'Paiement annulé. Vous pouvez réessayer.',
+        'payment_success_title' =>
+        'Paiement confirmé',
+
+    'payment_success_message' =>
+        'Votre abonnement a été activé avec succès.',
+
+    'payment_pending_title' =>
+        'Paiement reçu',
+
+    'payment_pending_message' =>
+        'Nous activons votre abonnement. Cela peut prendre quelques secondes.',
+
+    'payment_pending_hint' =>
+        'Vous pouvez retourner au tableau de bord et actualiser dans quelques instants.',
+
+    'payment_error_title' =>
+        'Nous n’avons pas pu confirmer le paiement',
+
+    'payment_error_message' =>
+        'Nous n’avons trouvé aucune confirmation valide du paiement. Si le débit apparaît sur votre compte bancaire, veuillez nous contacter.',
+
+    'payment_cancelled_title' =>
+        'Paiement annulé',
+
+    'payment_cancelled_message' =>
+        'Vous avez annulé le processus de paiement. Vous pouvez réessayer.',
+
+    'back_to_plans' =>
+        'Retour aux offres',
+
+    'go_to_dashboard' =>
+        'Aller au tableau de bord',
 ];

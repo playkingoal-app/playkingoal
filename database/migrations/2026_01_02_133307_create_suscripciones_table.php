@@ -22,6 +22,8 @@ return new class extends Migration {
             $table->enum('estado', ['activa', 'cancelada', 'expirada'])->default('activa');
             $table->date('inicia_en');
             $table->date('vence_en');
+            $table->string('stripe_session_id')->nullable();
+            $table->string('stripe_payment_intent_id')->nullable();
             $table->timestamps();
         });
     }

@@ -26,6 +26,35 @@
             {{ session('mensaje') }}
         </div>
     @endif
+    @if(session('success'))
+    <div class="payment-toast success" id="paymentToast">
+        <div class="payment-toast-icon">✓</div>
+
+        <div class="payment-toast-content">
+            <h4>{{ __('subscriptions.payment_success_title') }}</h4>
+            <p>{{ session('success') }}</p>
+        </div>
+
+        <button class="payment-toast-close" onclick="document.getElementById('paymentToast').remove()">
+            ×
+        </button>
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="payment-toast error" id="paymentToast">
+        <div class="payment-toast-icon">!</div>
+
+        <div class="payment-toast-content">
+            <h4>{{ __('subscriptions.payment_error_title') }}</h4>
+            <p>{{ session('error') }}</p>
+        </div>
+
+        <button class="payment-toast-close" onclick="document.getElementById('paymentToast').remove()">
+            ×
+        </button>
+    </div>
+@endif
 <div class="d-flex justify-content-end mb-4">
 
     <form method="POST" action="{{ route('change.country') }}">
@@ -365,4 +394,125 @@
             margin-bottom: 1rem;
         }
     }
+    .payment-toast {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    width: 380px;
+    max-width: calc(100vw - 40px);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px;
+    border-radius: 22px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.12);
+    z-index: 99999;
+    animation: toastIn .45s ease;
+}
+
+.payment-toast.success {
+    background: rgba(240,253,244,.98);
+    border: 1px solid #bbf7d0;
+}
+
+.payment-toast.error {
+    background: rgba(254,242,242,.98);
+    border: 1px solid #fecaca;
+}
+
+.payment-toast-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.payment-toast.success .payment-toast-icon {
+    background: #16a34a;
+    color: white;
+}
+
+.payment-toast.error .payment-toast-icon {
+    background: #dc2626;
+    color: white;
+}
+
+.payment-toast-content h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 800;
+    color: #111827;
+}
+
+.payment-toast-content p {
+    margin: 5px 0 0;
+    color: #6b7280;
+    line-height: 1.5;
+    font-size: 14px;
+}
+
+.payment-toast-close {
+    margin-left: auto;
+    border: none;
+    background: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #9ca3af;
+}
+@media (max-width: 768px){
+
+    .payment-toast{
+        left:16px;
+        right:16px;
+        top:16px;
+
+        width:auto;
+
+        border-radius:18px;
+
+        padding:16px;
+    }
+
+    .payment-toast-content h4{
+        font-size:14px;
+    }
+
+    .payment-toast-content p{
+        font-size:13px;
+    }
+
+    .payment-toast-icon{
+        width:38px;
+        height:38px;
+        font-size:17px;
+    }
+
+}
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px) scale(.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
 </style>
+<script>
+setTimeout(() => {
+    const toast = document.getElementById('paymentToast');
+
+    if (toast) {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => toast.remove(), 300);
+    }
+}, 5000);
+</script>

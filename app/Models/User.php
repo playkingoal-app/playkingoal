@@ -63,12 +63,17 @@ class User extends Authenticatable implements MustVerifyEmail
         });
     }
 
-    public function grupos()
-    {
-        return $this->belongsToMany(Grupo::class, 'grupo_usuario')
-            ->withPivot('rol', 'estado')
-            ->withTimestamps();
-    }
+  public function grupos()
+{
+    return $this->belongsToMany(
+        Grupo::class,
+        'grupo_usuario',
+        'usuario_id',
+        'grupo_id'
+    )
+    ->withPivot('rol', 'estado')
+    ->withTimestamps();
+}
 
     public function suscripciones()
     {

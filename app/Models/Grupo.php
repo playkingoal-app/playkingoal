@@ -21,11 +21,16 @@ class Grupo extends Model
         'requisito_entrada',
         'premio',
     ];
-    public function usuarios()
+ public function usuarios()
 {
-    return $this->belongsToMany(User::class, 'grupo_usuario')
-        ->withPivot('rol', 'estado')
-        ->withTimestamps();
+    return $this->belongsToMany(
+        User::class,
+        'grupo_usuario',
+        'grupo_id',
+        'usuario_id'
+    )
+    ->withPivot('rol', 'estado')
+    ->withTimestamps();
 }
   public function torneos()
     {

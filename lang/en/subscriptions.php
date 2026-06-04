@@ -76,4 +76,38 @@ return [
 
     'payment_cancelled' =>
         'Payment cancelled. You can try again.',
+
+
+    'payment_success_title' =>
+        'Payment confirmed',
+
+    'payment_success_message' =>
+        'Your subscription has been successfully activated.',
+
+    'payment_pending_title' =>
+        'Payment received',
+
+    'payment_pending_message' =>
+        'We are activating your subscription. This may take a few seconds.',
+
+    'payment_pending_hint' =>
+        'You can return to the dashboard and refresh shortly.',
+
+    'payment_error_title' =>
+        'We could not confirm the payment',
+
+    'payment_error_message' =>
+        'We could not find a valid payment confirmation. If the charge appears on your bank account, please contact us.',
+
+    'payment_cancelled_title' =>
+        'Payment cancelled',
+
+    'payment_cancelled_message' =>
+        'You cancelled the payment process. You can try again.',
+
+    'back_to_plans' =>
+        'Back to plans',
+
+    'go_to_dashboard' =>
+        'Go to dashboard',
 ];
