@@ -303,37 +303,77 @@
         @livewireScripts
         @yield('js')
         @stack('custom-scripts')
+<style>
+    #toggleBtn {
+    transition: opacity .25s ease, transform .25s ease;
+}
 
-        <script>
-            function toggleSidebar() {
-                const sidebar = document.querySelector('.sidebar');
-                const overlay = document.querySelector('.overlay');
-                const toggleBtn = document.querySelector('.toggle-btn');
+#toggleBtn.hide {
+    opacity: 0;
+    transform: translateY(-15px);
+    pointer-events: none;
+}
+</style>
+<script>
+let lastScroll = 0;
 
-                sidebar.classList.toggle('show');
-                overlay.classList.toggle('show');
+const toggleBtn = document.getElementById('toggleBtn');
+const sidebar = document.querySelector('.sidebar');
+const overlay = document.querySelector('.overlay');
+const closeBtn = document.querySelector('.toggle-btn-close');
 
-                if (sidebar.classList.contains('show')) {
-                    toggleBtn.style.opacity = '0';
-                    toggleBtn.style.pointerEvents = 'none';
-                } else {
-                    toggleBtn.style.opacity = '1';
-                    toggleBtn.style.pointerEvents = 'auto';
-                }
-            }
+function hideToggleBtn() {
+    toggleBtn.classList.add('hide');
+}
 
-            // Cerrar sidebar al hacer click en la X
-            document.querySelector('.toggle-btn-close').addEventListener('click', () => {
-                const sidebar = document.querySelector('.sidebar');
-                const overlay = document.querySelector('.overlay');
-                const toggleBtn = document.querySelector('.toggle-btn');
+function showToggleBtn() {
+    toggleBtn.classList.remove('hide');
+}
 
-                sidebar.classList.remove('show');
-                overlay.classList.remove('show');
-                toggleBtn.style.opacity = '1';
-                toggleBtn.style.pointerEvents = 'auto';
-            });
-        </script>
+function toggleSidebar() {
+    sidebar.classList.toggle('show');
+    overlay.classList.toggle('show');
+
+    if (sidebar.classList.contains('show')) {
+        hideToggleBtn();
+    } else {
+        showToggleBtn();
+    }
+}
+
+closeBtn.addEventListener('click', () => {
+    sidebar.classList.remove('show');
+    overlay.classList.remove('show');
+    showToggleBtn();
+});
+
+window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+
+    // Si el sidebar está abierto, el botón siempre queda oculto
+    if (sidebar.classList.contains('show')) {
+        hideToggleBtn();
+        return;
+    }
+
+    // Apenas haga scroll hacia abajo, se oculta
+    if (currentScroll > lastScroll && currentScroll > 1) {
+        hideToggleBtn();
+    }
+
+    // Si sube, aparece
+    if (currentScroll < lastScroll) {
+        showToggleBtn();
+    }
+
+    // Si vuelve arriba del todo, aparece
+    if (currentScroll <= 1) {
+        showToggleBtn();
+    }
+
+    lastScroll = currentScroll;
+});
+</script>
 
         <script type="module">
             const addModal = new bootstrap.Modal('#createDataModal');
@@ -384,7 +424,7 @@
         </script>
         <script>
             document.addEventListener("DOMContentLoaded", function() {
-                const langSelector = document.getElementById("langSelector");
+            
 
                 window.addEventListener("scroll", () => {
                     if (window.scrollY === 0) {

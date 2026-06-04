@@ -36,6 +36,10 @@ class Grupo extends Model
     {
         return $this->hasMany(Torneo::class);
     }
+    public function premios()
+{
+    return $this->hasMany(GrupoPremio::class)->orderBy('posicion');
+}
      public function esAdmin($userId)
     {
         return $this->usuarios()

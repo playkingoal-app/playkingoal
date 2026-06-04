@@ -47,8 +47,17 @@ return [
     'approved' => 'Aprobado',
     'no_approved_members' => 'Aún no hay miembros aprobados.',
     'participation_conditions' => 'Condiciones de participación',
+
 'participation_conditions_placeholder' => 'Defina las condiciones de participación',
 'prize' => 'Premio',
 'prize_placeholder' => 'Defina el premio del grupo',
 'to_define' => 'Por definir',
+'tournament_already_assigned' => 'Este grupo ya tiene un torneo asignado.',
+'not_defined' => 'No definido',
+'tournament_assigned_success' => 'Torneo asignado e importado con éxito.',
+'user_approved' => 'Usuario aprobado.',
+'request_rejected' => 'Solicitud rechazada.',
+'no_tournament_assigned_yet' => 'Aún no hay torneo asignado para este grupo.',
+'join_success' => 'Ya estás inscrito al torneo del grupo. Ahora puedes pronosticar.',
+'add_prize' => 'Agregar otro premio',
 ];

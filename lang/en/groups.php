@@ -15,4 +15,10 @@ return [
     'admin' => 'Admin',
     'empty_title' => 'You have not created any groups yet',
     'empty_text' => 'Create your first group to start organizing your competitions.',
+
+    'active_subscription_required' => 'You need an active subscription to create groups.',
+    'plan_group_limit_reached' => 'You have reached the group limit of your plan.',
+    'not_defined' => 'Not defined',
+    'group_created_success' => 'Group created successfully',
+
 ];

@@ -13,6 +13,8 @@ class Suscripcione extends Model
         'estado',
         'inicia_en',
         'vence_en',
+          'stripe_session_id',
+    'stripe_payment_intent_id',
     ];
 
     protected $dates = ['inicia_en', 'vence_en'];

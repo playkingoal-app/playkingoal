@@ -99,4 +99,13 @@ return [
 'prize' => 'Récompense',
 'prize_placeholder' => 'Définissez la récompense du groupe',
 'to_define' => 'À définir',
+
+'tournament_already_assigned' => 'Ce groupe a déjà un tournoi attribué.',
+'not_defined' => 'Non défini',
+'tournament_assigned_success' => 'Tournoi attribué et importé avec succès.',
+'user_approved' => 'Utilisateur approuvé.',
+'request_rejected' => 'Demande refusée.',
+'no_tournament_assigned_yet' => 'Aucun tournoi n’est encore attribué à ce groupe.',
+'join_success' => 'Vous êtes déjà inscrit au tournoi du groupe. Vous pouvez maintenant faire vos pronostics.',
+'add_prize' => 'Ajouter un autre prix',
 ];

@@ -13,6 +13,7 @@ use App\Models\Partido;
 use App\Models\Equipo;
 use Illuminate\Support\Facades\Artisan;
 use App\Models\Resultado;
+use App\Models\GrupoPremio;
 
 class PanelGrupo extends Component
 {
@@ -29,7 +30,9 @@ class PanelGrupo extends Component
 
     public $requisito_entrada;
 
-    public $premio;
+   public $premios = [
+    ['posicion' => 1, 'premio' => ''],
+];
 
     public function mount($grupo)
     {
@@ -42,7 +45,13 @@ class PanelGrupo extends Component
 
         $this->linkInvitacion = route('groups.join.codigo', $this->grupo->codigo_invitacion);
     }
-
+public function agregarPremio()
+{
+    $this->premios[] = [
+        'posicion' => count($this->premios) + 1,
+        'premio' => '',
+    ];
+}
     public function cambiarTab($tab)
     {
         $this->tab = $tab;
@@ -163,7 +172,7 @@ class PanelGrupo extends Component
 
         // 1 torneo por grupo
         if (Torneo::where('grupo_id', $this->grupo->id)->exists()) {
-            session()->flash('error', 'Este grupo ya tiene un torneo asignado.');
+         session()->flash('error', __('group_panel.tournament_already_assigned'));
             return;
         }
 
@@ -189,15 +198,23 @@ $torneo->update([
     'fecha_inicio' => $fechaInicio,
     'fecha_fin' => $fechaFin,
 ]);
-        $this->grupo->update([
-            'requisito_entrada' => $this->requisito_entrada,
-            'premio' => $this->premio,
-        ]);
+       $this->grupo->update([
+    'requisito_entrada' => $this->requisito_entrada ?: __('group_panel.not_defined'),
+]);
 
-        $this->reset(['api_league_id', 'precio']);
+foreach ($this->premios as $item) {
+    if (!empty($item['premio'])) {
+        GrupoPremio::create([
+            'grupo_id' => $this->grupo->id,
+            'posicion' => $item['posicion'],
+            'premio' => $item['premio'],
+        ]);
+    }
+}
+     $this->reset(['api_league_id', 'precio', 'premios']);
         $this->grupo = $this->grupo->fresh();
 
-        session()->flash('success', 'Torneo asignado e importado con éxito.');
+       session()->flash('success', __('group_panel.tournament_assigned_success'));
     }
 
     // Aprobar usuario pendiente
@@ -212,7 +229,7 @@ $torneo->update([
         ]);
 
         $this->grupo = $this->grupo->fresh();
-        session()->flash('success', 'Usuario aprobado.');
+       session()->flash('success', __('group_panel.user_approved'));
     }
 
     // Rechazar usuario (lo sacamos del grupo)
@@ -225,7 +242,7 @@ $torneo->update([
         $this->grupo->usuarios()->detach($userId);
 
         $this->grupo = $this->grupo->fresh();
-        session()->flash('success', 'Solicitud rechazada.');
+        session()->flash('success', __('group_panel.request_rejected'));
     }
     public function participar()
     {
@@ -243,7 +260,7 @@ $torneo->update([
         $torneo = Torneo::where('grupo_id', $this->grupo->id)->first();
 
         if (!$torneo) {
-            session()->flash('error', 'Aún no hay torneo asignado para este grupo.');
+            session()->flash('error', __('group_panel.no_tournament_assigned_yet'));
             return;
         }
 
@@ -264,7 +281,7 @@ $torneo->update([
             $inscripcion->update(['estado_pago' => 'activo']);
         }
 
-        session()->flash('success', ' Ya estás inscrito al torneo del grupo. Ahora puedes pronosticar.');
+    session()->flash('success', __('group_panel.join_success'));
     }
 
     public function render()
@@ -278,7 +295,7 @@ $torneo->update([
                 ->where('estado_pago', 'activo')
                 ->exists();
         }
-
+$this->grupo->load('premios');
         return view('livewire.grupos.panel-grupo', [
             'torneo' => $torneo,
             'ligas' => ApiLeague::orderBy('name')->get(),

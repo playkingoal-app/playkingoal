@@ -8,7 +8,7 @@ use App\Models\Grupo;
 
 class Grupos extends Component
 {
-    public $nombre, $requisito_entrada,$premio;
+    public $nombre, $requisito_entrada;
 
     protected $rules = [
         'nombre' => 'required|min:3|max:100',
@@ -24,14 +24,14 @@ class Grupos extends Component
         $plan = $user->suscripcionActiva ? $user->suscripcionActiva->plan : null;
 
         if (!$plan) {
-            session()->flash('error', 'Necesitas una suscripción activa para crear grupos.');
+           session()->flash('error', __('groups.active_subscription_required'));
             return;
         }
 
         // Limite de grupos según plan
         $gruposActuales = Grupo::where('propietario_id', $user->id)->count();
         if ($gruposActuales >= $plan->max_grupos) {
-            session()->flash('error', 'Has alcanzado el límite de grupos de tu plan.');
+            session()->flash('error', __('groups.plan_group_limit_reached'));
             return;
         }
 
@@ -44,8 +44,8 @@ class Grupos extends Component
             'slug' => Str::slug($this->nombre) . '-' . uniqid(),
             'codigo_invitacion' => strtoupper(Str::random(6)),
             'propietario_id' => $user->id,
-            'requisito_entrada' => $this->requisito_entrada,
-            'premio' => $this->premio,
+            'requisito_entrada' => __('groups.not_defined'),
+            'premio' => 'SIN DEFINIR',
             'activo' => true,
         ]);
 
@@ -58,7 +58,8 @@ class Grupos extends Component
         // Limpiar formulario
         $this->reset('nombre');
 
-        session()->flash('success', 'Grupo creado con éxito');
+           session()->flash('success', __('groups.group_created_success'));
+
 
         // Redirigir o actualizar lista de grupos
         return redirect()->route('groups');

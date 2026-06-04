@@ -176,14 +176,43 @@
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                        <div class="mb-4">
-                            <label class="panel-label">
-                                {{ __('group_panel.prize') }}
-                            </label>
+                      <div class="mb-4">
+    <label class="panel-label">
+        Premios por puesto
+    </label>
 
-                            <input type="text" class="form-control panel-input" wire:model.defer="premio"
-                                placeholder="{{ __('group_panel.prize_placeholder') }}">
-                        </div>
+    @foreach ($premios as $index => $item)
+        <div class="row g-2 mb-2 align-items-center">
+            <div class="col-md-3">
+                <input
+                    type="number"
+                    min="1"
+                    class="form-control panel-input"
+                    wire:model.defer="premios.{{ $index }}.posicion"
+                    placeholder="Puesto"
+                >
+            </div>
+
+            <div class="col-md-9">
+                <input
+                    type="text"
+                    class="form-control panel-input"
+                    wire:model.defer="premios.{{ $index }}.premio"
+                    placeholder="Ej: 100€, Camiseta, Bono, Trofeo..."
+                >
+            </div>
+        </div>
+    @endforeach
+
+    <button
+        type="button"
+        class="btn btn-outline-primary rounded-pill mt-2"
+        wire:click="agregarPremio"
+    >
+        <i class="fa-solid fa-plus me-1"></i>
+        {{ __('group_panel.add_prize') }}
+    </button>
+</div>
                         <button class="panel-button" wire:click="asignarTorneo">
                             <i class="fa-solid fa-check me-2"></i>
                             {{ __('group_panel.assign_button') }}
@@ -274,9 +303,18 @@
             {{ __('group_panel.prize') }}
         </small>
 
-        <span class="fw-semibold">
-            {{ $grupo->premio ?: __('group_panel.to_define') }}
-        </span>
+        @if ($grupo->premios->count())
+    @foreach ($grupo->premios as $premio)
+        <div class="fw-semibold">
+            Puesto #{{ $premio->posicion }}:
+            {{ $premio->premio }}
+        </div>
+    @endforeach
+@else
+    <span class="fw-semibold">
+        {{ __('group_panel.to_define') }}
+    </span>
+@endif
 
     </div>
 

@@ -15,4 +15,9 @@ return [
     'admin' => 'Admin',
     'empty_title' => 'No tienes grupos creados aún',
     'empty_text' => 'Crea tu primer grupo para empezar a organizar tus competencias.',
+
+    'active_subscription_required' => 'Necesitas una suscripción activa para crear grupos.',
+    'plan_group_limit_reached' => 'Has alcanzado el límite de grupos de tu plan.',
+    'not_defined' => 'Sin definir',
+    'group_created_success' => 'Grupo creado con éxito',
 ];

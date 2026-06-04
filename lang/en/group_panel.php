@@ -92,4 +92,13 @@ return [
 'prize' => 'Prize',
 'prize_placeholder' => 'Define the group prize',
 'to_define' => 'To be defined',
+
+'tournament_already_assigned' => 'This group already has an assigned tournament.',
+'not_defined' => 'Not defined',
+'tournament_assigned_success' => 'Tournament assigned and imported successfully.',
+'user_approved' => 'User approved.',
+'request_rejected' => 'Request rejected.',
+'no_tournament_assigned_yet' => 'There is no tournament assigned to this group yet.',
+'join_success' => 'You are already registered for the group tournament. You can now make predictions.',
+'add_prize' => 'Add another prize',
 ];
