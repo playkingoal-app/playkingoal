@@ -176,42 +176,76 @@
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                      <div class="mb-4">
-    <label class="panel-label">
-        Premios por puesto
-    </label>
+                     <div class="mb-4">
+    <div class="prize-section">
 
-    @foreach ($premios as $index => $item)
-        <div class="row g-2 mb-2 align-items-center">
-            <div class="col-md-3">
-                <input
-                    type="number"
-                    min="1"
-                    class="form-control panel-input"
-                    wire:model.defer="premios.{{ $index }}.posicion"
-                    placeholder="Puesto"
-                >
+        <div class="prize-section-header">
+            <div>
+                <label class="panel-label mb-1">
+                    {{ __('group_panel.prizes_by_position') }}
+                </label>
+
+                <p class="prize-help">
+                    {{ __('group_panel.prizes_help') }}
+                </p>
             </div>
 
-            <div class="col-md-9">
-                <input
-                    type="text"
-                    class="form-control panel-input"
-                    wire:model.defer="premios.{{ $index }}.premio"
-                    placeholder="Ej: 100€, Camiseta, Bono, Trofeo..."
-                >
-            </div>
+            <span class="prize-count">
+                {{ count($premios) }}
+            </span>
         </div>
-    @endforeach
 
-    <button
-        type="button"
-        class="btn btn-outline-primary rounded-pill mt-2"
-        wire:click="agregarPremio"
-    >
-        <i class="fa-solid fa-plus me-1"></i>
-        {{ __('group_panel.add_prize') }}
-    </button>
+        @foreach ($premios as $index => $item)
+            <div class="prize-row">
+
+                <div class="prize-number">
+                    <i class="fa-solid fa-award"></i>
+                    <span>{{ $index + 1 }}</span>
+                </div>
+
+                <div class="prize-fields">
+                    <div>
+                        <label class="prize-small-label">
+                            {{ __('group_panel.position') }}
+                        </label>
+
+                        <input
+                            type="number"
+                            min="1"
+                            max="1000"
+                            class="form-control panel-input"
+                            wire:model.defer="premios.{{ $index }}.posicion"
+                            placeholder="{{ __('group_panel.position_placeholder') }}"
+                        >
+                    </div>
+
+                    <div>
+                        <label class="prize-small-label">
+                            {{ __('group_panel.prize') }}
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control panel-input"
+                            wire:model.defer="premios.{{ $index }}.premio"
+                            placeholder="{{ __('group_panel.prize_example') }}"
+                        >
+                    </div>
+                </div>
+
+            </div>
+        @endforeach
+
+        <button
+            type="button"
+            class="prize-add-button"
+            wire:click="agregarPremio"
+        >
+            <i class="fa-solid fa-plus me-1"></i>
+            {{ __('group_panel.add_prize') }}
+        </button>
+
+    </div>
 </div>
                         <button class="panel-button" wire:click="asignarTorneo">
                             <i class="fa-solid fa-check me-2"></i>
@@ -243,25 +277,17 @@
 
                     <div class="panel-divider"></div>
 
-                   <div class="row g-4">
+<div class="row g-4">
 
     {{-- TORNEO --}}
     <div class="col-md-4">
-
         <small class="text-muted d-block mb-2">
             {{ __('group_panel.tournament') }}
         </small>
 
         <div class="d-flex align-items-center gap-3">
-
             @if($torneo->apiLeague->logo ?? false)
-                <img
-                    src="{{ $torneo->apiLeague->logo }}"
-                    alt="{{ $torneo->apiLeague->name }}"
-                    width="52"
-                    height="52"
-                    style="object-fit: contain;"
-                >
+                <img src="{{ $torneo->apiLeague->logo }}" alt="{{ $torneo->apiLeague->name }}" width="52" height="52" style="object-fit: contain;">
             @else
                 <div class="league-placeholder">
                     <i class="fa-solid fa-trophy"></i>
@@ -278,48 +304,54 @@
                     {{ $torneo->apiLeague->country ?? __('group_panel.no_country') }}
                 </small>
             </div>
-
         </div>
-
     </div>
 
     {{-- CONDICIONES --}}
     <div class="col-md-4">
+        <div class="premium-condition-card">
+            <div class="premium-card-title">
+                <i class="fa-solid fa-circle-info"></i>
+                {{ __('group_panel.participation_conditions') }}
+            </div>
 
-        <small class="text-muted d-block">
-            {{ __('group_panel.participation_conditions') }}
-        </small>
-
-        <span class="fw-semibold">
-            {{ $grupo->requisito_entrada ?: __('group_panel.to_define') }}
-        </span>
-
+            <div class="premium-card-text">
+                {{ $grupo->requisito_entrada ?: __('group_panel.to_define') }}
+            </div>
+        </div>
     </div>
 
-    {{-- PREMIO --}}
+    {{-- PREMIOS --}}
     <div class="col-md-4">
+        <div class="podium-prizes-card">
+            <div class="premium-card-title">
+                <i class="fa-solid fa-crown"></i>
+                {{ __('group_panel.prize') }}
+            </div>
 
-        <small class="text-muted d-block">
-            {{ __('group_panel.prize') }}
-        </small>
+            @if ($grupo->premios->count())
+                <div class="podium-prizes-list">
+                    @foreach ($grupo->premios as $premio)
+                        <div class="podium-prize-card">
+                            <div class="podium-rank">
+                                #{{ $premio->posicion }}
+                            </div>
 
-        @if ($grupo->premios->count())
-    @foreach ($grupo->premios as $premio)
-        <div class="fw-semibold">
-            Puesto #{{ $premio->posicion }}:
-            {{ $premio->premio }}
+                            <div class="podium-reward">
+                                {{ $premio->premio }}
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="premium-card-text">
+                    {{ __('group_panel.to_define') }}
+                </div>
+            @endif
         </div>
-    @endforeach
-@else
-    <span class="fw-semibold">
-        {{ __('group_panel.to_define') }}
-    </span>
-@endif
-
     </div>
 
 </div>
-
                     @if (!$this->esAdmin())
                         <div class="panel-divider"></div>
 
@@ -457,7 +489,77 @@
     @endif
 
 </div>
+<style>
+ .premium-condition-card,
+.podium-prizes-card {
+    height: 100%;
+    border-radius: 1.2rem;
+    padding: 1.2rem;
+    background: linear-gradient(135deg, #ffffff 0%, #fff7f2 100%);
+    border: 1px solid rgba(255, 69, 0, .15);
+    box-shadow: 0 10px 28px rgba(0,0,0,.06);
+}
 
+.premium-card-title {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-size: .78rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #6c757d;
+    margin-bottom: .9rem;
+}
+
+.premium-card-title i {
+    color: #ff4500;
+}
+
+.premium-card-text {
+    font-weight: 800;
+    color: #212529;
+    line-height: 1.45;
+}
+
+.podium-prizes-list {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+}
+
+.podium-prize-card {
+    border-radius: 1rem;
+    padding: .85rem;
+    background: #fff;
+    border: 1px solid rgba(255, 69, 0, .12);
+    box-shadow: 0 6px 16px rgba(0,0,0,.04);
+}
+
+.podium-rank {
+    display: inline-block;
+    border-radius: 999px;
+    background: #ff4500;
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 900;
+    padding: .28rem .65rem;
+    margin-bottom: .45rem;
+}
+
+.podium-reward {
+    font-weight: 900;
+    color: #212529;
+    line-height: 1.35;
+    word-break: break-word;
+}
+
+@media(max-width:768px) {
+    .premium-condition-card,
+    .podium-prizes-card {
+        padding: 1rem;
+    }
+}
+</style>
 <style>
     .group-panel-title {
         font-size: 2.4rem;

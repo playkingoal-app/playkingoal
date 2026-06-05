@@ -166,7 +166,9 @@ public function agregarPremio()
             abort(403);
 
         $this->validate([
-            'api_league_id' => 'required|exists:api_leagues,id',
+          'api_league_id' => 'required|exists:api_leagues,id',
+    'premios.*.posicion' => 'required|integer|min:1|max:1000',
+    'premios.*.premio' => 'nullable|string|max:255',
 
         ]);
 
