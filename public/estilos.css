@@ -928,6 +928,8 @@ termina codigo
 .sidebar.show .toggle-btn-close {
   opacity: 1;
   pointer-events: auto;
+  color: #fff !important;
+
 }
 
 /* Ocultar hamburguesa cuando sidebar abierto */
