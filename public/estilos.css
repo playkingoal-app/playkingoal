@@ -276,11 +276,11 @@ a {
     cursor:pointer;
 
     box-shadow:
-    0 .4rem 1rem rgba(0,0,0,.08),
+    0 .4rem 1rem rgba(0,0,0,.08);
 
 
     transition:
-    transform .25s ease,
+transform .25s ease,
     box-shadow .25s ease;
 }
 
