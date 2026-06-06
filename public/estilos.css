@@ -1021,7 +1021,7 @@ termina codigo
   z-index: 1110;
   background: #1e40af;
   border: none;
-  color: #fff;
+  color: #fff !important;
   font-size: 1.5rem;
   border-radius: 0.5rem;
   padding: 0.3rem 0.6rem;
@@ -1065,6 +1065,7 @@ termina codigo
 @media (max-width: 992px) {
   .sidebar {
     position: fixed; /* sigue fijo para no afectar el contenido */
+    
   }
 }
 

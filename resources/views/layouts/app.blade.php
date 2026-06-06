@@ -77,7 +77,7 @@
 
         <!-- Sidebar -->
         <div class="sidebar">
-            <button id="closeBtn" class="toggle-btn-close" onclick="closeSidebar()">✖</button>
+            <button id="closeBtn" class="toggle-btn-close" onclick="closeSidebar()">    <i class="fa-solid fa-xmark"></i></button>
             <a class="navbar-brand" href="{{ url('/home') }}">El Rey Del Gol</a>
 
             @auth()
