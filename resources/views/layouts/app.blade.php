@@ -22,7 +22,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 
     {{-- <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet"> --}}
-       <link rel="stylesheet" href="{{ asset('estilos.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('estilos.css') }}?v={{ time() }}">
 
     <!-- datatable -->
     @yield('css')
@@ -40,10 +40,10 @@
 
 
         <button id="toggleBtn" class="toggle-btn" onclick="toggleSidebar()" aria-label="Abrir menú">
-    <span></span>
-    <span></span>
-    <span></span>
-</button>
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
         <div id="langSelector" class="language-dropdown">
             <div class="selected-lang" onclick="toggleLangDropdown()">
                 @if (app()->getLocale() === 'en')
@@ -77,7 +77,9 @@
 
         <!-- Sidebar -->
         <div class="sidebar">
-            <button id="closeBtn" class="toggle-btn-close" onclick="closeSidebar()">    <i class="fa-solid fa-xmark"></i></button>
+            <button class="toggle-btn-close" type="button" aria-label="Cerrar menú">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
             <a class="navbar-brand" href="{{ url('/home') }}">El Rey Del Gol</a>
 
             @auth()
@@ -92,8 +94,8 @@
                         @endcan
                         @can('modulo-resultados')
                             <li class="nav-item">
-                                <a href="{{ url('/results') }}" class="nav-link">       <i class="fa-solid fa-chart-simple"
-                   style="color: #ff6600 !important"></i>
+                                <a href="{{ url('/results') }}" class="nav-link"> <i class="fa-solid fa-chart-simple"
+                                        style="color: #ff6600 !important"></i>
                                     {{ __('navbar.results') }}</a>
                             </li>
                         @endcan
@@ -158,11 +160,11 @@
 
                     @role('Jugador')
                         @if (auth()->user()->tieneInscripcionActiva())
-                           @if (auth()->user()->tieneSuscripcionActiva())
+                            @if (auth()->user()->tieneSuscripcionActiva())
                                 <li class="nav-item">
                                     <a href="{{ url('/matchdays') }}" class="nav-link">
                                         <i class="bi bi-calendar-day"></i>
-                                          {{ __('navbar.rounds') }}
+                                        {{ __('navbar.rounds') }}
                                     </a>
                                 </li>
                             @endif
@@ -175,8 +177,8 @@
                             @endcan
                             @can('modulo-resultados')
                                 <li class="nav-item">
-                                    <a href="{{ url('/results') }}" class="nav-link">       <i class="fa-solid fa-chart-simple"
-                   style="color: #ff6600 !important"></i>
+                                    <a href="{{ url('/results') }}" class="nav-link"> <i class="fa-solid fa-chart-simple"
+                                            style="color: #ff6600 !important"></i>
                                         {{ __('navbar.results') }}</a>
                                 </li>
                             @endcan
@@ -204,7 +206,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/my-invitations') }}"><i
                                         class="fa-solid fa-envelope-circle-check" style="color: #ff6600 !important"></i>
-                                   {{ __('navbar.my_invitations') }}
+                                    {{ __('navbar.my_invitations') }}
 
                                 </a>
                             </li>
@@ -221,11 +223,11 @@
                                 </li>
                             @endcan
                         @else
-                          @if (auth()->user()->tieneSuscripcionActiva())
+                            @if (auth()->user()->tieneSuscripcionActiva())
                                 <li class="nav-item">
                                     <a href="{{ url('/matchdays') }}" class="nav-link">
                                         <i class="bi bi-calendar-day"></i>
-                                         {{ __('navbar.rounds') }}
+                                        {{ __('navbar.rounds') }}
                                     </a>
                                 </li>
                             @endif
@@ -248,13 +250,13 @@
                             <li class="nav-item">
                                 <a href="{{ url('/groups') }}" class="nav-link"><i class="fa-solid fa-users"
                                         style="color: #ff6600 !important"></i>
-                                   {{ __('navbar.my_groups') }}
+                                    {{ __('navbar.my_groups') }}
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/my-invitations') }}"><i
                                         class="fa-solid fa-envelope-circle-check" style="color: #ff6600 !important"></i>
-                                 {{ __('navbar.my_invitations') }}
+                                    {{ __('navbar.my_invitations') }}
                                 </a>
                             </li>
                             @can('modulo-perfil')
@@ -357,74 +359,74 @@
             });
         </script>
         <script>
-const toggleBtn = document.getElementById('toggleBtn');
-const langSelector = document.getElementById('langSelector');
-const sidebar = document.querySelector('.sidebar');
-const overlay = document.querySelector('.overlay');
-const closeBtn = document.querySelector('.toggle-btn-close');
+            const toggleBtn = document.getElementById('toggleBtn');
+            const langSelector = document.getElementById('langSelector');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            const closeBtn = document.querySelector('.toggle-btn-close');
 
-function hideTopControls() {
-    toggleBtn?.classList.add('hidden-control');
-    langSelector?.classList.add('hidden-control');
-}
+            function hideTopControls() {
+                toggleBtn?.classList.add('hidden-control');
+                langSelector?.classList.add('hidden-control');
+            }
 
-function showTopControls() {
-    toggleBtn?.classList.remove('hidden-control');
-    langSelector?.classList.remove('hidden-control');
-}
+            function showTopControls() {
+                toggleBtn?.classList.remove('hidden-control');
+                langSelector?.classList.remove('hidden-control');
+            }
 
-function toggleSidebar() {
-    sidebar.classList.toggle('show');
-    overlay.classList.toggle('show');
+            function toggleSidebar() {
+                sidebar.classList.toggle('show');
+                overlay.classList.toggle('show');
 
-    if (sidebar.classList.contains('show')) {
-        hideTopControls();
-    } else if (window.scrollY <= 1) {
-        showTopControls();
-    }
-}
+                if (sidebar.classList.contains('show')) {
+                    hideTopControls();
+                } else if (window.scrollY <= 1) {
+                    showTopControls();
+                }
+            }
 
-function closeSidebar() {
-    sidebar.classList.remove('show');
-    overlay.classList.remove('show');
+            function closeSidebar() {
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
 
-    if (window.scrollY <= 1) {
-        showTopControls();
-    }
-}
+                if (window.scrollY <= 1) {
+                    showTopControls();
+                }
+            }
 
-closeBtn?.addEventListener('click', closeSidebar);
-overlay?.addEventListener('click', closeSidebar);
+            closeBtn?.addEventListener('click', closeSidebar);
+            overlay?.addEventListener('click', closeSidebar);
 
-window.addEventListener('scroll', () => {
-    if (sidebar.classList.contains('show')) {
-        hideTopControls();
-        return;
-    }
+            window.addEventListener('scroll', () => {
+                if (sidebar.classList.contains('show')) {
+                    hideTopControls();
+                    return;
+                }
 
-    if (window.scrollY <= 1) {
-        showTopControls();
-    } else {
-        hideTopControls();
-    }
-});
+                if (window.scrollY <= 1) {
+                    showTopControls();
+                } else {
+                    hideTopControls();
+                }
+            });
 
-function toggleLangDropdown() {
-    const dropdown = document.getElementById('langDropdown');
+            function toggleLangDropdown() {
+                const dropdown = document.getElementById('langDropdown');
 
-    dropdown.style.display =
-        dropdown.style.display === 'block' ? 'none' : 'block';
-}
+                dropdown.style.display =
+                    dropdown.style.display === 'block' ? 'none' : 'block';
+            }
 
-document.addEventListener('click', function(event) {
-    const dropdown = document.getElementById('langDropdown');
-    const selector = document.querySelector('.language-dropdown');
+            document.addEventListener('click', function(event) {
+                const dropdown = document.getElementById('langDropdown');
+                const selector = document.querySelector('.language-dropdown');
 
-    if (selector && !selector.contains(event.target)) {
-        dropdown.style.display = 'none';
-    }
-});
-</script>
+                if (selector && !selector.contains(event.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        </script>
 
 
 </body>
