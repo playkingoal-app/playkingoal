@@ -23,7 +23,8 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{!! asset('estilos.css') !!}">
+        <link rel="stylesheet" href="{{ asset('estilos.css') }}?v={{ time() }}">
+
 
     @yield('css')
 
