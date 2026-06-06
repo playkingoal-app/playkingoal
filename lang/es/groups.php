@@ -20,4 +20,10 @@ return [
     'plan_group_limit_reached' => 'Has alcanzado el límite de grupos de tu plan.',
     'not_defined' => 'Sin definir',
     'group_created_success' => 'Grupo creado con éxito',
+    
+    'tournament_without_group' => 'Ce tournoi n’a pas de groupe associé.',
+'already_requested_or_member' => 'Vous avez déjà une demande ou vous appartenez déjà à ce groupe.',
+'request_sent_wait_approval' => '✔ Demande envoyée. Veuillez attendre l’approbation de l’administrateur du groupe.',
+'request_sent_check_email' => '✔ Demande envoyée avec succès. Consultez l’e-mail de votre compte pour poursuivre le processus d’accès.',
+
 ];

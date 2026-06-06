@@ -1,9 +1,13 @@
 <?php
 
 return [
+    'name' => 'Rey del Gol',
     'my_predictions' => 'Mis Pronosticos',
     'results' => 'Resultados',
     'matches' => 'Partidos',
+    'my_invitations' => 'Mis invitaciones',
+    'my_groups' => 'Mis grupos',
+    'plans' => 'Planes',
     'tournaments' => 'Torneos',
     'rounds' => 'Jornadas',
     'teams' => 'Equipos',

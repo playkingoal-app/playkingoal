@@ -100,5 +100,13 @@ return [
 'request_rejected' => 'Request rejected.',
 'no_tournament_assigned_yet' => 'There is no tournament assigned to this group yet.',
 'join_success' => 'You are already registered for the group tournament. You can now make predictions.',
+
+
+
+    'prizes_by_position' => 'Prizes by position',
+'prizes_help' => 'Define which position will receive each group prize.',
+'position' => 'Position',
+'position_placeholder' => 'Ex: 1, 2, 3...',
+'prize_example' => 'Ex: Trophy, Medal, Special reward...',
 'add_prize' => 'Add another prize',
 ];

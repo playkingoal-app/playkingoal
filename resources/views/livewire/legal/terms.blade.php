@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ __('terms.title') }} | El Rey del Gol</title>
+    <title>{{ __('terms.title') }} | {{ __('navbar.name') }} </title>
 
     {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,7 +17,45 @@
 </head>
 
 <body style="background: #f8fafc;">
+<div class="language-dropdown">
 
+    <div class="selected-lang" onclick="toggleLangDropdown()">
+
+        @if (app()->getLocale() === 'en')
+            <img src="{{ asset('img/en.png') }}?v={{ time() }}" alt="EN">
+        @elseif (app()->getLocale() === 'fr')
+            <img src="{{ asset('img/fr.png') }}?v={{ time() }}" alt="FR">
+        @else
+            <img src="{{ asset('img/es.png') }}?v={{ time() }}" alt="ES">
+        @endif
+
+    </div>
+
+    <div id="langDropdown" class="lang-options">
+
+        <form action="{{ route('change.language') }}" method="POST">
+            @csrf
+
+            <button type="submit" name="locale" value="en">
+                <img src="{{ asset('img/en.png') }}" alt="en">
+                {{ __('navbar.language_english') }}
+            </button>
+
+            <button type="submit" name="locale" value="fr">
+                <img src="{{ asset('img/fr.png') }}" alt="fr">
+                {{ __('navbar.language_french') }}
+            </button>
+
+            <button type="submit" name="locale" value="es">
+                <img src="{{ asset('img/es.png') }}" alt="es">
+                {{ __('navbar.language_spanish') }}
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
 <div class="container py-5">
 
     {{-- HEADER --}}
@@ -40,7 +78,7 @@
     {{-- CARD --}}
     <div class="legal-card">
 
-        @for($i = 1; $i <= 10; $i++)
+        @for($i = 1; $i <= 21; $i++)
 
             <div class="legal-section">
 
@@ -84,7 +122,114 @@
     body {
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
+.language-dropdown {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 999;
+    transition: .25s ease;
+}
 
+.language-dropdown.hide-on-scroll {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
+
+.selected-lang {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 .4rem 1rem rgba(0, 0, 0, .08);
+    transition: .2s ease;
+}
+
+.selected-lang:hover {
+    transform: translateY(-2px);
+}
+
+.selected-lang img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.lang-options {
+    display: none;
+    position: absolute;
+    top: 65px;
+    right: 0;
+    width: 220px;
+    background: #fff;
+    border-radius: 1rem;
+    border: 1px solid #dee2e6;
+    box-shadow: 0 .7rem 1.8rem rgba(0, 0, 0, .10);
+    overflow: hidden;
+    animation: fadeDropdown .18s ease;
+}
+
+.lang-options button {
+    width: 100%;
+    border: none;
+    background: transparent;
+    padding: .9rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    transition: .2s ease;
+    font-weight: 600;
+}
+
+.lang-options button:hover {
+    background: #f8f9fa;
+}
+
+.lang-options img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+}
+
+@keyframes fadeDropdown {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media(max-width: 768px) {
+    .container.py-5 {
+        padding-top: 7rem !important;
+    }
+
+    .language-dropdown {
+        top: 18px;
+        right: 18px;
+    }
+
+    .selected-lang {
+        width: 44px;
+        height: 44px;
+    }
+
+    .selected-lang img {
+        width: 24px;
+        height: 24px;
+    }
+}
     .legal-icon {
         width: 90px;
         height: 90px;
@@ -213,6 +358,39 @@
     }
 
 </style>
+<script>
+    function toggleLangDropdown() {
+        const dropdown = document.getElementById('langDropdown');
 
+        dropdown.style.display =
+            dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('langDropdown');
+        const selector = document.querySelector('.language-dropdown');
+
+        if (selector && !selector.contains(event.target)) {
+            dropdown.style.display = 'none';
+        }
+    });
+</script>
+
+<script>
+    const languageDropdown = document.querySelector('.language-dropdown');
+
+    function updateLanguageDropdown() {
+        if (!languageDropdown) return;
+
+        if (window.scrollY >= 40) {
+            languageDropdown.classList.add('hide-on-scroll');
+        } else {
+            languageDropdown.classList.remove('hide-on-scroll');
+        }
+    }
+
+    window.addEventListener('load', updateLanguageDropdown);
+    window.addEventListener('scroll', updateLanguageDropdown);
+</script>
 </body>
 </html>

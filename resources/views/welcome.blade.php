@@ -16,12 +16,14 @@
 
     @livewireStyles
 </head>
+
+{{--
 <a href="https://wa.me/0000000000" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
 
     <i class="bi bi-whatsapp"></i>
 
 </a>
-
+--}}
 <body>
 
     @php
@@ -338,7 +340,7 @@
 
     </section>
 
-   {{-- GRUPO PATROCINADO --}}
+   {{-- GRUPO DESTACADO --}}
 <section id="grupo-oficial" class="landing-section bg-light">
 
     <div class="container">
@@ -820,7 +822,97 @@
             color: #fff !important;
             background: rgba(255, 255, 255, .07);
         }
+/* FIX IDIOMA LANDING */
+/* SELECTOR IDIOMA LANDING ORIGINAL */
+.landing-navbar .lang-options button {
+    color: #fff !important;
+}
 
+.landing-navbar .lang-options button:hover {
+    color: #fff !important;
+    background: rgba(255,255,255,.06) !important;
+}
+.landing-navbar .language-dropdown2{
+    position:relative;
+    display:flex;
+    align-items:center;
+}
+
+.landing-navbar .selected-lang{
+
+    width:38px;
+    height:38px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    border:2px solid #1e40af;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 .3rem .8rem rgba(0,0,0,.10);
+
+    padding:0;
+}
+
+.landing-navbar .selected-lang img{
+
+    width:22px !important;
+    height:22px !important;
+
+    min-width:22px !important;
+    min-height:22px !important;
+
+    max-width:22px !important;
+    max-height:22px !important;
+
+    border-radius:50%;
+    object-fit:cover;
+
+    display:block;
+}
+
+.landing-navbar .lang-options{
+
+    position:absolute;
+
+    top:115%;
+    right:0;
+
+    min-width:170px;
+
+    background:#111827;
+
+    border-radius:1rem;
+
+    overflow:hidden;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+    0 1rem 2rem rgba(0,0,0,.22);
+
+    display:none;
+
+    z-index:9999;
+}
+
+.landing-navbar .lang-options img{
+
+    width:20px !important;
+    height:20px !important;
+
+    border-radius:50%;
+}
+/** **/
         .landing-button,
         .landing-login-link,
         .landing-outline-button,

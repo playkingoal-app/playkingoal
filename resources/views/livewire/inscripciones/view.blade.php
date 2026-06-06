@@ -1,3 +1,4 @@
+<div>
 @section('title', __('subscriptions.title'))
 
 {{-- Bootstrap Icons --}}
@@ -8,13 +9,13 @@
 
     {{-- Mensajes flash --}}
     @if (session()->has('success'))
-        <div class="alert alert-success text-center shadow-sm rounded-4">
+        <div wire:poll.4s class="alert alert-success text-center shadow-sm rounded-4">
             {{ session('success') }}
         </div>
     @endif
 
     @if (session()->has('error'))
-        <div class="alert alert-danger text-center shadow-sm rounded-4">
+        <div wire:poll.4s class="alert alert-danger text-center shadow-sm rounded-4">
             {{ session('error') }}
         </div>
     @endif
@@ -101,7 +102,7 @@
                                     {{ $inscripcion->torneo->nombre_torneo }}
                                 </h5>
 
-                                <span class="badge rounded-pill px-3 py-2 bg-{{ $inscripcion->estado_pago === 'activo' ? 'success' : 'warning' }}-subtle text-{{ $inscripcion->estado_pago === 'activo' ? 'success' : 'warning' }}-emphasis">
+                                <span class="badge rounded-pill px-3 py-2 bg-{{ $inscripcion->estado_pago === 'activa' ? 'success' : 'warning' }}-subtle text-{{ $inscripcion->estado_pago === 'activa' ? 'success' : 'warning' }}-emphasis">
                                     {{ ucfirst($inscripcion->estado_pago) }}
                                 </span>
 
@@ -346,23 +347,21 @@
                         </p>
 
                     </div>
+<div class="sponsored-access-actions">
 
-                    <form wire:submit.prevent="inscribirse">
+    <button type="button"
+            class="sponsored-access-primary"
+            wire:click="inscribirse"
+            data-bs-dismiss="modal"
+            wire:loading.attr="disabled"
+            wire:target="inscribirse">
 
-                        <div class="sponsored-access-actions">
+        <i class="bi bi-send-check-fill"></i>
+        {{ __('subscriptions.request_access') }}
 
-                         
-                            <button type="submit"
-                                    class="sponsored-access-primary"
-                                    wire:loading.attr="disabled"
-                                    wire:target="inscribirse">
-                                <i class="bi bi-send-check-fill"></i>
-                                {{ __('subscriptions.request_access') }}
-                            </button>
+    </button>
 
-                        </div>
-
-                    </form>
+</div>
 
                 </div>
 
@@ -795,3 +794,4 @@
         }, 300);
     });
 </script>
+</div>

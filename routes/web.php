@@ -49,8 +49,8 @@ Route::middleware('auth')->group(function () {
 
     
 
-Route::get('/planes', [SuscripcionesController::class, 'index'])->name('planes');
-Route::get('/planes/checkout/{plan}', [SuscripcionesController::class, 'checkout'])->name('planes.checkout');
+Route::get('/plans', [SuscripcionesController::class, 'index'])->name('planes');
+Route::get('/plans/checkout/{plan}', [SuscripcionesController::class, 'checkout'])->name('planes.checkout');
 Route::get('/suscripcion/success', [SuscripcionesController::class, 'success'])->name('suscripcion.success');
 Route::get('/suscripcion/cancel', [SuscripcionesController::class, 'cancel'])->name('suscripcion.cancel');
 });
@@ -100,14 +100,14 @@ Route::middleware(['auth'])->group(function () {
    
     Route::view('groups/{grupo}/join', 'livewire.grupos.join')->name('groups.join');
 
-       Route::get('groups/codigo/{codigo}', function ($codigo) {
+       Route::get('groups/code/{codigo}', function ($codigo) {
     $grupo = \App\Models\Grupo::where('codigo_invitacion', $codigo)->firstOrFail();
     return redirect()->route('groups.join', $grupo->id);
 })->name('groups.join.codigo');
 
   // Jugador: ver invitaciones / grupos donde participa
-    Route::view('mis-invitaciones', 'livewire.grupos.invitaciones')
-        ->name('mis-invitaciones');
+    Route::view('my-invitations', 'livewire.grupos.invitaciones')
+        ->name('my-invitations');
         Route::view('groups/{grupo}', 'livewire.grupos.panel')
     ->middleware('auth')
     ->name('groups.panel');
@@ -175,7 +175,7 @@ Route::post('/change-language', function (Request $request) {
 Route::post('/change-country', function () {
 
     request()->validate([
-        'country_code' => 'required|in:CO,ES,FR,US'
+        'country_code' => 'required|in:CO,EU,US'
     ]);
 
     session([

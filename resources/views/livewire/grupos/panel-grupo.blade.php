@@ -189,21 +189,17 @@
                     {{ __('group_panel.prizes_help') }}
                 </p>
             </div>
-
-            <span class="prize-count">
-                {{ count($premios) }}
-            </span>
         </div>
 
         @foreach ($premios as $index => $item)
-            <div class="prize-row">
+            <div class="prize-config-card">
 
-                <div class="prize-number">
+                <div class="prize-config-badge">
                     <i class="fa-solid fa-award"></i>
-                    <span>{{ $index + 1 }}</span>
+                    <span>#{{ $item['posicion'] ?? $index + 1 }}</span>
                 </div>
 
-                <div class="prize-fields">
+                <div class="prize-config-fields">
                     <div>
                         <label class="prize-small-label">
                             {{ __('group_panel.position') }}
@@ -236,11 +232,7 @@
             </div>
         @endforeach
 
-        <button
-            type="button"
-            class="prize-add-button"
-            wire:click="agregarPremio"
-        >
+        <button type="button" class="prize-add-button" wire:click="agregarPremio">
             <i class="fa-solid fa-plus me-1"></i>
             {{ __('group_panel.add_prize') }}
         </button>
@@ -406,11 +398,11 @@
                         {{ __('group_panel.invitation_link') }}
                     </label>
 
-                    <div class="input-group">
+                    <div class="input-group invite-wrapper">
                         <input type="text" class="form-control panel-input" value="{{ $linkInvitacion }}"
                             readonly>
 
-                        <button class="panel-copy-button"
+                        <button class="panel-copy-button "
                             onclick="navigator.clipboard.writeText('{{ $linkInvitacion }}')">
                             <i class="fa-regular fa-copy me-1"></i>
                             {{ __('group_panel.copy') }}
@@ -489,6 +481,131 @@
     @endif
 
 </div>
+<style>
+.prize-section {
+    border: 1px solid #dee2e6;
+    border-radius: 1.2rem;
+    padding: 1.2rem;
+    background: linear-gradient(135deg, #ffffff 0%, #fff7f2 100%);
+}
+
+.prize-section-header {
+    margin-bottom: 1rem;
+}
+
+.prize-help {
+    color: #6c757d;
+    font-size: .9rem;
+    margin: 0;
+}
+
+.prize-config-card {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    background: #fff;
+    border: 1px solid rgba(255, 69, 0, .14);
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: .85rem;
+    box-shadow: 0 6px 16px rgba(0,0,0,.04);
+}
+
+.prize-config-badge {
+    min-width: 56px;
+    height: 56px;
+    border-radius: 1rem;
+    background: #fff4ef;
+    color: #ff4500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    flex-shrink: 0;
+}
+
+.prize-config-fields {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: .85rem;
+}
+
+.prize-small-label {
+    display: block;
+    font-size: .75rem;
+    font-weight: 900;
+    color: #6c757d;
+    margin-bottom: .35rem;
+    text-transform: uppercase;
+}
+
+.prize-add-button {
+    width: 100%;
+    border: 1px dashed #ff4500;
+    background: #fff;
+    color: #ff4500;
+    border-radius: 999px;
+    padding: .85rem 1rem;
+    font-weight: 900;
+    transition: all .22s ease;
+}
+
+.prize-add-button:hover {
+    background: #ff4500;
+    color: #fff;
+}
+
+@media(max-width: 768px) {
+    .prize-config-card {
+        flex-direction: column;
+    }
+
+    .prize-config-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .prize-config-badge {
+        width: 100%;
+        height: auto;
+        padding: .6rem;
+        flex-direction: row;
+        gap: .4rem;
+        border-radius: 999px;
+    }
+    @media(max-width:768px){
+
+    .input-group {
+        flex-wrap: nowrap !important;
+    }
+
+    .panel-copy-button {
+        width: auto !important;
+        flex: 0 0 auto !important;
+        padding: 0 .9rem !important;
+        font-size: .78rem !important;
+    }
+}
+}
+@media(max-width:768px){
+
+    .invite-wrapper{
+        display: flex !important;
+        align-items: stretch !important;
+    }
+
+    .invite-wrapper .panel-input{
+        border-right: 0 !important;
+    }
+
+    .invite-wrapper .panel-copy-button{
+        display: flex !important;
+        align-items: center !important;
+        margin: 0 !important;
+    }
+}
+</style>
 <style>
  .premium-condition-card,
 .podium-prizes-card {

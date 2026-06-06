@@ -11,7 +11,7 @@
     <title>
         @hasSection('title')
             @yield('title') |
-        @endif El Rey Del Gol
+        @endif {{ __('navbar.name') }}
     </title>
 
     <!-- Fonts -->
@@ -38,7 +38,11 @@
     <div id="app">
 
 
-        <button id="toggleBtn" class="toggle-btn" onclick="toggleSidebar()">☰</button>
+        <button id="toggleBtn" class="toggle-btn" onclick="toggleSidebar()" aria-label="Abrir menú">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
         <div id="langSelector" class="language-dropdown">
             <div class="selected-lang" onclick="toggleLangDropdown()">
                 @if (app()->getLocale() === 'en')
@@ -157,7 +161,7 @@
                                 <li class="nav-item">
                                     <a href="{{ url('/matchdays') }}" class="nav-link">
                                         <i class="bi bi-calendar-day"></i>
-                                        Jornadas
+                                          {{ __('navbar.rounds') }}
                                     </a>
                                 </li>
                             @endif
@@ -197,15 +201,17 @@
                                     {{ __('navbar.registrations') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/mis-invitaciones') }}"><i
+                                <a class="nav-link" href="{{ url('/my-invitations') }}"><i
                                         class="fa-solid fa-envelope-circle-check" style="color: #ff6600 !important"></i>
-                                    Mis invitaciones
+                                   {{ __('navbar.my_invitations') }}
+
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ url('/groups') }}" class="nav-link"><i
                                         class="fa-solid fa-users"style="color: #ff6600 !important"></i>
-                                    Mis grupos</a>
+                                    {{ __('navbar.my_groups') }}
+                                </a>
                             </li>
                             @can('modulo-perfil')
                                 <li class="nav-item">
@@ -218,7 +224,7 @@
                                 <li class="nav-item">
                                     <a href="{{ url('/matchdays') }}" class="nav-link">
                                         <i class="bi bi-calendar-day"></i>
-                                        Jornadas
+                                         {{ __('navbar.rounds') }}
                                     </a>
                                 </li>
                             @endif
@@ -234,19 +240,20 @@
                             </li>
 
                             <li class="nav-item">
-                                <a href="{{ url('/planes') }}" class="nav-link"><i class="fa-solid fa-bag-shopping"
+                                <a href="{{ url('/plans') }}" class="nav-link"><i class="fa-solid fa-bag-shopping"
                                         style="color: #ff6600 !important"></i>
-                                    planes</a>
+                                    {{ __('navbar.plans') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ url('/groups') }}" class="nav-link"><i class="fa-solid fa-users"
                                         style="color: #ff6600 !important"></i>
-                                    Mis grupos</a>
+                                   {{ __('navbar.my_groups') }}
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/mis-invitaciones') }}"><i
+                                <a class="nav-link" href="{{ url('/my-invitations') }}"><i
                                         class="fa-solid fa-envelope-circle-check" style="color: #ff6600 !important"></i>
-                                    Mis invitaciones
+                                 {{ __('navbar.my_invitations') }}
                                 </a>
                             </li>
                             @can('modulo-perfil')
@@ -303,77 +310,9 @@
         @livewireScripts
         @yield('js')
         @stack('custom-scripts')
-<style>
-    #toggleBtn {
-    transition: opacity .25s ease, transform .25s ease;
-}
 
-#toggleBtn.hide {
-    opacity: 0;
-    transform: translateY(-15px);
-    pointer-events: none;
-}
-</style>
-<script>
-let lastScroll = 0;
 
-const toggleBtn = document.getElementById('toggleBtn');
-const sidebar = document.querySelector('.sidebar');
-const overlay = document.querySelector('.overlay');
-const closeBtn = document.querySelector('.toggle-btn-close');
 
-function hideToggleBtn() {
-    toggleBtn.classList.add('hide');
-}
-
-function showToggleBtn() {
-    toggleBtn.classList.remove('hide');
-}
-
-function toggleSidebar() {
-    sidebar.classList.toggle('show');
-    overlay.classList.toggle('show');
-
-    if (sidebar.classList.contains('show')) {
-        hideToggleBtn();
-    } else {
-        showToggleBtn();
-    }
-}
-
-closeBtn.addEventListener('click', () => {
-    sidebar.classList.remove('show');
-    overlay.classList.remove('show');
-    showToggleBtn();
-});
-
-window.addEventListener('scroll', () => {
-    const currentScroll = window.pageYOffset;
-
-    // Si el sidebar está abierto, el botón siempre queda oculto
-    if (sidebar.classList.contains('show')) {
-        hideToggleBtn();
-        return;
-    }
-
-    // Apenas haga scroll hacia abajo, se oculta
-    if (currentScroll > lastScroll && currentScroll > 1) {
-        hideToggleBtn();
-    }
-
-    // Si sube, aparece
-    if (currentScroll < lastScroll) {
-        showToggleBtn();
-    }
-
-    // Si vuelve arriba del todo, aparece
-    if (currentScroll <= 1) {
-        showToggleBtn();
-    }
-
-    lastScroll = currentScroll;
-});
-</script>
 
         <script type="module">
             const addModal = new bootstrap.Modal('#createDataModal');
@@ -417,26 +356,75 @@ window.addEventListener('scroll', () => {
             });
         </script>
         <script>
-            function toggleLangDropdown() {
-                const drop = document.getElementById('langDropdown');
-                drop.style.display = drop.style.display === 'block' ? 'none' : 'block';
-            }
-        </script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-            
+const toggleBtn = document.getElementById('toggleBtn');
+const langSelector = document.getElementById('langSelector');
+const sidebar = document.querySelector('.sidebar');
+const overlay = document.querySelector('.overlay');
+const closeBtn = document.querySelector('.toggle-btn-close');
 
-                window.addEventListener("scroll", () => {
-                    if (window.scrollY === 0) {
-                        // Solo si está totalmente arriba vuelve a aparecer
-                        langSelector.classList.remove("hidden-lang");
-                    } else {
-                        // Apenas baja, desaparece
-                        langSelector.classList.add("hidden-lang");
-                    }
-                });
-            });
-        </script>
+function hideTopControls() {
+    toggleBtn?.classList.add('hidden-control');
+    langSelector?.classList.add('hidden-control');
+}
+
+function showTopControls() {
+    toggleBtn?.classList.remove('hidden-control');
+    langSelector?.classList.remove('hidden-control');
+}
+
+function toggleSidebar() {
+    sidebar.classList.toggle('show');
+    overlay.classList.toggle('show');
+
+    if (sidebar.classList.contains('show')) {
+        hideTopControls();
+    } else if (window.scrollY <= 1) {
+        showTopControls();
+    }
+}
+
+function closeSidebar() {
+    sidebar.classList.remove('show');
+    overlay.classList.remove('show');
+
+    if (window.scrollY <= 1) {
+        showTopControls();
+    }
+}
+
+closeBtn?.addEventListener('click', closeSidebar);
+overlay?.addEventListener('click', closeSidebar);
+
+window.addEventListener('scroll', () => {
+    if (sidebar.classList.contains('show')) {
+        hideTopControls();
+        return;
+    }
+
+    if (window.scrollY <= 1) {
+        showTopControls();
+    } else {
+        hideTopControls();
+    }
+});
+
+function toggleLangDropdown() {
+    const dropdown = document.getElementById('langDropdown');
+
+    dropdown.style.display =
+        dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('langDropdown');
+    const selector = document.querySelector('.language-dropdown');
+
+    if (selector && !selector.contains(event.target)) {
+        dropdown.style.display = 'none';
+    }
+});
+</script>
+
 
 </body>
 

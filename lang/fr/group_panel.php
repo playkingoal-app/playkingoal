@@ -108,4 +108,11 @@ return [
 'no_tournament_assigned_yet' => 'Aucun tournoi n’est encore attribué à ce groupe.',
 'join_success' => 'Vous êtes déjà inscrit au tournoi du groupe. Vous pouvez maintenant faire vos pronostics.',
 'add_prize' => 'Ajouter un autre prix',
+
+ 'prizes_by_position' => 'Prix par position',
+'prizes_help' => 'Définissez quelle position recevra chaque récompense du groupe.',
+'position' => 'Position',
+'position_placeholder' => 'Ex : 1, 2, 3...',
+'prize_example' => 'Ex : Trophée, Médaille, Récompense spéciale...',
+
 ];

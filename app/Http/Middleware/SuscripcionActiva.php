@@ -10,7 +10,7 @@ class SuscripcionActiva
     public function handle($request, Closure $next)
     {
         if (!auth()->user()->tieneSuscripcionActiva()) {
-            return redirect('/planes');
+            return redirect('/plans');
         }
 
         return $next($request);

@@ -20,4 +20,6 @@ return [
     'plan_group_limit_reached' => 'Vous avez atteint la limite de groupes de votre abonnement.',
     'not_defined' => 'Non défini',
     'group_created_success' => 'Groupe créé avec succès',
+
+   
 ];

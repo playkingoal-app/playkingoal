@@ -16,7 +16,7 @@ return [
     'lang_es' => 'Spanish',
 
     'world_cup_pool' => 'World Cup pool',
-'brand' => 'The King of Goals',
+'brand' => 'The King of Goal',
 
 'brand_description' => 'The platform where every prediction matters and every match can change the standings.',
 

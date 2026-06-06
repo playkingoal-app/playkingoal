@@ -43,11 +43,61 @@ a {
   /* Centra verticalmente todos los items */
 }
 
-.navbar-brand {
-  color: #ffffff !important;
+.navbar-brand{
+    position:relative;
 
+    font-family:'Bebas Neue', sans-serif;
+
+    font-size:2rem;
+    letter-spacing:.04em;
+
+    color:#fff !important;
+
+    display:flex;
+    align-items:center;
+
+    margin-right:1.2rem;
+
+    transition:.25s ease;
+
+   
 }
 
+
+.navbar-brand::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-6px;
+
+    width:38px;
+    height:3px;
+
+    border-radius:999px;
+
+    background:#ff6600;
+
+    box-shadow:
+    0 0 14px rgba(255,102,0,.45);
+
+    transition:.25s ease;
+     padding-right:1.4rem;
+    margin-right:1rem;
+
+    border-right:1px solid rgba(255,255,255,.08);
+}
+
+.navbar-brand:hover{
+    transform:translateY(-1px);
+    color:#fff !important;
+}
+
+.navbar-brand:hover::after{
+    width:100%;
+}
 .platform-navbar .navbar-brand,
 .platform-navbar .nav-link {
   color: black !important;
@@ -122,102 +172,365 @@ a {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 /**
-    comienzo el codigo de seleccion de idioma
+    comienzo el codigo de seleccion de idioma y hamburguesa alineada
     **/
 
+/* =========================
+   CONTROLES SUPERIORES
+========================= */
 
-/* ====== Selector de idioma fijo ====== */
-.language-dropdown {
-    position: fixed;
-    top: 12px;
-    right: 15px;
-    z-index: 3000;
-}
-.language-dropdown2 {
-    position: relative;
-    display: flex;
-    align-items: center;
+.toggle-btn,
+.language-dropdown{
+    position:fixed;
+    top:20px;
+    z-index:1100;
 }
 
-/* Círculo visible siempre */
-.selected-lang {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 2px solid #1e40af;
-    overflow: hidden;
+/* =========================
+   HAMBURGUESA PREMIUM
+========================= */
+
+.toggle-btn{
+    left:20px;
+
+    width:52px;
+    height:52px;
+
+    border:1px solid #dee2e6 !important;
+    border-radius:50% !important;
+
+    background:#fff !important;
+
+    padding:0 !important;
+
+    display:flex !important;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+
+    cursor:pointer;
+
+    box-shadow:0 .4rem 1rem rgba(0,0,0,.08);
+
+    transition:
+    opacity .25s ease,
+    transform .25s ease,
+    visibility .25s ease,
+    box-shadow .25s ease;
+}
+
+.toggle-btn span{
+    display:block;
+
+    width:21px;
+    height:2px;
+
+    background:#1e40af;
+
+    border-radius:999px;
+
+    transition:.2s ease;
+}
+
+.toggle-btn:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 .7rem 1.5rem rgba(30,64,175,.16);
+}
+
+.toggle-btn:hover span{
+    background:#ff6600;
+}
+
+/* =========================
+   SELECTOR IDIOMA
+========================= */
+
+.language-dropdown{
+    right:20px;
+
+    transition:
+    opacity .25s ease,
+    transform .25s ease,
+    visibility .25s ease;
+}
+
+.language-dropdown .selected-lang{
+    width:36px;
+    height:36px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    border:2px solid #1e40af;
+
+    overflow:hidden;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    box-shadow:
+    0 .4rem 1rem rgba(0,0,0,.08),
+
+
+    transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.language-dropdown .selected-lang:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 .8rem 1.8rem rgba(30,64,175,.16),
+    0 0 0 5px rgba(30,64,175,.08);
+}
+
+.language-dropdown .selected-lang img{
+    width:24px !important;
+    height:24px !important;
+
+    max-width:34px !important;
+    max-height:34px !important;
+
+    object-fit:cover;
+
+    border-radius:50%;
+
+    display:block;
+}
+
+/* =========================
+   OCULTAR EN SCROLL
+========================= */
+
+.toggle-btn.hidden-control,
+.language-dropdown.hidden-control{
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(-12px);
+    pointer-events:none;
+}
+
+/* =========================
+   DROPDOWN IDIOMA
+========================= */
+
+.lang-options{
+    display:none;
+
+    position:absolute;
+
+    top:65px;
+    right:0;
+
+    width:220px;
+
+    background:#fff;
+
+    border-radius:16px;
+
+    border:1px solid rgba(30,64,175,.12);
+
+    overflow:hidden;
+
+    box-shadow:
+    0 16px 40px rgba(30,64,175,.12);
+}
+
+.lang-options button{
+    width:100%;
+
+    border:none;
+    background:transparent;
+
+    padding:.95rem 1rem;
+
+    display:flex;
+    align-items:center;
+    gap:.8rem;
+
+    font-weight:600;
+
+    color:#111827  !important;
+
+    transition:.2s ease;
+}
+
+.lang-options button:hover{
+    background:rgba(30,64,175,.05);
+    color:#1e40af;
+}
+
+.lang-options img{
+    width:24px;
+    height:24px;
+
+    border-radius:50%;
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media(max-width:575px){
+
+    .toggle-btn,
+    .language-dropdown{
+        top:18px !important;
+    }
+
+    .toggle-btn{
+        left:18px !important;
+
+        width:44px !important;
+        height:44px !important;
+
+        min-width:44px !important;
+        min-height:44px !important;
+    }
+
+    .language-dropdown{
+        right:18px !important;
+    }
+
+     .language-dropdown .selected-lang{
+        width:40px !important;
+        height:40px !important;
+        
+    }
+
+    .language-dropdown .selected-lang img{
+        width:24px !important;
+        height:24px !important;
+
+        max-width:24px !important;
+        max-height:24px !important;
+
+    }
+
+    .toggle-btn span{
+        width:18px !important;
+    }
+
+}
+@media(min-width: 992px) {
+    #toggleBtn.toggle-btn {
+        display: none !important;
+    }
+
+    .sidebar {
+        transform: none !important;
+    }
+
+    .content {
+        margin-left: 240px;
+    }
+}
+.sidebar .logo{
+    padding-bottom:1.2rem;
+    margin-bottom:1.4rem;
+
+    border-bottom:1px solid rgba(255,255,255,.06);
+}
+/**
+termina codigo
+**/
+/* =========================
+   TOOLTIPS PREMIUM
+========================= */
+
+.tooltip {
+    --bs-tooltip-bg: #ffffff;
+    --bs-tooltip-color: #1f2937;
+    --bs-tooltip-border-radius: 14px;
+    --bs-tooltip-padding-x: 14px;
+    --bs-tooltip-padding-y: 10px;
+    --bs-tooltip-font-size: 0.82rem;
+    --bs-tooltip-opacity: 1;
+
+    filter:
+        drop-shadow(0 10px 24px rgba(30,64,175,.18));
+}
+
+.tooltip .tooltip-inner {
+    border: 1px solid rgba(30,64,175,.12);
+
+    font-weight: 500;
+
+    line-height: 1.35;
+    letter-spacing: .01em;
+}
+
+.tooltip.bs-tooltip-top .tooltip-arrow::before {
+    border-top-color: #ffffff;
+}
+
+/* =========================
+   HELP ICON
+========================= */
+
+.help-icon {
+    color: #1e40af;
+
+    font-size: .9rem;
+
+    margin-left: .25rem;
+
     cursor: pointer;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s;
+
+    transition: .2s ease;
 }
 
-.selected-lang:hover {
+.help-icon:hover,
+.help-icon:focus,
+.help-icon:active {
+    color: #ff6600;
     transform: scale(1.08);
 }
 
-/* Imagen de bandera */
-.selected-lang img {
-    width: 24px;
-    height: 24px;
-    object-fit: cover;
-    border-radius: 50%;
-}
+/* =========================
+   MOBILE
+========================= */
 
-/* Opciones desplegables */
-.lang-options {
-    display: none;
-    position: absolute;
-    top: 45px;
-    right: 0;
-    background: #fff;
-    border: 2px solid #1e40af;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    padding: 4px 0;
-    min-width: 140px;
-}
+@media(max-width: 575px) {
 
-/* Cada botón de idioma */
-.lang-options button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 100%;
-    padding: 8px 12px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 0.9rem;
-    text-align: left;
-    transition: background 0.2s;
-}
-
-.lang-options button:hover {
-    background: #fff2c2;
-}
-
-/* Bandera dentro de las opciones */
-.lang-options img {
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-}
-
-/* Responsive (móvil) */
-@media (max-width: 768px) {
+    .toggle-btn,
     .language-dropdown {
-        top: 10px;
-        right: 10px;
+        top: 18px;
     }
-    .selected-lang {
-        width: 32px;
-        height: 32px;
-    }
-}
 
+    .toggle-btn {
+        left: 18px;
+
+        width: 44px;
+        height: 44px;
+    }
+
+    .toggle-btn span {
+        width: 18px;
+    }
+
+    .language-dropdown {
+        right: 18px;
+    }
+
+    .selected-lang {
+        width: 44px;
+        height: 44px;
+    }
+
+    .selected-lang img {
+        width: 24px ; 
+        height: 24px;
+    }
+
+}
 
 /**
     termina el codigo de seleccion de idioma
@@ -601,7 +914,7 @@ a {
   z-index: 1110;
   background: #1e40af;
   border: none;
-  color: #fff;
+  color: #fff !important;
   font-size: 1.5rem;
   border-radius: 0.5rem;
   padding: 0.3rem 0.6rem;

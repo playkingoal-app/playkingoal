@@ -119,7 +119,7 @@
 
                         <tbody>
 
-                            @forelse($pronosticos as $row)
+                            @foreach($pronosticos as $row)
 
                                 <tr>
 
@@ -148,21 +148,7 @@
                                     </td>
 
                                 </tr>
-
-                            @empty
-
-                                <tr>
-
-                                    <td colspan="7"
-                                        class="text-center text-muted py-4">
-
-                                        {{ __('allpronostics.no_predictions') }}
-
-                                    </td>
-
-                                </tr>
-
-                            @endforelse
+@endforeach
 
                         </tbody>
 
@@ -285,7 +271,7 @@
 @push('custom-scripts')
 
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
 

@@ -59,5 +59,12 @@ return [
 'request_rejected' => 'Solicitud rechazada.',
 'no_tournament_assigned_yet' => 'Aún no hay torneo asignado para este grupo.',
 'join_success' => 'Ya estás inscrito al torneo del grupo. Ahora puedes pronosticar.',
+
+
+    'prizes_by_position' => 'Premios por puesto',
+'prizes_help' => 'Define qué puesto recibirá cada premio del grupo.',
+'position' => 'Puesto',
+'position_placeholder' => 'Ej: 1, 2, 3...',
+'prize_example' => 'Ej: Trofeo, Medalla, Premio especial...',
 'add_prize' => 'Agregar otro premio',
 ];

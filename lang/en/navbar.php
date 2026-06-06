@@ -1,9 +1,13 @@
 <?php
 
 return [
+    'name' => 'King of Goal',
     'my_predictions' => 'My Predictions',
     'results' => 'Results',
     'matches' => 'Matches',
+    'my_invitations' => 'My invitations',
+    'my_groups' => 'My groups',
+    'plans' => 'Plans',
     'tournaments' => 'Tournaments',
     'rounds' => 'Matchdays',
     'teams' => 'Teams',

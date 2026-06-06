@@ -60,27 +60,23 @@
     <form method="POST" action="{{ route('change.country') }}">
         @csrf
 
-        <select
-            name="country_code"
-            class="form-select rounded-pill shadow-sm"
-            onchange="this.form.submit()"
-        >
-            <option value="CO" {{ session('country_code') === 'CO' ? 'selected' : '' }}>
-                🇨🇴 COP
-            </option>
+    <select
+    name="country_code"
+    class="form-select rounded-pill shadow-sm"
+    onchange="this.form.submit()"
+>
+    <option value="CO" {{ session('country_code') === 'CO' ? 'selected' : '' }}>
+        🇨🇴 COP
+    </option>
 
-            <option value="ES" {{ session('country_code') === 'ES' ? 'selected' : '' }}>
-                🇪🇸 EUR
-            </option>
+    <option value="US" {{ session('country_code') === 'US' ? 'selected' : '' }}>
+        🇺🇸 USD
+    </option>
 
-            <option value="FR" {{ session('country_code') === 'FR' ? 'selected' : '' }}>
-                🇫🇷 EUR
-            </option>
-
-            <option value="US" {{ session('country_code') === 'US' ? 'selected' : '' }}>
-                🇺🇸 USD
-            </option>
-        </select>
+    <option value="EU" {{ session('country_code') === 'FR' ? 'selected' : '' }}>
+        🇪🇺 EUR
+    </option>
+</select>
     </form>
 
 </div>

@@ -1,9 +1,13 @@
 <?php
 
 return [
+    'name' => 'Le Roi du But',
     'my_predictions' => 'Mes Pronostics',
     'results' => 'Résultats',
     'matches' => 'Matchs',
+    'my_invitations' => 'Mes invitations',
+    'my_groups' => 'Mes groupes',
+    'plans' => 'Plans',
     'tournaments' => 'Tournois',
     'rounds' => 'Journées',
     'teams' => 'Équipes',

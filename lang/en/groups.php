@@ -20,5 +20,9 @@ return [
     'plan_group_limit_reached' => 'You have reached the group limit of your plan.',
     'not_defined' => 'Not defined',
     'group_created_success' => 'Group created successfully',
+'tournament_without_group' => 'This tournament does not have an associated group.',
+'already_requested_or_member' => 'You already have a request or already belong to this group.',
+'request_sent_wait_approval' => '✔ Request sent. Please wait for the group administrator’s approval.',
+'request_sent_check_email' => '✔ Request sent successfully. Check your account email to continue the access process.',
 
 ];

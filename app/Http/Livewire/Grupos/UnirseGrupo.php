@@ -50,7 +50,7 @@ class UnirseGrupo extends Component
             ->exists();
 
         if ($existe) {
-            session()->flash('info', 'Ya tienes una solicitud o ya perteneces a este grupo.');
+               session()->flash('info', __('groups.already_requested_or_member'));
             return;
         }
 
@@ -63,7 +63,7 @@ class UnirseGrupo extends Component
         $this->estadoMiembro = 'pendiente';
         $this->rolMiembro = 'jugador';
 
-        session()->flash('success', ' ✔ Solicitud enviada. Espera aprobación del administrador del grupo.');
+       session()->flash('success', __('groups.request_sent_wait_approval'));
     }
 
     public function render()

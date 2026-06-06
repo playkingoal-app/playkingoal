@@ -12,7 +12,8 @@
         @hasSection('title')
             @yield('title') |
         @endif
-        El Rey Del Gol
+         {{ __('navbar.name') }}
+
     </title>
 
     <link rel="dns-prefetch" href="//fonts.gstatic.com">

@@ -17,8 +17,7 @@ class PlanSeeder extends Seeder
                 'max_usuarios_por_grupo' => 50,
                 'prices' => [
                     ['country_code' => 'CO', 'currency' => 'COP', 'amount' => 249900],
-                    ['country_code' => 'ES', 'currency' => 'EUR', 'amount' => 5900],
-                    ['country_code' => 'FR', 'currency' => 'EUR', 'amount' => 5900],
+                    ['country_code' => 'EU', 'currency' => 'EUR', 'amount' => 5900],
                     ['country_code' => 'US', 'currency' => 'USD', 'amount' => 6900],
                 ],
             ],
@@ -28,8 +27,7 @@ class PlanSeeder extends Seeder
                 'max_usuarios_por_grupo' => 200,
                 'prices' => [
                     ['country_code' => 'CO', 'currency' => 'COP', 'amount' => 499900],
-                    ['country_code' => 'ES', 'currency' => 'EUR', 'amount' => 11900],
-                    ['country_code' => 'FR', 'currency' => 'EUR', 'amount' => 11900],
+                    ['country_code' => 'EU', 'currency' => 'EUR', 'amount' => 11900],
                     ['country_code' => 'US', 'currency' => 'USD', 'amount' => 13900],
                 ],
             ],
@@ -39,8 +37,7 @@ class PlanSeeder extends Seeder
                 'max_usuarios_por_grupo' => 500,
                 'prices' => [
                     ['country_code' => 'CO', 'currency' => 'COP', 'amount' => 999900],
-                    ['country_code' => 'ES', 'currency' => 'EUR', 'amount' => 24900],
-                    ['country_code' => 'FR', 'currency' => 'EUR', 'amount' => 24900],
+                    ['country_code' => 'EU', 'currency' => 'EUR', 'amount' => 24900],
                     ['country_code' => 'US', 'currency' => 'USD', 'amount' => 28900],
                 ],
             ],
