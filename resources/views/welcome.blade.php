@@ -732,33 +732,44 @@
 
 
     {{-- FOOTER --}}
-    <footer class="landing-footer">
+   {{-- FOOTER --}}
+<footer class="landing-footer">
 
-        <div class="container text-center">
+    <div class="container text-center">
 
-            <h5>
-                {{ __('landing.brand') }}
-            </h5>
+        <h5>
+            {{ __('landing.brand') }}
+        </h5>
 
-            <p>
-                © {{ date('Y') }} {{ __('landing.footer_rights') }}
-            </p>
+        <p>
+            © {{ date('Y') }} {{ __('landing.footer_rights') }}
+        </p>
 
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <div class="d-flex justify-content-center gap-3 flex-wrap mb-3">
 
-                <a href="{{ route('terms') }}" class="hover:text-indigo-600 transition">
-                    {{ __('landing.terms') }}
-                </a>
+            <a href="{{ route('terms') }}" class="hover:text-indigo-600 transition">
+                {{ __('landing.terms') }}
+            </a>
 
-              <a href="{{ route('privacy') }}" class="hover:text-indigo-600 transition">
-                    {{ __('landing.privacy') }}
-                </a>
-
-            </div>
+            <a href="{{ route('privacy') }}" class="hover:text-indigo-600 transition">
+                {{ __('landing.privacy') }}
+            </a>
 
         </div>
 
-    </footer>
+        {{-- INSTAGRAM --}}
+        <a href="https://instagram.com/playkingoal"
+           target="_blank"
+           class="footer-instagram">
+
+            <i class="bi bi-instagram"></i>
+            Instagram
+
+        </a>
+
+    </div>
+
+</footer>
 
     <style>
         html,
