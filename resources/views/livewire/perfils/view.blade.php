@@ -25,7 +25,7 @@
     </div>
  {{-- ALERTA --}}
     @if (session('message'))
-        <div class="alert alert-success rounded-4 shadow-sm text-center mb-5">
+        <div  wire:poll.4s class="alert alert-success rounded-4 shadow-sm text-center mb-5">
             {{ session('message') }}
         </div>
     @endif
@@ -171,6 +171,37 @@
                         </div>
 
                     </div>
+<div class="col-md-6">
+
+    <div class="profile-info-card h-100">
+
+        <div class="profile-mini-icon success">
+            <i class="fa-solid fa-phone"></i>
+        </div>
+
+        <small class="text-muted d-block mb-1">
+            {{ __('profile.phone') }}
+        </small>
+
+        <div class="fw-bold">
+
+            @if(Auth::user()->phone)
+
+                {{ Auth::user()->phoneCountryCode?->dial_code }}
+                {{ Auth::user()->phone }}
+
+            @else
+
+                {{ __('profile.not_defined') }}
+
+            @endif
+
+        </div>
+
+    </div>
+
+</div>
+                    
 
                 </div>
 

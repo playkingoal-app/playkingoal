@@ -17,7 +17,9 @@ return new class extends Migration {
             $table->string('name');
             $table->string('email')->unique();
             $table->string('username')->unique();
+            $table->string('phone')->nullable();
             $table->bigInteger('country_id')->unsigned()->nullable();
+            $table->bigInteger('phone_country_code_id')->unsigned()->nullable();
             $table->integer('puntos')->nullable();
             $table->integer('puntos_aux')->nullable();
             $table->integer('total')->nullable();
@@ -29,6 +31,8 @@ return new class extends Migration {
             $table->timestamps();
             
             $table->foreign('country_id')->references('id')->on('countries')->onDelete("cascade");
+            $table->foreign('phone_country_code_id')->references('id')->on('phone_country_codes')->onDelete("cascade");
+
 
         });
     }

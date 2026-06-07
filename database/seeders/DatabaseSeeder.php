@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call([PlanSeeder::class,]);
         $this->call(RoleSeeder::class);
         $this->call(CountrySeeder::class);
+        $this->call(PhoneCountrySeeder::class);
+
 
         // \App\Models\User::factory(10)->create();
 

@@ -109,4 +109,14 @@ return [
 'position_placeholder' => 'Ex: 1, 2, 3...',
 'prize_example' => 'Ex: Trophy, Medal, Special reward...',
 'add_prize' => 'Add another prize',
+
+'organizer_contact' => 'Organizer contact',
+
+'organizer_contact_help' => 'If you have any questions about this group, you can contact its organizer directly.',
+
+'contact_verification_title' => 'Confirm your contact information',
+
+'contact_verification_text' => 'Your email and phone number may be visible to group participants. Make sure your information is correct and up to date.',
+
+'update_profile' => 'Update profile',
 ];

@@ -18,4 +18,11 @@ return [
     'code_copied' => 'Code copié!',
     'link_copied' => 'Lien copié!',
     'profile_updated' => 'Profil mis à jour avec succès.',
+    'phone_country' => 'Pays du téléphone',
+    'select_country_code' => 'Sélectionnez un pays',
+    'edit_profile' => 'Modifier le profil',
+    'country_cannot_be_changed' => 'Le pays du compte ne peut actuellement pas être modifié.',
+    'cancel' => 'Annuler',
+    'save_changes' => 'Enregistrer les modifications',
+    'phone_invalid' => 'Le numéro de téléphone doit contenir entre 8 et 15 chiffres.',
 ];

@@ -19,5 +19,10 @@ return [
     'register' => 'Register',
     'invite_code' => 'Invitation code (optional)',
     'invite_code_tooltip' => 'If someone invited you, enter their code so it gets recorded.',
+    'phone_country' => 'Country code',
+    'phone_country_tooltip' => 'Select your phone country',
+    'select_country_code' => 'Select country',
+    'phone' => 'Phone number',
+    'phone_tooltip' => 'Optional phone number',
 
 ];

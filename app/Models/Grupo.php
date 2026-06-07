@@ -21,6 +21,10 @@ class Grupo extends Model
         'requisito_entrada',
         'premio',
     ];
+    public function propietario()
+{
+    return $this->belongsTo(User::class, 'propietario_id');
+}
  public function usuarios()
 {
     return $this->belongsToMany(

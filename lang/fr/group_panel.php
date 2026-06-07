@@ -115,4 +115,14 @@ return [
 'position_placeholder' => 'Ex : 1, 2, 3...',
 'prize_example' => 'Ex : Trophée, Médaille, Récompense spéciale...',
 
+'organizer_contact' => 'Contact de l’organisateur',
+
+'organizer_contact_help' => 'Si vous avez des questions concernant ce groupe, vous pouvez contacter directement son organisateur.',
+
+'contact_verification_title' => 'Confirmez vos informations de contact',
+
+'contact_verification_text' => 'Votre email et numéro de téléphone peuvent être visibles par les participants du groupe. Assurez-vous que vos informations soient correctes et à jour.',
+
+'update_profile' => 'Mettre à jour le profil',
+
 ];

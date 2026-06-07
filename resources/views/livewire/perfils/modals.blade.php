@@ -89,7 +89,56 @@
                         @enderror
 
                     </div>
+{{-- TELEFONO --}}
+<div class="row">
 
+    <div class="col-md-5 mb-4">
+
+        <label for="phone_country_code_id" class="form-label fw-semibold">
+            {{ __('profile.phone_country') }}
+        </label>
+
+        <select id="phone_country_code_id"
+            wire:model.defer="phone_country_code_id"
+            class="form-select rounded-pill px-3 py-2">
+
+            <option value="">
+                {{ __('profile.select_country_code') }}
+            </option>
+
+            @foreach($phoneCountryCodes as $countryCode)
+                <option value="{{ $countryCode->id }}">
+                    {{ $countryCode->country }} ({{ $countryCode->dial_code }})
+                </option>
+            @endforeach
+
+        </select>
+
+        @error('phone_country_code_id')
+            <span class="text-danger small">{{ $message }}</span>
+        @enderror
+
+    </div>
+
+    <div class="col-md-7 mb-4">
+
+        <label for="phone" class="form-label fw-semibold">
+            {{ __('profile.phone') }}
+        </label>
+
+        <input type="text"
+            id="phone"
+            wire:model.defer="phone"
+            class="form-control rounded-pill px-3 py-2"
+            placeholder="3001234567">
+
+        @error('phone')
+            <span class="text-danger small">{{ $message }}</span>
+        @enderror
+
+    </div>
+
+</div>
                     {{-- INFO --}}
                     <div class="alert border-0 rounded-4 d-flex align-items-center gap-2"
                          style="background:#fff4ef; color:#ff6600;">
@@ -119,7 +168,7 @@
                 </button>
 <button type="button"
         class="profile-button primary"
-        onclick="@this.call('updateProfile')">
+        wire:click.prevent="updateProfile">
 
     <i class="fa-solid fa-floppy-disk me-1"></i>
     {{ __('profile.save_changes') }}

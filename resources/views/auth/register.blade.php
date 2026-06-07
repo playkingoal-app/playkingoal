@@ -505,7 +505,87 @@
                                 @enderror
 
                             </div>
+{{-- TELEFONO --}}
+<div class="row">
 
+    {{-- INDICATIVO --}}
+    <div class="col-md-5 mb-4">
+
+        <label for="phone_country_code_id" class="form-label">
+
+            {{ __('register.phone_country') }}
+
+            <i class="bi bi-info-circle help-icon"
+                data-bs-toggle="tooltip"
+                title="{{ __('register.phone_country_tooltip') }}"></i>
+
+        </label>
+
+        <select id="phone_country_code_id"
+            class="form-select @error('phone_country_code_id') is-invalid @enderror"
+            name="phone_country_code_id">
+
+            <option value="">
+                {{ __('register.select_country_code') }}
+            </option>
+
+            @foreach ($phoneCountryCodes as $countryCode)
+
+                <option value="{{ $countryCode->id }}"
+                    {{ old('phone_country_code_id') == $countryCode->id ? 'selected' : '' }}>
+
+                    {{ $countryCode->country }}
+                    ({{ $countryCode->dial_code }})
+
+                </option>
+
+            @endforeach
+
+        </select>
+
+        @error('phone_country_code_id')
+            <div class="invalid-feedback d-block">
+                {{ $message }}
+            </div>
+        @enderror
+
+    </div>
+
+    {{-- NUMERO --}}
+    <div class="col-md-7 mb-4">
+
+        <label for="phone" class="form-label">
+
+            {{ __('register.phone') }}
+
+            <i class="bi bi-info-circle help-icon"
+                data-bs-toggle="tooltip"
+                title="{{ __('register.phone_tooltip') }}"></i>
+
+        </label>
+
+        <div class="input-wrapper">
+
+            <input id="phone"
+                type="text"
+                class="form-control @error('phone') is-invalid @enderror"
+                name="phone"
+                value="{{ old('phone') }}"
+                placeholder="3001234567">
+
+            <i class="fa-solid fa-phone register-input-icon"></i>
+
+        </div>
+
+        @error('phone')
+            <div class="invalid-feedback d-block">
+                {{ $message }}
+            </div>
+        @enderror
+
+    </div>
+
+</div>
                             <div class="row">
 
                                 {{-- PASSWORD --}}

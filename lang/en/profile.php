@@ -18,4 +18,11 @@ return [
     'code_copied' => 'Code copied!',
     'link_copied' => 'Link copied!',
     'profile_updated' => 'Profile updated successfully.',
+    'phone_country' => 'Phone country',
+    'select_country_code' => 'Select a country',
+    'edit_profile' => 'Edit profile',
+    'country_cannot_be_changed' => 'The account country cannot currently be changed.',
+    'cancel' => 'Cancel',
+    'save_changes' => 'Save changes',
+    'phone_invalid' => 'The phone number must contain between 8 and 15 digits.',
 ];

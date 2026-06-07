@@ -19,7 +19,11 @@ return [
     'register' => 'Registrarse',
     'invite_code' => 'Código de invitación (opcional)',
     'invite_code_tooltip' => 'Si alguien te invitó, ingresa su código para que quede registrado.',
-
+    'phone_country' => 'País del teléfono',
+    'phone_country_tooltip' => 'Selecciona el país de tu teléfono',
+    'select_country_code' => 'Selecciona un país',
+    'phone' => 'Número de teléfono',
+    'phone_tooltip' => 'Número opcional',
 
 ];
 

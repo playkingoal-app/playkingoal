@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use App\Models\Grupo;
 use App\Models\Country;
 use App\Models\Suscripcione;
+use App\Models\PhoneCountryCode;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -23,6 +24,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'username',
         'country_id',
+        'phone_country_code_id',
+        'phone',
         'puntos',
         'puntos_aux',
         'total',
@@ -38,7 +41,10 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+public function phoneCountryCode()
+{
+    return $this->belongsTo(PhoneCountryCode::class);
+}
     public function inscripciones()
     {
         return $this->hasMany(\App\Models\Inscripcione::class, 'usuario_id', 'id');

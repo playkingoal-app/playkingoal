@@ -269,10 +269,10 @@
 
                     <div class="panel-divider"></div>
 
-<div class="row g-4">
-
+<div class="tournament-dashboard-grid">
     {{-- TORNEO --}}
-    <div class="col-md-4">
+    {{-- TORNEO --}}
+<div class="dashboard-card tournament-main-card">
         <small class="text-muted d-block mb-2">
             {{ __('group_panel.tournament') }}
         </small>
@@ -299,8 +299,8 @@
         </div>
     </div>
 
-    {{-- CONDICIONES --}}
-    <div class="col-md-4">
+   {{-- CONDICIONES --}}
+<div class="dashboard-card">
         <div class="premium-condition-card">
             <div class="premium-card-title">
                 <i class="fa-solid fa-circle-info"></i>
@@ -313,8 +313,9 @@
         </div>
     </div>
 
-    {{-- PREMIOS --}}
-    <div class="col-md-4">
+   {{-- PREMIOS --}}
+<div class="dashboard-card">
+        
         <div class="podium-prizes-card">
             <div class="premium-card-title">
                 <i class="fa-solid fa-crown"></i>
@@ -342,6 +343,85 @@
             @endif
         </div>
     </div>
+{{-- CONTACTO --}}
+<div class="dashboard-card">
+
+    <div class="organizer-contact-card">
+
+        <div class="organizer-contact-top">
+
+            <div class="organizer-contact-icon">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+
+            <div>
+
+                <div class="organizer-contact-title">
+                    {{ __('group_panel.organizer_contact') }}
+                </div>
+
+                <div class="organizer-contact-subtitle">
+                    {{ __('group_panel.organizer_contact_help') }}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="organizer-contact-list">
+
+            @if($grupo->propietario?->phone)
+ @php
+        $whatsappNumber = preg_replace('/\D/', '', 
+            ($grupo->propietario->phoneCountryCode?->dial_code ?? '') . $grupo->propietario->phone
+        );
+    @endphp
+               <a href="https://wa.me/{{ $whatsappNumber }}"
+        target="_blank"
+        class="organizer-contact-item text-decoration-none">
+
+        <span class="organizer-contact-item-icon whatsapp">
+            <i class="fa-brands fa-whatsapp"></i>
+        </span>
+
+        <span>
+            {{ $grupo->propietario->phoneCountryCode?->dial_code }}
+            {{ $grupo->propietario->phone }}
+        </span>
+
+    </a>
+
+            @endif
+
+            @if($grupo->propietario?->email)
+
+                <div class="organizer-contact-item">
+
+                    <span class="organizer-contact-item-icon email">
+                        <i class="fa-solid fa-envelope"></i>
+                    </span>
+
+                    <span>
+                        {{ $grupo->propietario->email }}
+                    </span>
+
+                </div>
+
+            @endif
+
+            @if(!$grupo->propietario?->phone && !$grupo->propietario?->email)
+
+                <div class="organizer-contact-empty">
+                    {{ __('group_panel.to_define') }}
+                </div>
+
+            @endif
+
+        </div>
+
+    </div>
+
+</div>
 
 </div>
                     @if (!$this->esAdmin())
@@ -482,21 +562,208 @@
 
 </div>
 <style>
+
+/* ========= GENERAL ========= */
+
+.group-panel-title {
+    font-size: 2.4rem;
+    font-weight: 800;
+}
+
+.group-panel-subtitle {
+    max-width: 720px;
+    margin: 0 auto;
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+.group-tabs {
+    display: flex;
+    gap: .75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.group-tab-button {
+    border: 1px solid #1e40af;
+    background: #fff;
+    color: #1e40af;
+    border-radius: 999px;
+    padding: .75rem 1.3rem;
+    font-weight: 700;
+    transition: all .22s ease;
+}
+
+.group-tab-button:hover,
+.group-tab-button.active {
+    background: #1e40af;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(30,64,175,.18);
+}
+
+.panel-card {
+    background: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 1.4rem;
+    box-shadow: 0 .5rem 1.2rem rgba(0,0,0,.06);
+}
+
+.panel-card-body {
+    padding: 2rem;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.panel-header h4 {
+    font-weight: 800;
+    margin-bottom: .25rem;
+}
+
+.panel-header p {
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+.panel-divider {
+    height: 1px;
+    background: #dee2e6;
+    margin: 1.5rem 0;
+}
+
+.panel-label {
+    font-weight: 800;
+    color: #212529;
+    margin-bottom: .5rem;
+}
+
+.panel-input {
+    border-radius: 999px;
+    padding: .9rem 1.1rem;
+    border: 1px solid #dee2e6;
+}
+
+.panel-input:focus {
+    border-color: #1e40af;
+    box-shadow: 0 0 0 .2rem rgba(30,64,175,.12);
+}
+
+.panel-button,
+.panel-copy-button {
+    border: none;
+    border-radius: 999px;
+    padding: .85rem 1.25rem;
+    background: #1e40af;
+    color: #fff;
+    font-weight: 700;
+    transition: all .22s ease;
+    box-shadow: 0 8px 20px rgba(30,64,175,.18);
+}
+
+.panel-button:hover,
+.panel-copy-button:hover {
+    background: #3157d5;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.panel-badge-success,
+.panel-badge-secondary {
+    display: inline-block;
+    padding: .35rem .75rem;
+    border-radius: 999px;
+    font-size: .72rem;
+    font-weight: 700;
+}
+
+.panel-badge-success {
+    background: #198754;
+    color: #fff;
+}
+
+.panel-badge-secondary {
+    background: #6c757d;
+    color: #fff;
+}
+
+/* ========= LEAGUES ========= */
+
+.selected-league-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 1rem;
+    padding: 1rem;
+    background: #fff4ef;
+    border-left: 4px solid #ff6600;
+}
+
+.selected-league-card img,
+.league-card img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.league-card {
+    height: 100%;
+    cursor: pointer;
+    border: 1px solid #dee2e6;
+    border-radius: 1rem;
+    padding: 1rem;
+    transition: all .2s ease;
+}
+
+.league-card:hover {
+    background: #f8f9fa;
+    transform: translateY(-3px);
+}
+
+.league-card.selected {
+    border: 2px solid #ff6600;
+    background: #fff4ef;
+}
+
+.selected-badge {
+    display: inline-block;
+    margin-top: 1rem;
+    background: #ff4500;
+    color: #fff;
+    padding: .35rem .75rem;
+    border-radius: 999px;
+    font-size: .72rem;
+    font-weight: 700;
+}
+
+.league-placeholder {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #fff4ef;
+    color: #ff4500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========= PRIZES ========= */
+
 .prize-section {
     border: 1px solid #dee2e6;
     border-radius: 1.2rem;
     padding: 1.2rem;
-    background: linear-gradient(135deg, #ffffff 0%, #fff7f2 100%);
-}
-
-.prize-section-header {
-    margin-bottom: 1rem;
+    background: linear-gradient(135deg,#ffffff 0%,#fff7f2 100%);
 }
 
 .prize-help {
     color: #6c757d;
     font-size: .9rem;
-    margin: 0;
 }
 
 .prize-config-card {
@@ -504,11 +771,10 @@
     gap: 1rem;
     align-items: flex-start;
     background: #fff;
-    border: 1px solid rgba(255, 69, 0, .14);
+    border: 1px solid rgba(255,69,0,.14);
     border-radius: 1rem;
     padding: 1rem;
     margin-bottom: .85rem;
-    box-shadow: 0 6px 16px rgba(0,0,0,.04);
 }
 
 .prize-config-badge {
@@ -522,7 +788,6 @@
     align-items: center;
     justify-content: center;
     font-weight: 900;
-    flex-shrink: 0;
 }
 
 .prize-config-fields {
@@ -549,7 +814,6 @@
     border-radius: 999px;
     padding: .85rem 1rem;
     font-weight: 900;
-    transition: all .22s ease;
 }
 
 .prize-add-button:hover {
@@ -557,7 +821,219 @@
     color: #fff;
 }
 
-@media(max-width: 768px) {
+/* ========= DASHBOARD ========= */
+
+.tournament-dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1.25rem;
+}
+
+.dashboard-card{
+    border-radius:1.4rem;
+    padding:1.3rem;
+background: linear-gradient(180deg,#ffffff 0%,#fffdfb 100%);
+   border:1px solid rgba(15,23,42,.06);
+    box-shadow:0 10px 24px rgba(15,23,42,.05);
+    min-height:260px;
+    overflow:hidden;
+    transition:.25s;
+}
+
+.dashboard-card:hover{
+    transform:translateY(-4px);
+}
+.premium-card-title{
+    position:relative;
+    padding-top:.85rem;
+}
+
+.premium-card-title::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:42px;
+    height:4px;
+    border-radius:999px;
+    background:linear-gradient(90deg,#ff6600,#ff8533);
+}
+
+
+.premium-card-title{
+    display:flex;
+    align-items:center;
+    gap:.55rem;
+    font-size:.78rem;
+    font-weight:900;
+    text-transform:uppercase;
+    color:#6c757d;
+    margin-bottom:1rem;
+}
+
+.premium-card-title i{
+    color:#ff6600;
+}
+
+.premium-card-text{
+    font-weight:800;
+    color:#212529;
+    line-height:1.5;
+}
+
+/* ========= PODIUM ========= */
+
+.podium-prizes-list{
+    display:flex;
+    flex-direction:column;
+    gap:.75rem;
+}
+
+.podium-prize-card{
+    border-radius:1rem;
+    padding:.9rem;
+    background:#fff;
+    border:1px solid rgba(255,102,0,.10);
+}
+
+.podium-rank{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:34px;
+    height:34px;
+    border-radius:999px;
+    background:#ff6600;
+    color:#fff;
+    font-size:.72rem;
+    font-weight:900;
+    margin-bottom:.45rem;
+}
+
+/* ========= CONTACT ========= */
+
+.organizer-contact-top{
+    display:flex;
+    gap:.9rem;
+    align-items:flex-start;
+    margin-bottom:1rem;
+}
+
+.organizer-contact-icon{
+    width:44px;
+    height:44px;
+    border-radius:1rem;
+    background:#ff6600;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+
+.organizer-contact-title{
+    font-size:.78rem;
+    font-weight:900;
+    text-transform:uppercase;
+    color:#212529;
+    line-height:1.3;
+    overflow-wrap:anywhere;
+}
+
+.organizer-contact-subtitle{
+    color:#6c757d;
+    font-size:.84rem;
+    margin-top:.25rem;
+    line-height:1.45;
+    overflow-wrap:anywhere;
+}
+
+.organizer-contact-list{
+    display:flex;
+    flex-direction:column;
+    gap:.8rem;
+}
+
+.organizer-contact-item{
+    display:flex;
+    align-items:flex-start;
+    gap:.75rem;
+    border-radius:1rem;
+    padding:.9rem;
+    background:#fff;
+    border:1px solid rgba(255,102,0,.08);
+    font-weight:800;
+}
+
+.organizer-contact-item span:last-child{
+    min-width:0;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+    line-height:1.4;
+}
+
+.organizer-contact-item-icon{
+    width:38px;
+    height:38px;
+    border-radius:.9rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+}
+
+.organizer-contact-item-icon.whatsapp{
+    background:rgba(25,135,84,.12);
+    color:#198754;
+}
+
+.organizer-contact-item-icon.email{
+    background:rgba(30,64,175,.10);
+    color:#1e40af;
+}
+
+/* ========= USERS ========= */
+
+.panel-section-title {
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.user-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border: 1px solid #dee2e6;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-bottom: .75rem;
+}
+
+/* ========= RESPONSIVE ========= */
+
+@media(max-width:1200px){
+
+    .tournament-dashboard-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:768px){
+
+    .panel-card-body {
+        padding: 1.4rem;
+    }
+
+    .tournament-dashboard-grid{
+        grid-template-columns:1fr;
+    }
+
+    .dashboard-card{
+        min-height:auto;
+    }
+
     .prize-config-card {
         flex-direction: column;
     }
@@ -566,340 +1042,16 @@
         grid-template-columns: 1fr;
     }
 
-    .prize-config-badge {
-        width: 100%;
-        height: auto;
-        padding: .6rem;
-        flex-direction: row;
-        gap: .4rem;
-        border-radius: 999px;
-    }
-    @media(max-width:768px){
-
-    .input-group {
-        flex-wrap: nowrap !important;
-    }
-
-    .panel-copy-button {
-        width: auto !important;
-        flex: 0 0 auto !important;
-        padding: 0 .9rem !important;
-        font-size: .78rem !important;
-    }
-}
-}
-@media(max-width:768px){
-
-    .invite-wrapper{
-        display: flex !important;
-        align-items: stretch !important;
-    }
-
-    .invite-wrapper .panel-input{
-        border-right: 0 !important;
-    }
-
-    .invite-wrapper .panel-copy-button{
-        display: flex !important;
-        align-items: center !important;
-        margin: 0 !important;
-    }
-}
-</style>
-<style>
- .premium-condition-card,
-.podium-prizes-card {
-    height: 100%;
-    border-radius: 1.2rem;
-    padding: 1.2rem;
-    background: linear-gradient(135deg, #ffffff 0%, #fff7f2 100%);
-    border: 1px solid rgba(255, 69, 0, .15);
-    box-shadow: 0 10px 28px rgba(0,0,0,.06);
-}
-
-.premium-card-title {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    font-size: .78rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    color: #6c757d;
-    margin-bottom: .9rem;
-}
-
-.premium-card-title i {
-    color: #ff4500;
-}
-
-.premium-card-text {
-    font-weight: 800;
-    color: #212529;
-    line-height: 1.45;
-}
-
-.podium-prizes-list {
-    display: flex;
-    flex-direction: column;
-    gap: .75rem;
-}
-
-.podium-prize-card {
-    border-radius: 1rem;
-    padding: .85rem;
-    background: #fff;
-    border: 1px solid rgba(255, 69, 0, .12);
-    box-shadow: 0 6px 16px rgba(0,0,0,.04);
-}
-
-.podium-rank {
-    display: inline-block;
-    border-radius: 999px;
-    background: #ff4500;
-    color: #fff;
-    font-size: .72rem;
-    font-weight: 900;
-    padding: .28rem .65rem;
-    margin-bottom: .45rem;
-}
-
-.podium-reward {
-    font-weight: 900;
-    color: #212529;
-    line-height: 1.35;
-    word-break: break-word;
-}
-
-@media(max-width:768px) {
-    .premium-condition-card,
-    .podium-prizes-card {
-        padding: 1rem;
-    }
-}
-</style>
-<style>
-    .group-panel-title {
-        font-size: 2.4rem;
-        font-weight: 800;
-    }
-
-    .group-panel-subtitle {
-        max-width: 720px;
-        margin: 0 auto;
-        color: #6c757d;
-        font-size: 1rem;
-    }
-
-    .group-tabs {
-        display: flex;
-        gap: .75rem;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .group-tab-button {
-        border: 1px solid #1e40af;
-        background: #fff;
-        color: #1e40af;
-        border-radius: 999px;
-        padding: .75rem 1.3rem;
-        font-weight: 700;
-        transition: all .22s ease;
-    }
-
-    .group-tab-button:hover,
-    .group-tab-button.active {
-        background: #1e40af;
-        color: #fff;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(30, 64, 175, .18);
-    }
-
-    .panel-card {
-        background: #fff;
-        border: 1px solid #dee2e6;
-        border-radius: 1rem;
-        box-shadow: 0 .5rem 1.2rem rgba(0, 0, 0, .06);
-    }
-
-    .panel-card-body {
-        padding: 2rem;
-    }
-
-    .panel-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
-
-    .panel-header h4 {
-        font-weight: 800;
-        margin-bottom: .25rem;
-    }
-
-    .panel-header p {
-        color: #6c757d;
-        margin-bottom: 0;
-    }
-
-    .panel-divider {
-        height: 1px;
-        background: #dee2e6;
-        margin: 1.4rem 0;
-    }
-
-    .panel-label {
-        font-weight: 800;
-        color: #212529;
-        margin-bottom: .5rem;
-    }
-
-    .panel-input {
-        border-radius: 999px;
-        padding: .85rem 1.1rem;
-        border: 1px solid #dee2e6;
-    }
-
-    .panel-input:focus {
-        border-color: #1e40af;
-        box-shadow: 0 0 0 .2rem rgba(30, 64, 175, .12);
-    }
-
-    .panel-button,
-    .panel-copy-button {
-        border: none;
-        border-radius: 999px;
-        padding: .85rem 1.25rem;
-        background: #1e40af;
-        color: #fff;
-        font-weight: 700;
-        transition: all .22s ease;
-        box-shadow: 0 8px 20px rgba(30, 64, 175, .18);
-    }
-
-    .panel-button:hover,
-    .panel-copy-button:hover {
-        background: #3157d5;
-        color: #fff;
-        transform: translateY(-2px);
-        box-shadow: 0 12px 28px rgba(30, 64, 175, .28);
-    }
-
-    .panel-badge-success,
-    .panel-badge-secondary {
-        display: inline-block;
-        padding: .35rem .75rem;
-        border-radius: 999px;
-        font-size: .72rem;
-        font-weight: 700;
-    }
-
-    .panel-badge-success {
-        background: #198754;
-        color: #fff;
-    }
-
-    .panel-badge-secondary {
-        background: #6c757d;
-        color: #fff;
-    }
-
-    .selected-league-card {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        border-radius: 1rem;
-        padding: 1rem;
-        background: #fff4ef;
-        border-left: 4px solid #ff4500;
-    }
-
-    .selected-league-card img,
-    .league-card img {
-        width: 48px;
-        height: 48px;
-        object-fit: contain;
-    }
-
-    .league-card {
-        height: 100%;
-        cursor: pointer;
-        border: 1px solid #dee2e6;
-        border-radius: 1rem;
-        padding: 1rem;
-        transition: all .2s ease;
-        position: relative;
-    }
-
-    .league-card:hover {
-        background: #f8f9fa;
-        transform: translateY(-3px);
-        box-shadow: 0 .5rem 1.2rem rgba(0, 0, 0, .06);
-    }
-
-    .league-card.selected {
-        border: 2px solid #ff4500;
-        background: #fff4ef;
-    }
-
-    .selected-badge {
-        display: inline-block;
-        margin-top: 1rem;
-        background: #ff4500;
-        color: #fff;
-        padding: .35rem .75rem;
-        border-radius: 999px;
-        font-size: .72rem;
-        font-weight: 700;
-    }
-
-    .league-placeholder {
-        width: 52px;
-        height: 52px;
-        border-radius: 50%;
-        background: #fff4ef;
-        color: #ff4500;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .league-placeholder.small {
-        width: 48px;
-        height: 48px;
-    }
-
-    .panel-section-title {
-        font-weight: 800;
-        margin-bottom: 1rem;
-    }
-
     .user-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 1rem;
-        border: 1px solid #dee2e6;
-        border-radius: 1rem;
-        padding: 1rem;
-        margin-bottom: .75rem;
+        align-items: flex-start;
+        flex-direction: column;
     }
 
-    @media(max-width: 768px) {
-        .panel-card-body {
-            padding: 1.4rem;
-        }
-
-        .user-row {
-            align-items: flex-start;
-            flex-direction: column;
-        }
-
-        .panel-copy-button {
-            width: 100%;
-            margin-top: .5rem;
-        }
+    .panel-copy-button {
+        width: 100%;
+        margin-top: .5rem;
     }
+
+}
+
 </style>
