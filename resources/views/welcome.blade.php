@@ -17,13 +17,13 @@
     @livewireStyles
 </head>
 
-{{--
-<a href="https://wa.me/0000000000" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
+
+<a href="https://wa.me/33758518171" target="_blank" class="whatsapp-float" aria-label="WhatsApp">
 
     <i class="bi bi-whatsapp"></i>
 
 </a>
---}}
+
 <body>
 
     @php
