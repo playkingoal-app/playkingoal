@@ -106,7 +106,7 @@ return [
     'terms' => 'Conditions',
     'privacy' => 'Confidentialité',
     'worldcup_access' => 'Accès à la Coupe du Monde comme compétition principale',
-
+/** 
 'join_sponsored_group' => 'Rejoindre le groupe vedette',
 
 'sponsored_group_badge' => 'Groupe vedette',
@@ -137,7 +137,33 @@ return [
 'invite_benefit_1' => 'Recevez les informations nécessaires pour participer.',
 
 'invite_benefit_2' => 'Participez aux pronostics et au classement.',
-
+*/
 'world_cup' => 'Coupe du Monde',
+'sponsored_group_badge' => 'GROUPE OFFICIEL GRATUIT',
 
+'sponsored_group_title' => 'Représente ton pays dans la Coupe du Monde Kingoal',
+
+'sponsored_group_text' => 'Rejoins gratuitement, affronte des fans de football et montre qui connaît le mieux le foot.',
+
+'sponsored_group_country_question' => 'Quel pays vas-tu représenter ?',
+
+'sponsored_group_feature_1' => 'Entrée FREE',
+
+'sponsored_group_feature_2' => 'Communauté internationale',
+
+'sponsored_group_feature_3' => 'Prix pour le meilleur',
+
+'sponsored_group_ticket_label' => 'COUPE DU MONDE 2026',
+
+'sponsored_group_cta_title' => 'Participer Gratuitement',
+
+'sponsored_group_cta_text' => 'Affronte des joueurs du monde entier et montre ta passion pour le football.',
+
+'invite_benefit_1' => 'Accès immédiat',
+
+'invite_benefit_2' => 'Places limitées',
+
+'join_sponsored_group' => 'Rejoindre Gratuitement',
+
+'sponsored_group_note' => 'Disponible pour une durée limitée',
 ];

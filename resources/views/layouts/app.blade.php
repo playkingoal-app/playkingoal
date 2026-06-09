@@ -128,6 +128,19 @@
                                     {{ __('navbar.matches') }}</a>
                             </li>
                         @endcan
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url('/my-invitations') }}"><i
+                                        class="fa-solid fa-envelope-circle-check" style="color: #ff6600 !important"></i>
+                                    {{ __('navbar.my_invitations') }}
+
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/groups') }}" class="nav-link"><i
+                                        class="fa-solid fa-users"style="color: #ff6600 !important"></i>
+                                    {{ __('navbar.my_groups') }}
+                                </a>
+                            </li>
                         <li class="nav-item">
                             <a href="{{ url('/allpredictions') }}" class="nav-link"><i class="bi bi-clipboard2-data-fill"></i>
                                 {{ __('navbar.predictions') }}</a>

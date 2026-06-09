@@ -21,9 +21,12 @@ return [
     'not_defined' => 'Sin definir',
     'group_created_success' => 'Grupo creado con éxito',
     
-    'tournament_without_group' => 'Ce tournoi n’a pas de groupe associé.',
-'already_requested_or_member' => 'Vous avez déjà une demande ou vous appartenez déjà à ce groupe.',
-'request_sent_wait_approval' => '✔ Demande envoyée. Veuillez attendre l’approbation de l’administrateur du groupe.',
-'request_sent_check_email' => '✔ Demande envoyée avec succès. Consultez l’e-mail de votre compte pour poursuivre le processus d’accès.',
+   'tournament_without_group' => 'Este torneo no tiene un grupo asociado.',
+
+'already_requested_or_member' => 'Ya tienes una solicitud enviada o ya perteneces a este grupo.',
+
+'request_sent_wait_approval' => '✔ Solicitud enviada. Por favor espera la aprobación del administrador del grupo.',
+
+'request_sent_check_email' => '✔ Solicitud enviada correctamente. Revisa el correo de tu cuenta para continuar el proceso de acceso.',
 
 ];

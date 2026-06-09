@@ -22,10 +22,10 @@ return [
     'confirm_subscription' => 'Confirmer l’abonnement',
     
 
-'sponsored_tournaments' => 'Tournois sponsorisés',
+'sponsored_tournaments' => 'Tournois officiels',
 
 'sponsored_tournaments_description' =>
-'Affrontez les plus grandes communautés de la plateforme et prouvez qui est le véritable Roi du But.',
+'Affronte les communautés officielles de la plateforme et montre qui est le véritable Roi du But.',
 
 'entry_requires_approval' =>
 'Accès avec approbation',
@@ -34,37 +34,37 @@ return [
 'Voir et demander l’accès',
 
 'sponsored_group' =>
-'Groupe sponsorisé',
+'Groupe officiel',
 
 'represent_country' =>
-'Représentez votre pays',
+'Représente ton pays',
 
 'sponsored_group_intro' =>
-'Rejoignez le groupe sponsorisé le plus compétitif de la plateforme et prouvez que vous avez ce qu’il faut pour devenir le Roi du But.',
+'Rejoins le groupe officiel le plus compétitif de la plateforme et montre que tu as ce qu’il faut pour devenir le Roi du But.',
 
 'sponsored_competition_text' =>
-'Affrontez des joueurs de toute la communauté, grimpez dans le classement et tentez de remporter les récompenses du tournoi.',
+'Participe avec des joueurs de toute la communauté, grimpe dans le classement et lutte pour le prix du tournoi.',
 
 'benefit_country' =>
-'Représenter votre pays dans la compétition',
+'Représenter ton pays dans la compétition',
 
 'benefit_ranking' =>
 'Participation au classement principal',
 
 'benefit_prizes' =>
-'Accès à des récompenses sponsorisées',
+'Prix pour le meilleur joueur',
 
 'benefit_realtime' =>
 'Compétition et classement en temps réel',
 
 'access_requirements' =>
-'Conditions d’accès',
+'Informations d’accès',
 
 'access_requirements_text' =>
-'L’accès à cette compétition peut nécessiter une approbation manuelle de l’organisateur et dépend des places disponibles.',
+'L’accès à cette compétition dépend des places disponibles.',
 
 'access_review_note' =>
-'Une fois votre demande envoyée, l’organisateur examinera votre accès au groupe sponsorisé.',
+'Prépare-toi à affronter des joueurs de différents pays.',
 
 'request_access' =>
 'Je veux participer',

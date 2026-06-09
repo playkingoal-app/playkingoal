@@ -106,7 +106,7 @@ return [
     'terms' => 'Terms',
     'privacy' => 'Privacy',
 'worldcup_access' => 'Access to the World Cup as the main competition',
-
+/** 
 'join_sponsored_group' => 'Join the featured group',
 
 'sponsored_group_badge' => 'Featured group',
@@ -135,7 +135,34 @@ return [
 
 'invite_benefit_1' => 'Receive the information needed to participate.',
 
-'invite_benefit_2' => 'Compete in predictions and rankings.',
+'invite_benefit_2' => 'Compete in predictions and rankings.',*/
 
 'world_cup' => 'World Cup',
+'sponsored_group_badge' => 'OFFICIAL FREE GROUP',
+
+'sponsored_group_title' => 'Represent your country in the Kingoal World Cup',
+
+'sponsored_group_text' => 'Join for free, compete with football fans and prove who knows football best.',
+
+'sponsored_group_country_question' => 'Which country will you represent?',
+
+'sponsored_group_feature_1' => 'FREE entry',
+
+'sponsored_group_feature_2' => 'International community',
+
+'sponsored_group_feature_3' => 'Prize for the best',
+
+'sponsored_group_ticket_label' => 'WORLD CUP 2026',
+
+'sponsored_group_cta_title' => 'Join Free',
+
+'sponsored_group_cta_text' => 'Compete against players from around the world and show your passion for football.',
+
+'invite_benefit_1' => 'Instant access',
+
+'invite_benefit_2' => 'Limited spots',
+
+'join_sponsored_group' => 'Join Free',
+
+'sponsored_group_note' => 'Available for a limited time',
 ];

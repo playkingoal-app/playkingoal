@@ -107,8 +107,10 @@ return [
     'privacy' => 'Privacidad',
 'worldcup_access' => 'Acceso a la Copa Mundial como torneo principal',
 
-'join_sponsored_group' => 'Unirme al grupo destacado',
 
+/** 
+ 
+'join_sponsored_group' => 'Unirme al grupo destacado',
 'sponsored_group_badge' => 'Grupo destacado',
 'sponsored_group_title' => 'Únete a la comunidad principal de la Copa Mundial',
 
@@ -122,15 +124,38 @@ return [
 'sponsored_group_cta_text' => 'Regístrate y recibe la información para entrar al grupo patrocinado.',
 'sponsored_group_note' => 'Las condiciones de participación serán comunicadas por el organizador del grupo.',
 'sponsored_group_country_question' => '¿Qué país vas a representar?',
-'sponsored_group_ticket_label' => 'Acceso destacado',
+'sponsored_group_ticket_label' => 'Acceso destacado',*/
 
-
-'main_tournament' => 'Torneo principal',
-
-'invite_benefit_1' => 'Recibe la información para participar.',
-
-'invite_benefit_2' => 'Compite en pronósticos y clasificación.',
 
 'world_cup' => 'Copa Mundial',
+
+
+'sponsored_group_badge' => 'GRUPO OFICIAL GRATIS',
+
+'sponsored_group_title' => 'Representa a tu país en el Mundial Kingoal',
+
+'sponsored_group_text' => 'Únete gratis, compite con otros fanáticos y demuestra quién sabe más de fútbol.',
+
+'sponsored_group_country_question' => '¿Qué país vas a representar?',
+
+'sponsored_group_feature_1' => 'Entrada FREE',
+
+'sponsored_group_feature_2' => 'Comunidad internacional',
+
+'sponsored_group_feature_3' => 'Premio al mejor',
+
+'sponsored_group_ticket_label' => 'MUNDIAL 2026',
+
+'sponsored_group_cta_title' => 'Participa Gratis',
+
+'sponsored_group_cta_text' => 'Compite contra jugadores de todo el mundo y demuestra tu pasión por el fútbol.',
+
+'invite_benefit_1' => 'Acceso inmediato',
+
+'invite_benefit_2' => 'Cupos limitados',
+
+'join_sponsored_group' => 'Únete Gratis',
+
+'sponsored_group_note' => 'Disponible por tiempo limitado',
 
 ];

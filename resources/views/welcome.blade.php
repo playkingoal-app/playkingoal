@@ -368,11 +368,14 @@
                     <div class="sponsor-country-strip">
                         <div class="country-avatars">
 
-    <img src="https://flagcdn.com/w80/co.png" alt="Colombia">
-    <img src="https://flagcdn.com/w80/fr.png" alt="France">
-    <img src="https://flagcdn.com/w80/ar.png" alt="Argentina">
+       <img src="https://flagcdn.com/w80/ar.png" alt="Argentina">
     <img src="https://flagcdn.com/w80/br.png" alt="Brazil">
+    <img src="https://flagcdn.com/w80/fr.png" alt="France">
+    <img src="https://flagcdn.com/w80/gb.png" alt="England">
     <img src="https://flagcdn.com/w80/es.png" alt="Spain">
+    <img src="https://flagcdn.com/w80/pt.png" alt="Portugal">
+    <img src="https://flagcdn.com/w80/de.png" alt="Germany">
+    <img src="https://flagcdn.com/w80/co.png" alt="Colombia">
 
 </div>
 

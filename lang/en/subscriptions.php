@@ -23,10 +23,10 @@ return [
     
 
 
-'sponsored_tournaments' => 'Sponsored tournaments',
+'sponsored_tournaments' => 'Official tournaments',
 
 'sponsored_tournaments_description' =>
-'Compete in the biggest communities on the platform and prove who the real King of Goals is.',
+'Compete in the platform’s official communities and prove who the true Goal King is.',
 
 'entry_requires_approval' =>
 'Access with approval',
@@ -35,16 +35,16 @@ return [
 'View and request access',
 
 'sponsored_group' =>
-'Sponsored group',
+'Official group',
 
 'represent_country' =>
 'Represent your country',
 
 'sponsored_group_intro' =>
-'Join the most competitive sponsored group on the platform and prove you have what it takes to become the King of Goals.',
+'Join the platform’s most competitive official group and prove you have what it takes to become the Goal King.',
 
 'sponsored_competition_text' =>
-'Compete alongside players from across the community, climb the rankings and fight for tournament rewards.',
+'Compete alongside players from the entire community, climb the rankings and fight for the tournament prize.',
 
 'benefit_country' =>
 'Represent your country in the competition',
@@ -53,19 +53,19 @@ return [
 'Participation in the main ranking',
 
 'benefit_prizes' =>
-'Access to sponsored prizes',
+'Prize for the best player',
 
 'benefit_realtime' =>
 'Real-time competition and rankings',
 
 'access_requirements' =>
-'Access requirements',
+'Access information',
 
 'access_requirements_text' =>
-'Access to this competition may require manual approval from the organizer and is subject to available spots.',
+'Access to this competition is subject to spot availability.',
 
 'access_review_note' =>
-'Once your request is submitted, the organizer will review your access to the sponsored group.',
+'Get ready to compete against players from different countries.',
 
 'request_access' =>
 'I want to compete',

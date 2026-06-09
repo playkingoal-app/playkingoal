@@ -32,7 +32,7 @@ class Inscripciones extends Component
 
       $this->torneos = Torneo::with('grupo')
     ->whereHas('grupo', function ($query) {
-        $query->whereIn('propietario_id', [1, 2]);
+        $query->whereIn('propietario_id', [1]);
     })
     ->get();
     }
