@@ -45,7 +45,7 @@ class ApiFootballService
     ]);
 }
 
-   public function getLeagues($season = 2023)
+   public function getLeagues($season = 2026)
 {
     $response = Http::withHeaders([
         'x-apisports-key' => $this->apiKey
@@ -65,7 +65,7 @@ class ApiFootballService
 }
 
 
-    public function getTeams($leagueId, $season = 2023)
+    public function getTeams($leagueId, $season = 2026)
     {
         $response = Http::withHeaders([
             'x-apisports-key' => $this->apiKey
@@ -92,15 +92,11 @@ class ApiFootballService
 
     return $response[0] ?? null;
 }
-public function getFixturesByDate($date)
+public function getFixturesByLeague($leagueId, $season)
 {
-    $response = Http::withHeaders([
-        'x-apisports-key' => config('services.apifootball.key'),
-    ])->get('https://v3.football.api-sports.io/fixtures', [
-        'date' => $date,
+    return $this->get('/fixtures', [
+        'league' => $leagueId,
+        'season' => $season,
     ]);
-
-    return $response->json('response') ?? [];
 }
-
 }

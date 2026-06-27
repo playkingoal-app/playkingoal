@@ -8,99 +8,58 @@ use App\Models\Resultado;
 use App\Services\ApiFootballService;
 use App\Services\PuntajeService;
 
+
 class SyncMatchResults extends Command
 {
-    protected $signature = 'matches:sync-results {--only-calc}';
 
-    protected $description = 'Sincroniza resultados y calcula puntos pendientes';
+protected $signature = 'matches:sync-results {league_id=1} {season=2026}';
+    protected $description = 'Sincroniza resultados desde la API';
 
-    public function handle(
-        ApiFootballService $apiService,
-        PuntajeService $puntajeService
-    ) {
-        $estadosFinalizados = ['FT', 'AET', 'PEN'];
+  public function handle(ApiFootballService $apiService, PuntajeService $puntajeService)
+{
+    $leagueId = $this->argument('league_id');
+    $season = $this->argument('season');
 
-        if (!$this->option('only-calc')) {
+    $this->info("Sincronizando liga {$leagueId} temporada {$season}");
 
-            $fechas = Partido::whereNotNull('api_id')
-                ->where('puntos_calculados', false)
-                ->whereDate('fecha_hora', '<=', now())
-                ->selectRaw('DATE(fecha_hora) as fecha')
-                ->distinct()
-                ->pluck('fecha');
+    $fixtures = $apiService->getMatches($leagueId, $season);
 
-            foreach ($fechas as $fecha) {
+    foreach ($fixtures as $fixture) {
 
-                $fixtures = $apiService->getFixturesByDate($fecha);
+        $apiId = $fixture['fixture']['id'] ?? null;
 
-                foreach ($fixtures as $fixture) {
+        if (!$apiId) continue;
 
-                    $apiId = $fixture['fixture']['id'] ?? null;
+        $partido = Partido::where('api_id', $apiId)->first();
 
-                    if (!$apiId) {
-                        continue;
-                    }
+        if (!$partido) continue;
 
-                    $partido = Partido::where('api_id', $apiId)->first();
+        $estado = strtoupper($fixture['fixture']['status']['short'] ?? '');
 
-                    if (!$partido) {
-                        continue;
-                    }
+        $golesLocal = $fixture['goals']['home'] ?? null;
+        $golesVisitante = $fixture['goals']['away'] ?? null;
 
-                    $estado = strtoupper(trim($fixture['fixture']['status']['short'] ?? ''));
+        $partido->update([
+            'estado' => $estado,
+        ]);
 
-                    $golesLocal = $fixture['goals']['home'] ?? null;
-                    $golesVisitante = $fixture['goals']['away'] ?? null;
+        if (in_array($estado, ['FT','AET','PEN'])) {
 
-                    $ganador = null;
-
-                    if ($golesLocal !== null && $golesVisitante !== null) {
-                        if ($golesLocal > $golesVisitante) {
-                            $ganador = 'local';
-                        } elseif ($golesVisitante > $golesLocal) {
-                            $ganador = 'visitante';
-                        } else {
-                            $ganador = 'empate';
-                        }
-                    }
-
-                    $partido->update([
-                        'estado' => $estado,
-                    ]);
-
-                    if (in_array($estado, $estadosFinalizados) && $golesLocal !== null && $golesVisitante !== null) {
-                        Resultado::updateOrCreate(
-                            ['partido' => $partido->id],
-                            [
-                                'golesLocal' => $golesLocal,
-                                'golesVisitante' => $golesVisitante,
-                                'ganador' => $ganador,
-                            ]
-                        );
-                    }
-                }
-            }
+            Resultado::updateOrCreate(
+                ['partido' => $partido->id],
+                [
+                    'golesLocal' => $golesLocal,
+                    'golesVisitante' => $golesVisitante,
+                    'ganador' => $golesLocal > $golesVisitante
+                        ? 'local'
+                        : ($golesLocal < $golesVisitante ? 'visitante' : 'empate')
+                ]
+            );
         }
-
-       $partidos = Partido::where('puntos_calculados', false)
-    ->whereIn('estado', $estadosFinalizados)
-    ->whereHas('resultado')
-    ->whereHas('pronosticos', function ($q) {
-        $q->whereNotNull('golesLocal')
-          ->whereNotNull('golesVisitante');
-    })
-    ->limit(20)
-    ->get();
-
-        $this->info('Partidos para calcular: ' . $partidos->count());
-
-        foreach ($partidos as $partido) {
-            $this->info('Calculando partido ID: ' . $partido->id);
-            $puntajeService->calcularPartido($partido);
-        }
-
-        $this->info('Resultados sincronizados y puntos calculados correctamente.');
-
-        return Command::SUCCESS;
     }
+
+    $this->call('matches:calculate-points');
+
+    return Command::SUCCESS;
+}
 }

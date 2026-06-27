@@ -146,6 +146,7 @@
 
     <span class="player-name">
         {{ $row->name }}
+        
     </span>
 
 </div>

@@ -79,12 +79,13 @@ class Posiciones extends Component
             ->whereIn('partidos.estado', ['FT', 'AET', 'PEN'])
             ->whereNotNull('pronosticos.golesLocal')
             ->whereNotNull('pronosticos.golesVisitante')
-            ->groupBy('users.id', 'users.name')
+            ->groupBy('users.id', 'users.name','users.country_id')
             ->orderByDesc('total')
             ->orderByDesc('exactos')
             ->orderByDesc('ganadores')
             ->orderByDesc('goles_acertados')
             ->orderBy('users.name')
             ->get();
+            
     }
 }
