@@ -63,7 +63,7 @@ class Torneos extends Component
         ]);
 
         // TEMPORADA FIJA POR PLAN GRATUITO CAMBIAR CUANDDO SE COMPRE
-        $season = 2023;
+        $season = 2026;
 
         // Crear torneo
         $torneo = Torneo::create([
@@ -102,7 +102,7 @@ class Torneos extends Component
     // ================= IMPORTAR PARTIDOS y JORNADAS =================
   protected function importMatches(Torneo $torneo, ApiFootballService $apiService)
 {
-    $season = 2023; // API gratuita
+    $season = 2026; // API gratuita
     $fixtures = $apiService->getMatches(
         $torneo->apiLeague->api_id,
         $season
